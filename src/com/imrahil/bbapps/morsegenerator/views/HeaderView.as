@@ -1,24 +1,24 @@
 package com.imrahil.bbapps.morsegenerator.views
 {
-	import com.imrahil.bbapps.morsegenerator.constants.Resources;
-	
-	import flash.desktop.NativeApplication;
-	import flash.display.Bitmap;
-	import flash.events.Event;
-	import flash.events.MouseEvent;
-	import flash.text.TextFormat;
-	
-	import qnx.dialog.AlertDialog;
-	import qnx.dialog.DialogSize;
-	import qnx.display.IowWindow;
-	import qnx.ui.buttons.IconButton;
-	import qnx.ui.core.ContainerFlow;
-	import qnx.ui.core.Containment;
-	import qnx.ui.core.SizeUnit;
-	import qnx.ui.core.Spacer;
-	import qnx.ui.display.Image;
-	
-	public class HeaderView extends StyledContainer
+    import com.imrahil.bbapps.morsegenerator.constants.Resources;
+
+    import flash.desktop.NativeApplication;
+    import flash.display.Bitmap;
+    import flash.events.Event;
+    import flash.events.MouseEvent;
+    import flash.text.TextFormat;
+
+    import qnx.dialog.AlertDialog;
+    import qnx.dialog.DialogSize;
+    import qnx.display.IowWindow;
+    import qnx.ui.buttons.IconButton;
+    import qnx.ui.core.ContainerFlow;
+    import qnx.ui.core.Containment;
+    import qnx.ui.core.SizeUnit;
+    import qnx.ui.core.Spacer;
+    import qnx.ui.display.Image;
+
+    public class HeaderView extends StyledContainer
 	{
 		private var aboutDialog:AlertDialog;
 		private var versionNumber:String;

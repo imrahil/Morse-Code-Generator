@@ -1,36 +1,45 @@
 package com.imrahil.bbapps.morsegenerator.views
 {
-	import flash.display.Bitmap;
-	import flash.display.BitmapData;
-	import flash.display.Graphics;
-	import flash.text.TextFieldAutoSize;
-	import flash.text.TextFormat;
-	
-	import qnx.ui.buttons.LabelButton;
-	import qnx.ui.core.Container;
-	import qnx.ui.core.ContainerAlign;
-	import qnx.ui.core.ContainerFlow;
-	import qnx.ui.core.SizeUnit;
-	import qnx.ui.core.Spacer;
-	import qnx.ui.display.Image;
-	import qnx.ui.text.Label;
-	
-	public class RightContainer extends StyledContainer
+    import flash.display.Bitmap;
+    import flash.display.BitmapData;
+    import flash.display.Graphics;
+    import flash.events.Event;
+    import flash.events.MouseEvent;
+    import flash.text.TextFieldAutoSize;
+    import flash.text.TextFormat;
+
+    import org.osflash.signals.Signal;
+
+    import qnx.ui.buttons.LabelButton;
+    import qnx.ui.core.Container;
+    import qnx.ui.core.ContainerAlign;
+    import qnx.ui.core.ContainerFlow;
+    import qnx.ui.core.SizeUnit;
+    import qnx.ui.core.Spacer;
+    import qnx.ui.display.Image;
+    import qnx.ui.text.Label;
+
+    public class RightContainer extends StyledContainer
 	{
-		private var outputLabel:Label;
-		public var playBtn:LabelButton;
-		public var flickerBtn:LabelButton;
-		public var mySpectrumGraph:BitmapData;
-		
+        public var playBtnClickSignal:Signal = new Signal();
+        public var flickerBtnClickSignal:Signal = new Signal();
+
+        public var playBtn:LabelButton;
+        public var flickerBtn:LabelButton;
+        public var mySpectrumGraph:BitmapData;
+        public var outputLabel:Label;
+
 		public function RightContainer(textFormat:TextFormat)
 		{
 			super(textFormat);
-			
-			create();
+
+            this.addEventListener(Event.ADDED_TO_STAGE, create)
 		}
-		
-		private function create():void
+
+		private function create(event:Event):void
 		{
+            this.removeEventListener(Event.ADDED_TO_STAGE, create);
+
 			this.margins = Vector.<Number>([30, 0, 10, 10]);
 			this.size = 50;
 			this.sizeUnit = SizeUnit.PERCENT;
@@ -47,7 +56,7 @@ package com.imrahil.bbapps.morsegenerator.views
 			morseTextFormat.size = 20;
 			morseTextFormat.bold = true;
 			
-			outputLabel = new Label();
+            outputLabel = new Label();
 			outputLabel.multiline = true;
 			outputLabel.wordWrap = true;
 			outputLabel.format = morseTextFormat;
@@ -70,16 +79,18 @@ package com.imrahil.bbapps.morsegenerator.views
 			
 			buttonContainer.addChild(new Spacer(120, SizeUnit.PIXELS));
 			
-			playBtn = new LabelButton();
+            playBtn = new LabelButton();
 			playBtn.label = "PLAY";
 			playBtn.enabled = false;
 			playBtn.width = 100;
+            playBtn.addEventListener(MouseEvent.CLICK, onPlayBtnClick);
 			buttonContainer.addChild(playBtn);
 
-			flickerBtn = new LabelButton();
+            flickerBtn = new LabelButton();
 			flickerBtn.label = "FLICKER";
 			flickerBtn.enabled = false;
 			flickerBtn.width = 100;
+            flickerBtn.addEventListener(MouseEvent.CLICK, onFlickerBtnClick);
 			buttonContainer.addChild(flickerBtn);
 
 			this.addChild(titleLabel);
@@ -97,7 +108,7 @@ package com.imrahil.bbapps.morsegenerator.views
 			
 			graphContainer.addChild(new Spacer(92, SizeUnit.PIXELS));
 			
-			mySpectrumGraph = new BitmapData(300, 45, true, 0x00000000);
+            mySpectrumGraph = new BitmapData(300, 45, true, 0x00000000);
 			var bitmap:Bitmap = new Bitmap(mySpectrumGraph);
 			var spectrumImage:Image = new Image();
 			spectrumImage.setImage(bitmap);
@@ -105,10 +116,15 @@ package com.imrahil.bbapps.morsegenerator.views
 			
 			this.addChild(graphContainer);
 		}
-		
-		public function changeOutput(value:String = ""):void
-		{
-			outputLabel.text = value;
-		}
+
+        private function onPlayBtnClick(event:MouseEvent):void
+        {
+            playBtnClickSignal.dispatch();
+        }
+
+        private function onFlickerBtnClick(event:MouseEvent):void
+        {
+            flickerBtnClickSignal.dispatch();
+        }
 	}
 }

@@ -1,25 +1,25 @@
 package com.imrahil.bbapps.morsegenerator.views
 {
-	import com.imrahil.bbapps.morsegenerator.constants.Resources;
-	
-	import flash.display.Bitmap;
+    import com.imrahil.bbapps.morsegenerator.constants.Resources;
+
+    import flash.display.Bitmap;
     import flash.events.Event;
     import flash.events.MouseEvent;
     import flash.text.TextFieldAutoSize;
-	import flash.text.TextFormat;
+    import flash.text.TextFormat;
 
     import org.osflash.signals.Signal;
 
     import qnx.ui.buttons.LabelButton;
-	import qnx.ui.core.Container;
-	import qnx.ui.core.ContainerAlign;
-	import qnx.ui.core.ContainerFlow;
-	import qnx.ui.core.SizeUnit;
-	import qnx.ui.core.Spacer;
-	import qnx.ui.display.Image;
-	import qnx.ui.text.Label;
-	
-	public class FooterView extends StyledContainer
+    import qnx.ui.core.Container;
+    import qnx.ui.core.ContainerAlign;
+    import qnx.ui.core.ContainerFlow;
+    import qnx.ui.core.SizeUnit;
+    import qnx.ui.core.Spacer;
+    import qnx.ui.display.Image;
+    import qnx.ui.text.Label;
+
+    public class FooterView extends StyledContainer
 	{
         public var longBeepClickSignal:Signal = new Signal();
         public var shortBeepClickSignal:Signal = new Signal();

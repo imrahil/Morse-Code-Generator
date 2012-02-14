@@ -1,8 +1,5 @@
 package com.imrahil.bbapps.morsegenerator.views
 {
-    import com.imrahil.bbapps.morsegenerator.services.IMorseCode;
-    import com.imrahil.bbapps.morsegenerator.services.MorseCode;
-
     import flash.display.Sprite;
     import flash.display.StageAlign;
     import flash.display.StageScaleMode;
@@ -14,16 +11,8 @@ package com.imrahil.bbapps.morsegenerator.views
 
     public class MainView extends Sprite
     {
-        public var leftContainer:LeftContainer;
-        public var rightContainer:RightContainer;
-        public var footer:FooterView;
-
-        public var morseAlphabet:IMorseCode;
-
         public function MainView()
         {
-            morseAlphabet = new MorseCode();
-
             this.addEventListener(Event.ADDED_TO_STAGE, create)
         }
 
@@ -51,17 +40,13 @@ package com.imrahil.bbapps.morsegenerator.views
             var header:HeaderView = new HeaderView(textFormat);
 
             // LEFT
-            leftContainer = new LeftContainer(textFormat);
-
-            // TODO - move to mediator
-//            left.inputText.addEventListener(Event.CHANGE, onInputChange);
-//            left.speedSlider.addEventListener(SliderEvent.MOVE, speedSlider_moveHandler);
+            var leftContainer:LeftContainer = new LeftContainer(textFormat);
 
             // RIGHT
-            rightContainer = new RightContainer(textFormat);
+            var rightContainer:RightContainer = new RightContainer(textFormat);
 
             // FOOTER
-            footer = new FooterView(textFormat);
+            var footer:FooterView = new FooterView(textFormat);
 
             content.addChild(leftContainer);
             content.addChild(rightContainer);
@@ -71,13 +56,6 @@ package com.imrahil.bbapps.morsegenerator.views
             base.addChild(footer);
 
             this.addChild(base);
-
-            // TODO - move to mediator
-//            right.playBtn.addEventListener(MouseEvent.CLICK, onPlayBtnClick);
-//            right.flickerBtn.addEventListener(MouseEvent.CLICK, onFlickerBtnClick);
-//
-//            left.translateBtn.addEventListener(MouseEvent.CLICK, onTranslateClick);
-//            left.setVolume(AudioManager.audioManager.getOutputLevel(AudioOutput.SPEAKERS));
 
             base.setSize(stage.stageWidth, stage.stageHeight);
         }

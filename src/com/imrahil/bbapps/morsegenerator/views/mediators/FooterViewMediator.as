@@ -1,6 +1,6 @@
 package com.imrahil.bbapps.morsegenerator.views.mediators
 {
-    import com.imrahil.bbapps.morsegenerator.services.IMorseCode;
+    import com.imrahil.bbapps.morsegenerator.services.IMorseCodeService;
     import com.imrahil.bbapps.morsegenerator.utils.LogUtil;
     import com.imrahil.bbapps.morsegenerator.views.FooterView;
 
@@ -14,7 +14,7 @@ package com.imrahil.bbapps.morsegenerator.views.mediators
         public var view:FooterView;
 
         [Inject]
-        public var morseCodeService:IMorseCode;
+        public var morseCodeService:IMorseCodeService;
 
         /** variables **/
         private var logger:ILogger;

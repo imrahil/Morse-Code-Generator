@@ -1,11 +1,12 @@
 package com.imrahil.bbapps.morsegenerator.views
 {
+    import flash.events.Event;
     import flash.events.MouseEvent;
     import flash.text.TextFieldAutoSize;
     import flash.text.TextFormat;
 
-    import qnx.system.AudioManager;
-    import qnx.system.AudioOutput;
+    import org.osflash.signals.Signal;
+
     import qnx.ui.buttons.CheckBox;
     import qnx.ui.buttons.LabelButton;
     import qnx.ui.core.Container;
@@ -22,20 +23,29 @@ package com.imrahil.bbapps.morsegenerator.views
 
     public class LeftContainer extends StyledContainer
     {
-        public var inputText:TextInput;
-        public var translateBtn:LabelButton;
-        public var volumeSlider:VolumeSlider;
         public var speedSlider:Slider;
+        public var volumeSlider:VolumeSlider;
+        public var translateBtn:LabelButton;
+
+        public var inputTextChangeSignal:Signal = new Signal(String);
+        public var translateBtnClickSignal:Signal = new Signal(String);
+
+        public var volumeSliderSignal:Signal = new Signal(Number);
+        public var speedSliderSignal:Signal = new Signal(int);
+
+        private var inputText:TextInput;
 
         public function LeftContainer(format:TextFormat)
         {
             super(format);
 
-            create();
-        }
+            this.addEventListener(Event.ADDED_TO_STAGE, create)
+		}
 
-        private function create():void
-        {
+		private function create(event:Event):void
+		{
+            this.removeEventListener(Event.ADDED_TO_STAGE, create);
+
             this.margins = Vector.<Number>([10, 0, 10, 10]);
             this.size = 50;
             this.sizeUnit = SizeUnit.PERCENT;
@@ -51,6 +61,7 @@ package com.imrahil.bbapps.morsegenerator.views
             inputText.width = 415;
             inputText.maxChars = 100;
             inputText.restrict = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890.,:?\'-/()"@= ';
+            inputText.addEventListener(Event.CHANGE, onInputTextChange);
 
             var previewContainer:Container = new Container();
             previewContainer.size = 30;
@@ -65,6 +76,9 @@ package com.imrahil.bbapps.morsegenerator.views
             livePreviewChb.width = 140;
             livePreviewChb.label = "Live preview";
             livePreviewChb.setTextFormatForState(textFormat, SkinStates.SELECTED);
+            livePreviewChb.setTextFormatForState(textFormat, SkinStates.UP);
+            livePreviewChb.setTextFormatForState(textFormat, SkinStates.DOWN);
+            livePreviewChb.setTextFormatForState(textFormat, SkinStates.DOWN_SELECTED);
             livePreviewChb.selected = true;
             livePreviewChb.addEventListener(MouseEvent.CLICK, onPreviewChange);
             previewContainer.addChild(livePreviewChb);
@@ -76,6 +90,7 @@ package com.imrahil.bbapps.morsegenerator.views
             translateBtn.label = "Translate";
             translateBtn.width = 110;
             translateBtn.enabled = false;
+            translateBtn.addEventListener(MouseEvent.CLICK, onTranslateBtnClick);
             previewContainer.addChild(translateBtn);
 
             spacer = new Spacer(50);
@@ -92,7 +107,7 @@ package com.imrahil.bbapps.morsegenerator.views
             volumeSlider.minimum = 0;
             volumeSlider.maximum = 100;
             volumeSlider.value = 100;
-            volumeSlider.addEventListener(SliderEvent.MOVE, volumeSlider_moveHandler);
+            volumeSlider.addEventListener(SliderEvent.MOVE, onVolumeSliderMove);
 
             var speedLabel:Label = new Label();
             speedLabel.text = "Play speed:";
@@ -103,8 +118,9 @@ package com.imrahil.bbapps.morsegenerator.views
             speedSlider = new Slider();
             speedSlider.width = 415;
             speedSlider.minimum = 0;
-            speedSlider.maximum = 8;
-            speedSlider.value = 4;
+            speedSlider.maximum = 9;
+            speedSlider.value = 5;
+            speedSlider.addEventListener(SliderEvent.MOVE, onSpeedSliderMove);
 
             this.addChild(titleLabel);
             this.addChild(inputText);
@@ -118,24 +134,29 @@ package com.imrahil.bbapps.morsegenerator.views
             this.addChild(speedSlider);
         }
 
-        public function get inputValue():String
+        private function onInputTextChange(event:Event):void
         {
-            return inputText.text;
+            inputTextChangeSignal.dispatch(inputText.text);
         }
 
-        public function setVolume(value:Number):void
+        private function onTranslateBtnClick(event:MouseEvent):void
         {
-            volumeSlider.value = value;
+            translateBtnClickSignal.dispatch(inputText.text);
+        }
+
+        private function onVolumeSliderMove(event:SliderEvent):void
+        {
+            volumeSliderSignal.dispatch(event.value);
+        }
+
+        private function onSpeedSliderMove(event:SliderEvent):void
+        {
+            speedSliderSignal.dispatch(Math.round(event.value));
         }
 
         private function onPreviewChange(event:MouseEvent):void
         {
             translateBtn.enabled = !(event.currentTarget as CheckBox).selected;
-        }
-
-        private function volumeSlider_moveHandler(event:SliderEvent):void
-        {
-            AudioManager.audioManager.setOutputLevel(event.value, AudioOutput.SPEAKERS);
         }
     }
 }
