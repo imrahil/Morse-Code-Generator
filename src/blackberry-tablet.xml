@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<qnx>
+   <icon>
+      <image>morse-icon.png</image>
+   </icon>
+
+   <splashscreen>morse-splash.png</splashscreen>
+   <action>play_audio</action>
+   <action>set_audio_volume</action>
+</qnx>
