@@ -1,0 +1,7 @@
+Morse Code Generator
+Copyright (c) 2012 Jarek Szczepanski
+
+sound generation based on flex-morse project - http://code.google.com/p/flex-morse/
+
+Versions:
+1.1.0 - rewrited with RobotLegs framework
