@@ -119,7 +119,7 @@ package com.imrahil.bbapps.morsegenerator.views
             speedSlider.width = 415;
             speedSlider.minimum = 0;
             speedSlider.maximum = 9;
-            speedSlider.value = 5;
+            speedSlider.value = 6;
             speedSlider.addEventListener(SliderEvent.MOVE, onSpeedSliderMove);
 
             this.addChild(titleLabel);

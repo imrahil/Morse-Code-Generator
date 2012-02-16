@@ -2,10 +2,8 @@ package com.imrahil.bbapps.morsegenerator.controller
 {
     import com.imrahil.bbapps.morsegenerator.model.IMorseCodeModel;
     import com.imrahil.bbapps.morsegenerator.services.IMorseCodeService;
-    import com.imrahil.bbapps.morsegenerator.signals.signaltons.SwitchRightSideButtonsSignal;
-    import com.imrahil.bbapps.morsegenerator.utils.MorseUtil;
-
-    import flash.events.Event;
+    import com.imrahil.bbapps.morsegenerator.signals.signaltons.SwitchFooterButtonsSignal;
+    import com.imrahil.bbapps.morsegenerator.signals.signaltons.SwitchMorseCodePlaySignal;
 
     import org.robotlegs.mvcs.SignalCommand;
 
@@ -19,38 +17,40 @@ package com.imrahil.bbapps.morsegenerator.controller
         public var morseCodeService:IMorseCodeService;
 
         [Inject]
-        public var switchRightSideButtonsSignal:SwitchRightSideButtonsSignal;
+        public var switchFooterButtonsSignal:SwitchFooterButtonsSignal;
+
+        [Inject]
+        public var switchMorseCodePlaySignal:SwitchMorseCodePlaySignal;
 
         override public function execute():void
         {
-			if (MorseUtil.isMorse(model.inputText))
-			{
-                switchRightSideButtonsSignal.dispatch(false);
-				return;
-			}
+//			if (MorseUtil.isMorse(model.inputText))
+//			{
+//                switchRightSideButtonsSignal.dispatch(false);
+//				return;
+//			}
 
 			if(morseCodeService.isPlaying)
 			{
-				morseCodeService.stop();
+                switchFooterButtonsSignal.dispatch(true);
+                switchMorseCodePlaySignal.dispatch(false);
 
-//				right.playBtn.label = "PLAY";
-//
-//				footer.longBeepBtn.enabled = true;
-//				footer.shortBeepBtn.enabled = true;
-			}
+                morseCodeService.stop();
+            }
 			else
 			{
-//				right.playBtn.label = "STOP";
-//
-//				footer.longBeepBtn.enabled = false;
-//				footer.shortBeepBtn.enabled = false;
+                switchFooterButtonsSignal.dispatch(false);
+                switchMorseCodePlaySignal.dispatch(true);
 
 				morseCodeService.playString(model.inputText);
-
-                morseCodeService.addEventListener(Event.SOUND_COMPLETE, onSoundComplete);
-
-				this.addEventListener(Event.ENTER_FRAME, onEnterFrame);
+                morseCodeService.soundCompleteSignal.add(onSoundComplete);
 			}
+        }
+
+        private function onSoundComplete():void
+        {
+            switchMorseCodePlaySignal.dispatch(false);
+            switchFooterButtonsSignal.dispatch(true);
         }
     }
 }

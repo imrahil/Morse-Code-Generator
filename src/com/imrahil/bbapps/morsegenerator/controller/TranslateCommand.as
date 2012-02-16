@@ -2,6 +2,7 @@ package com.imrahil.bbapps.morsegenerator.controller
 {
     import com.imrahil.bbapps.morsegenerator.model.IMorseCodeModel;
     import com.imrahil.bbapps.morsegenerator.services.IMorseCodeService;
+    import com.imrahil.bbapps.morsegenerator.signals.signaltons.SwitchRightSideButtonsSignal;
     import com.imrahil.bbapps.morsegenerator.signals.signaltons.UpdateOutputSignal;
     import com.imrahil.bbapps.morsegenerator.utils.MorseUtil;
 
@@ -23,19 +24,28 @@ package com.imrahil.bbapps.morsegenerator.controller
         [Inject]
         public var updateOutputSignal:UpdateOutputSignal;
 
+        [Inject]
+        public var switchRightSideButtonsSignal:SwitchRightSideButtonsSignal;
+
         override public function execute():void
         {
             model.inputText = inputText;
 
             var output:String = "";
             
-            if (!MorseUtil.isMorse(inputText))
+            if (MorseUtil.isMorse(inputText))
             {
-                output = morseCodeService.stringToCode(inputText);
+                // input text is morse code
+                output = morseCodeService.codeToString(inputText);
+
+                switchRightSideButtonsSignal.dispatch(false);
             }
             else
             {
-                output = morseCodeService.codeToString(inputText);
+                // input text is alphanumeric text
+                output = morseCodeService.stringToCode(inputText);
+
+                switchRightSideButtonsSignal.dispatch(true);
             }
             
             updateOutputSignal.dispatch(output);

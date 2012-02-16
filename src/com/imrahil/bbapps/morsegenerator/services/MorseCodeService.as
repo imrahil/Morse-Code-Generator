@@ -11,6 +11,8 @@ package com.imrahil.bbapps.morsegenerator.services
 
     import mx.logging.ILogger;
 
+    import org.osflash.signals.Signal;
+
     public class MorseCodeService extends EventDispatcher implements IMorseCodeService
     {
         private static const SOUND_LENGTH:int = 2400;
@@ -77,6 +79,8 @@ package com.imrahil.bbapps.morsegenerator.services
 
         private var _isPlaying:Boolean = false;
 
+        private var _soundCompleteSignal:Signal = new Signal();
+
         private var logger:ILogger;
 
         public function MorseCodeService()
@@ -124,7 +128,7 @@ package com.imrahil.bbapps.morsegenerator.services
         private function soundCompleteHandler(event:Event):void
         {
             _isPlaying = false;
-            dispatchEvent(event);
+            _soundCompleteSignal.dispatch();
         }
 
         public function stop():void
@@ -270,6 +274,11 @@ package com.imrahil.bbapps.morsegenerator.services
                 returnBytes.writeFloat(0);
             }
             return returnBytes;
+        }
+
+        public function get soundCompleteSignal():Signal
+        {
+            return _soundCompleteSignal;
         }
     }
 }

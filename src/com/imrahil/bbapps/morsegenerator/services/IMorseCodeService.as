@@ -1,5 +1,7 @@
 package com.imrahil.bbapps.morsegenerator.services
 {
+    import org.osflash.signals.Signal;
+
     public interface IMorseCodeService
     {
         function playString(string:String):void;
@@ -11,5 +13,7 @@ package com.imrahil.bbapps.morsegenerator.services
 
         function set speed(speed:Number):void;
         function get isPlaying():Boolean;
+
+        function get soundCompleteSignal():Signal;
     }
 }

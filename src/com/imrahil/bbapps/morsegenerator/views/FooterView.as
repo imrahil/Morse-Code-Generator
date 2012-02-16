@@ -24,6 +24,9 @@ package com.imrahil.bbapps.morsegenerator.views
         public var longBeepClickSignal:Signal = new Signal();
         public var shortBeepClickSignal:Signal = new Signal();
 
+        public var longBeepBtn:LabelButton;
+        public var shortBeepBtn:LabelButton;
+
 		public function FooterView(format:TextFormat)
 		{
 			super(format);
@@ -73,7 +76,7 @@ package com.imrahil.bbapps.morsegenerator.views
 			trainButtonsContainer.flow = ContainerFlow.HORIZONTAL;
 			trainButtonsContainer.margins = Vector.<Number>([10, 0, 0, 0]); 
 			
-            var longBeepBtn:LabelButton = new LabelButton();
+            longBeepBtn = new LabelButton();
 			longBeepBtn.label = "Long Beep";
 			longBeepBtn.width = 120;
 			longBeepBtn.height = 120;
@@ -82,7 +85,7 @@ package com.imrahil.bbapps.morsegenerator.views
 
 			trainButtonsContainer.addChild(new Spacer(10, SizeUnit.PIXELS));
 			
-            var shortBeepBtn:LabelButton = new LabelButton();
+            shortBeepBtn = new LabelButton();
 			shortBeepBtn.label = "Short Beep";
 			shortBeepBtn.width = 120;
 			shortBeepBtn.height = 120;

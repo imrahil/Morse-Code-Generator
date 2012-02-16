@@ -16,7 +16,7 @@ package com.imrahil.bbapps.morsegenerator.controller
 
         override public function execute():void
         {
-            var speedArray:Array = [3, 2.5, 2, 1.5, 1.3, 1, 0.9, 0.8, 0.7, 0.5];
+            var speedArray:Array = [4, 3, 2.5, 2, 1.5, 1.3, 1, 0.9, 0.8, 0.7];
 
             morseCodeService.speed = speedArray[speed];
         }

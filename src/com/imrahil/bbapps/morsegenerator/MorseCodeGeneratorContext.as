@@ -26,10 +26,15 @@ package com.imrahil.bbapps.morsegenerator
             signalCommandMap.mapSignalClass(TranslateSignal, TranslateCommand);
             signalCommandMap.mapSignalClass(ComputeFlickerSignal, ComputeFlickerCommand);
             signalCommandMap.mapSignalClass(SetSpeedSignal, SetSpeedCommand);
+            signalCommandMap.mapSignalClass(MorseCodePlaySignal, MorseCodePlayCommand);
 
             injector.mapSingleton(StartFlickerSignal);
             injector.mapSingleton(UpdateOutputSignal);
+
             injector.mapSingleton(SwitchRightSideButtonsSignal);
+            injector.mapSingleton(SwitchFooterButtonsSignal);
+
+            injector.mapSingleton(SwitchMorseCodePlaySignal);
 
 
             // Add Model

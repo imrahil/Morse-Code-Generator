@@ -2,7 +2,9 @@ package com.imrahil.bbapps.morsegenerator.views.mediators
 {
     import com.imrahil.bbapps.morsegenerator.services.IMorseCodeService;
     import com.imrahil.bbapps.morsegenerator.signals.ComputeFlickerSignal;
+    import com.imrahil.bbapps.morsegenerator.signals.signaltons.MorseCodePlaySignal;
     import com.imrahil.bbapps.morsegenerator.signals.signaltons.SwitchRightSideButtonsSignal;
+    import com.imrahil.bbapps.morsegenerator.signals.signaltons.SwitchMorseCodePlaySignal;
     import com.imrahil.bbapps.morsegenerator.signals.signaltons.UpdateOutputSignal;
     import com.imrahil.bbapps.morsegenerator.utils.LogUtil;
     import com.imrahil.bbapps.morsegenerator.views.RightContainer;
@@ -30,7 +32,13 @@ package com.imrahil.bbapps.morsegenerator.views.mediators
         public var updateOutputSignal:UpdateOutputSignal;
 
         [Inject]
+        public var morseCodePlaySignal:MorseCodePlaySignal;
+
+        [Inject]
         public var switchRightSideButtonsSignal:SwitchRightSideButtonsSignal;
+
+        [Inject]
+        public var switchMorseCodePlaySignal:SwitchMorseCodePlaySignal;
 
 
         /** variables **/
@@ -50,6 +58,7 @@ package com.imrahil.bbapps.morsegenerator.views.mediators
 
             updateOutputSignal.add(onUpdateSignal);
             switchRightSideButtonsSignal.add(onSwitchButtons);
+            switchMorseCodePlaySignal.add(onSwitchMorseCodePlay);
 
             view.playBtnClickSignal.add(onPlayBtnClicked);
             view.flickerBtnClickSignal.add(onFlickerBtnClicked);
@@ -70,6 +79,23 @@ package com.imrahil.bbapps.morsegenerator.views.mediators
         {
             logger.debug(": onPlayBtnClicked");
 
+            morseCodePlaySignal.dispatch();
+        }
+
+        private function onSwitchMorseCodePlay(state:Boolean):void
+        {
+            if (state)
+            {
+                view.playBtn.label = "STOP";
+
+                this.addViewListener(Event.ENTER_FRAME, onEnterFrame);
+            }
+            else
+            {
+                view.playBtn.label = "PLAY";
+
+                onSoundComplete();
+            }
         }
 
         private function onEnterFrame(event:Event):void
@@ -89,15 +115,13 @@ package com.imrahil.bbapps.morsegenerator.views.mediators
         {
             logger.info("onSoundComplete");
 
+            this.removeViewListener(Event.ENTER_FRAME, onEnterFrame);
+
             view.mySpectrumGraph.fillRect(view.mySpectrumGraph.rect, 0x0D1722);
 
             view.playBtn.label = "PLAY";
             view.playBtn.selected = false;
-
-//            footer.longBeepBtn.enabled = true;
-//            footer.shortBeepBtn.enabled = true;
         }
-
 
         private function onFlickerBtnClicked():void
         {
