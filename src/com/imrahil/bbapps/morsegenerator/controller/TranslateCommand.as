@@ -47,7 +47,9 @@ package com.imrahil.bbapps.morsegenerator.controller
 
                 switchRightSideButtonsSignal.dispatch(true);
             }
-            
+
+            model.outputText = output;
+
             updateOutputSignal.dispatch(output);
         }
     }

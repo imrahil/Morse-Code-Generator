@@ -1,7 +1,9 @@
 package com.imrahil.bbapps.morsegenerator.views.mediators
 {
+    import com.imrahil.bbapps.morsegenerator.constants.Resources;
     import com.imrahil.bbapps.morsegenerator.services.IMorseCodeService;
     import com.imrahil.bbapps.morsegenerator.signals.ComputeFlickerSignal;
+    import com.imrahil.bbapps.morsegenerator.signals.CopyClipboardSignal;
     import com.imrahil.bbapps.morsegenerator.signals.signaltons.MorseCodePlaySignal;
     import com.imrahil.bbapps.morsegenerator.signals.signaltons.SwitchRightSideButtonsSignal;
     import com.imrahil.bbapps.morsegenerator.signals.signaltons.SwitchMorseCodePlaySignal;
@@ -40,6 +42,9 @@ package com.imrahil.bbapps.morsegenerator.views.mediators
         [Inject]
         public var switchMorseCodePlaySignal:SwitchMorseCodePlaySignal;
 
+        [Inject]
+        public var copyClipboardSignal:CopyClipboardSignal;
+
 
         /** variables **/
         private var logger:ILogger;
@@ -62,6 +67,7 @@ package com.imrahil.bbapps.morsegenerator.views.mediators
 
             view.playBtnClickSignal.add(onPlayBtnClicked);
             view.flickerBtnClickSignal.add(onFlickerBtnClicked);
+            view.clipboardBtnClickSignal.add(onClipboardBtnClicked);
         }
 
         private function onUpdateSignal(outputText:String):void
@@ -73,6 +79,29 @@ package com.imrahil.bbapps.morsegenerator.views.mediators
         {
             view.playBtn.enabled = state;
             view.flickerBtn.enabled = state;
+
+            view.clipboardBtn.enabled = state;
+//            view.facebookBtn.enabled = state;
+
+            if (state)
+            {
+                if (!view.clipboardIcon)
+                {
+                    view.clipboardIcon = new Resources.CLIPBOARD_ICON();
+                }
+                view.clipboardBtn.setIcon(view.clipboardIcon);
+
+//                if (!view.facebookIcon)
+//                {
+//                    view.facebookIcon = new Resources.FACEBOOK_ICON();
+//                }
+//                view.facebookBtn.setIcon(view.facebookIcon);
+            }
+            else
+            {
+                view.clipboardBtn.setIcon(view.clipboardIconDisabled);
+//                view.facebookBtn.setIcon(view.facebookIconDisabled);
+            }
         }
 
         private function onPlayBtnClicked():void
@@ -128,6 +157,13 @@ package com.imrahil.bbapps.morsegenerator.views.mediators
             logger.debug(": onFlickerBtnClicked");
 
             computeFlickerSignal.dispatch();
+        }
+
+        private function onClipboardBtnClicked():void
+        {
+            logger.debug(": onClipboardBtnClicked");
+
+            copyClipboardSignal.dispatch();
         }
     }
 }

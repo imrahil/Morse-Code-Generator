@@ -11,6 +11,7 @@ package com.imrahil.bbapps.morsegenerator.model
         private var logger:ILogger;
 
         private var _inputText:String = "";
+        private var _outputText:String = "";
 
         public function MorseCodeModel()
         {
@@ -20,14 +21,24 @@ package com.imrahil.bbapps.morsegenerator.model
             logger.debug(": constructor");
         }
 
-        public function set inputText(newText:String):void
-        {
-            _inputText = newText;
-        }
-
         public function get inputText():String
         {
             return _inputText;
+        }
+
+        public function set inputText(value:String):void
+        {
+            _inputText = value;
+        }
+
+        public function get outputText():String
+        {
+            return _outputText;
+        }
+
+        public function set outputText(value:String):void
+        {
+            _outputText = value;
         }
     }
 }

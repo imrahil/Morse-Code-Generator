@@ -11,11 +11,20 @@ package com.imrahil.bbapps.morsegenerator.constants
 		[Embed (source="/assets/images/aboutIcon.png" )]
 		public static const ABOUT_ICON:Class;
 		
+		[Embed (source="/assets/images/clipboardIcon.png" )]
+		public static const CLIPBOARD_ICON:Class;
+
+		[Embed (source="/assets/images/clipboardIconDisabled.png" )]
+		public static const CLIPBOARD_ICON_DISABLED:Class;
+
+		[Embed (source="/assets/images/facebookIcon.png" )]
+		public static const FACEBOOK_ICON:Class;
+
+		[Embed (source="/assets/images/facebookIconDisabled.png" )]
+		public static const FACEBOOK_ICON_DISABLED:Class;
+
 		[Embed (source="/assets/images/morseTableWide.png" )]
 		public static const MORSE_TABLE:Class;
 		
-		public function Resources()
-		{
-		}
 	}
 }

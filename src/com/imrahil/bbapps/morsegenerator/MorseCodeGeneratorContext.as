@@ -27,6 +27,7 @@ package com.imrahil.bbapps.morsegenerator
             signalCommandMap.mapSignalClass(ComputeFlickerSignal, ComputeFlickerCommand);
             signalCommandMap.mapSignalClass(SetSpeedSignal, SetSpeedCommand);
             signalCommandMap.mapSignalClass(MorseCodePlaySignal, MorseCodePlayCommand);
+            signalCommandMap.mapSignalClass(CopyClipboardSignal, CopyClipboardCommand);
 
             injector.mapSingleton(StartFlickerSignal);
             injector.mapSingleton(UpdateOutputSignal);

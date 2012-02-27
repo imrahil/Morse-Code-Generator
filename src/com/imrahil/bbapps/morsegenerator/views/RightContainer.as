@@ -1,5 +1,7 @@
 package com.imrahil.bbapps.morsegenerator.views
 {
+    import com.imrahil.bbapps.morsegenerator.constants.Resources;
+
     import flash.display.Bitmap;
     import flash.display.BitmapData;
     import flash.display.Graphics;
@@ -10,6 +12,7 @@ package com.imrahil.bbapps.morsegenerator.views
 
     import org.osflash.signals.Signal;
 
+    import qnx.ui.buttons.IconButton;
     import qnx.ui.buttons.LabelButton;
     import qnx.ui.core.Container;
     import qnx.ui.core.ContainerAlign;
@@ -24,8 +27,18 @@ package com.imrahil.bbapps.morsegenerator.views
         public var playBtnClickSignal:Signal = new Signal();
         public var flickerBtnClickSignal:Signal = new Signal();
 
+        public var clipboardBtnClickSignal:Signal = new Signal();
+
         public var playBtn:LabelButton;
         public var flickerBtn:LabelButton;
+        public var clipboardBtn:IconButton;
+        public var facebookBtn:IconButton;
+
+        public var clipboardIcon:Bitmap;
+        public var clipboardIconDisabled:Bitmap;
+        public var facebookIcon:Bitmap;
+        public var facebookIconDisabled:Bitmap;
+
         public var mySpectrumGraph:BitmapData;
         public var outputLabel:Label;
 
@@ -77,8 +90,6 @@ package com.imrahil.bbapps.morsegenerator.views
 			buttonContainer.flow = ContainerFlow.HORIZONTAL;
 			buttonContainer.padding = 0;
 			
-			buttonContainer.addChild(new Spacer(120, SizeUnit.PIXELS));
-			
             playBtn = new LabelButton();
 			playBtn.label = "PLAY";
 			playBtn.enabled = false;
@@ -92,6 +103,23 @@ package com.imrahil.bbapps.morsegenerator.views
 			flickerBtn.width = 100;
             flickerBtn.addEventListener(MouseEvent.CLICK, onFlickerBtnClick);
 			buttonContainer.addChild(flickerBtn);
+
+            buttonContainer.addChild(new Spacer(142, SizeUnit.PIXELS));
+
+            clipboardIconDisabled = new Resources.CLIPBOARD_ICON_DISABLED();
+            clipboardBtn = new IconButton();
+            clipboardBtn.enabled = false;
+            clipboardBtn.width = 50;
+            clipboardBtn.setIcon(clipboardIconDisabled);
+            clipboardBtn.addEventListener(MouseEvent.CLICK, onClipboardBtnClick);
+            buttonContainer.addChild(clipboardBtn);
+
+            facebookIconDisabled = new Resources.FACEBOOK_ICON_DISABLED();
+            facebookBtn = new IconButton();
+            facebookBtn.enabled = false;
+            facebookBtn.width = 50;
+            facebookBtn.setIcon(facebookIconDisabled);
+            buttonContainer.addChild(facebookBtn);
 
 			this.addChild(titleLabel);
 			this.addChild(outputLabel);
@@ -125,6 +153,11 @@ package com.imrahil.bbapps.morsegenerator.views
         private function onFlickerBtnClick(event:MouseEvent):void
         {
             flickerBtnClickSignal.dispatch();
+        }
+
+        private function onClipboardBtnClick(event:MouseEvent):void
+        {
+            clipboardBtnClickSignal.dispatch();
         }
 	}
 }
