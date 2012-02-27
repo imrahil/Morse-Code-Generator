@@ -1,16 +1,26 @@
 package com.imrahil.bbapps.morsegenerator.views
 {
+    import com.imrahil.bbapps.morsegenerator.constants.ApplicationConstants;
     import com.imrahil.bbapps.morsegenerator.constants.Resources;
+
+    import flash.desktop.Clipboard;
+    import flash.desktop.ClipboardFormats;
 
     import flash.display.Bitmap;
     import flash.display.BitmapData;
     import flash.display.Graphics;
     import flash.events.Event;
     import flash.events.MouseEvent;
+    import flash.net.URLRequest;
+    import flash.net.navigateToURL;
     import flash.text.TextFieldAutoSize;
     import flash.text.TextFormat;
 
     import org.osflash.signals.Signal;
+
+    import qnx.dialog.AlertDialog;
+    import qnx.dialog.DialogSize;
+    import qnx.display.IowWindow;
 
     import qnx.ui.buttons.IconButton;
     import qnx.ui.buttons.LabelButton;
@@ -41,6 +51,8 @@ package com.imrahil.bbapps.morsegenerator.views
 
         public var mySpectrumGraph:BitmapData;
         public var outputLabel:Label;
+
+        private var facebookDialog:AlertDialog;
 
 		public function RightContainer(textFormat:TextFormat)
 		{
@@ -119,10 +131,12 @@ package com.imrahil.bbapps.morsegenerator.views
             facebookBtn.enabled = false;
             facebookBtn.width = 50;
             facebookBtn.setIcon(facebookIconDisabled);
+            facebookBtn.addEventListener(MouseEvent.CLICK, onFacebookBtnClick);
             buttonContainer.addChild(facebookBtn);
 
 			this.addChild(titleLabel);
 			this.addChild(outputLabel);
+            this.addChild(new Spacer(5, SizeUnit.PIXELS))
 			this.addChild(buttonContainer);
 
 			this.addChild(new Spacer(10, SizeUnit.PIXELS));
@@ -158,6 +172,31 @@ package com.imrahil.bbapps.morsegenerator.views
         private function onClipboardBtnClick(event:MouseEvent):void
         {
             clipboardBtnClickSignal.dispatch();
+        }
+
+        private function onFacebookBtnClick(event:MouseEvent):void
+        {
+            facebookDialog = new AlertDialog();
+            facebookDialog.title = "Post message on your Facebook wall!";
+            facebookDialog.message = "Click ";
+            facebookDialog.addButton("POST");
+            facebookDialog.addButton("CANCEL");
+            facebookDialog.dialogSize = DialogSize.SIZE_SMALL;
+            facebookDialog.addEventListener(Event.SELECT, facebookAlertButtonClickHandler);
+            facebookDialog.show(IowWindow.getAirWindow().group);
+        }
+
+        private function facebookAlertButtonClickHandler(event:Event):void
+        {
+            if (event.target.selectedIndex == 0)
+            {
+                Clipboard.generalClipboard.clear();
+                Clipboard.generalClipboard.setData(ClipboardFormats.TEXT_FORMAT, outputLabel.text);
+
+                navigateToURL(new URLRequest(ApplicationConstants.FACEBOOK_URL));
+            }
+
+            facebookDialog.cancel();
         }
 	}
 }

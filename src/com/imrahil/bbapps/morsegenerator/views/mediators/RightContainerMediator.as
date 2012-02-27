@@ -81,7 +81,7 @@ package com.imrahil.bbapps.morsegenerator.views.mediators
             view.flickerBtn.enabled = state;
 
             view.clipboardBtn.enabled = state;
-//            view.facebookBtn.enabled = state;
+            view.facebookBtn.enabled = state;
 
             if (state)
             {
@@ -91,16 +91,16 @@ package com.imrahil.bbapps.morsegenerator.views.mediators
                 }
                 view.clipboardBtn.setIcon(view.clipboardIcon);
 
-//                if (!view.facebookIcon)
-//                {
-//                    view.facebookIcon = new Resources.FACEBOOK_ICON();
-//                }
-//                view.facebookBtn.setIcon(view.facebookIcon);
+                if (!view.facebookIcon)
+                {
+                    view.facebookIcon = new Resources.FACEBOOK_ICON();
+                }
+                view.facebookBtn.setIcon(view.facebookIcon);
             }
             else
             {
                 view.clipboardBtn.setIcon(view.clipboardIconDisabled);
-//                view.facebookBtn.setIcon(view.facebookIconDisabled);
+                view.facebookBtn.setIcon(view.facebookIconDisabled);
             }
         }
 

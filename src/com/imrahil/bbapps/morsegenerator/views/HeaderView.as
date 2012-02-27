@@ -38,7 +38,7 @@ package com.imrahil.bbapps.morsegenerator.views
 			var ns:Namespace = app_xml.namespace();
 			versionNumber = app_xml.ns::versionNumber;
 
-			this.margins = Vector.<Number>([0, 0, 10, 10]);
+			this.margins = Vector.<Number>([15, 0, 10, 10]);
 			this.size = 70;
 			this.sizeUnit = SizeUnit.PIXELS;
 			this.containment = Containment.DOCK_TOP;
@@ -48,11 +48,11 @@ package com.imrahil.bbapps.morsegenerator.views
 			var appLogoImage:Image = new Image();
 			appLogoImage.setImage(appLogo);
 			
-			var settingsIcon:Bitmap = new Resources.SETTINGS_ICON();
-			var settingsBtn:IconButton = new IconButton();
-			settingsBtn.width = 50;
-			settingsBtn.setIcon(settingsIcon);
-            settingsBtn.addEventListener(MouseEvent.CLICK, onSettingsClick);
+//			var settingsIcon:Bitmap = new Resources.SETTINGS_ICON();
+//			var settingsBtn:IconButton = new IconButton();
+//			settingsBtn.width = 50;
+//			settingsBtn.setIcon(settingsIcon);
+//            settingsBtn.addEventListener(MouseEvent.CLICK, onSettingsClick);
 
 			var aboutIcon:Bitmap = new Resources.ABOUT_ICON();
 			var aboutBtn:IconButton = new IconButton();
@@ -61,13 +61,13 @@ package com.imrahil.bbapps.morsegenerator.views
 			aboutBtn.addEventListener(MouseEvent.CLICK, onAboutClick);
 			
 			this.addChild(appLogoImage);
-            this.addChild(new Spacer(265, SizeUnit.PIXELS));
-            this.addChild(settingsBtn);
+            this.addChild(new Spacer(315, SizeUnit.PIXELS));
+//            this.addChild(settingsBtn);
             this.addChild(aboutBtn);
 
             // HEADER LINE
 			this.graphics.beginFill(0x1C3041);
-			this.graphics.drawRect(-15, 60, 1024, 5);
+			this.graphics.drawRect(0, 60, 1024, 5);
 			this.graphics.endFill();
 		}
 
@@ -89,10 +89,9 @@ package com.imrahil.bbapps.morsegenerator.views
 			aboutDialog.cancel();
 		}
 
-
-        private function onSettingsClick(event:MouseEvent):void
-        {
-
-        }
+//        private function onSettingsClick(event:MouseEvent):void
+//        {
+//
+//        }
 	}
 }
