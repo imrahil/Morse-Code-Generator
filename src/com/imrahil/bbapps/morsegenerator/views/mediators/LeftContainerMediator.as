@@ -42,11 +42,6 @@ package com.imrahil.bbapps.morsegenerator.views.mediators
         {
             logger.debug(": onRegister");
 
-            CONFIG::device
-            {
-                view.volumeSlider.value = AudioManager.audioManager.getOutputLevel(AudioOutput.SPEAKERS);
-            }
-
             view.inputTextChangeSignal.add(onInputTextChanged);
             view.translateBtnClickSignal.add(onTranslateBtnClicked);
             view.volumeSliderSignal.add(onVolumeSliderMoved);

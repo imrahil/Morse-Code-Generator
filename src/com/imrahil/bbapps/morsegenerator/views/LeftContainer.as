@@ -7,6 +7,9 @@ package com.imrahil.bbapps.morsegenerator.views
 
     import org.osflash.signals.Signal;
 
+    import qnx.system.AudioManager;
+    import qnx.system.AudioOutput;
+
     import qnx.ui.buttons.CheckBox;
     import qnx.ui.buttons.LabelButton;
     import qnx.ui.core.Container;
@@ -106,7 +109,17 @@ package com.imrahil.bbapps.morsegenerator.views
             volumeSlider.width = 415;
             volumeSlider.minimum = 0;
             volumeSlider.maximum = 100;
-            volumeSlider.value = 100;
+
+            CONFIG::device
+            {
+                volumeSlider.value = AudioManager.audioManager.getOutputLevel(AudioOutput.SPEAKERS);
+            }
+
+            CONFIG::debugMode
+            {
+                volumeSlider.value = 50;
+            }
+
             volumeSlider.addEventListener(SliderEvent.MOVE, onVolumeSliderMove);
 
             var speedLabel:Label = new Label();

@@ -41,6 +41,9 @@ package com.imrahil.bbapps.morsegenerator.views
 
         public var playBtn:LabelButton;
         public var flickerBtn:LabelButton;
+
+        public var copyLabel:Label;
+
         public var clipboardBtn:IconButton;
         public var facebookBtn:IconButton;
 
@@ -116,7 +119,13 @@ package com.imrahil.bbapps.morsegenerator.views
             flickerBtn.addEventListener(MouseEvent.CLICK, onFlickerBtnClick);
 			buttonContainer.addChild(flickerBtn);
 
-            buttonContainer.addChild(new Spacer(142, SizeUnit.PIXELS));
+            buttonContainer.addChild(new Spacer(79, SizeUnit.PIXELS));
+
+            copyLabel = new Label();
+            copyLabel.text = "";
+            copyLabel.width = 55;
+            copyLabel.format = textFormat;
+            buttonContainer.addChild(copyLabel);
 
             clipboardIconDisabled = new Resources.CLIPBOARD_ICON_DISABLED();
             clipboardBtn = new IconButton();
@@ -125,6 +134,8 @@ package com.imrahil.bbapps.morsegenerator.views
             clipboardBtn.setIcon(clipboardIconDisabled);
             clipboardBtn.addEventListener(MouseEvent.CLICK, onClipboardBtnClick);
             buttonContainer.addChild(clipboardBtn);
+
+            buttonContainer.addChild(new Spacer(10, SizeUnit.PIXELS));
 
             facebookIconDisabled = new Resources.FACEBOOK_ICON_DISABLED();
             facebookBtn = new IconButton();
@@ -178,7 +189,7 @@ package com.imrahil.bbapps.morsegenerator.views
         {
             facebookDialog = new AlertDialog();
             facebookDialog.title = "Post message on your Facebook wall!";
-            facebookDialog.message = "Click ";
+            facebookDialog.message = "Your message is in your clipboard. Click POST button to open Facebook and paste there your message in Morse code.";
             facebookDialog.addButton("POST");
             facebookDialog.addButton("CANCEL");
             facebookDialog.dialogSize = DialogSize.SIZE_SMALL;

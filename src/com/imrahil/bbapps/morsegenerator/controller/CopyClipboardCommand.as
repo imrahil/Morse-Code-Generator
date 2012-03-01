@@ -1,6 +1,7 @@
 package com.imrahil.bbapps.morsegenerator.controller
 {
     import com.imrahil.bbapps.morsegenerator.model.IMorseCodeModel;
+    import com.imrahil.bbapps.morsegenerator.signals.signaltons.CodeCopiedIntoClipboardSignal;
 
     import flash.desktop.Clipboard;
     import flash.desktop.ClipboardFormats;
@@ -13,10 +14,15 @@ package com.imrahil.bbapps.morsegenerator.controller
         [Inject]
         public var model:IMorseCodeModel;
 
+        [Inject]
+        public var codeCopiedInto:CodeCopiedIntoClipboardSignal;
+
         override public function execute():void
         {
             Clipboard.generalClipboard.clear();
             Clipboard.generalClipboard.setData(ClipboardFormats.TEXT_FORMAT, model.outputText);
+
+            codeCopiedInto.dispatch();
         }
     }
 }

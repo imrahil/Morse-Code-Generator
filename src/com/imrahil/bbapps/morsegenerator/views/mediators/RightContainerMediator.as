@@ -4,6 +4,7 @@ package com.imrahil.bbapps.morsegenerator.views.mediators
     import com.imrahil.bbapps.morsegenerator.services.IMorseCodeService;
     import com.imrahil.bbapps.morsegenerator.signals.ComputeFlickerSignal;
     import com.imrahil.bbapps.morsegenerator.signals.CopyClipboardSignal;
+    import com.imrahil.bbapps.morsegenerator.signals.signaltons.CodeCopiedIntoClipboardSignal;
     import com.imrahil.bbapps.morsegenerator.signals.signaltons.MorseCodePlaySignal;
     import com.imrahil.bbapps.morsegenerator.signals.signaltons.SwitchRightSideButtonsSignal;
     import com.imrahil.bbapps.morsegenerator.signals.signaltons.SwitchMorseCodePlaySignal;
@@ -45,6 +46,8 @@ package com.imrahil.bbapps.morsegenerator.views.mediators
         [Inject]
         public var copyClipboardSignal:CopyClipboardSignal;
 
+        [Inject]
+        public var codeCopiedInto:CodeCopiedIntoClipboardSignal;
 
         /** variables **/
         private var logger:ILogger;
@@ -64,6 +67,7 @@ package com.imrahil.bbapps.morsegenerator.views.mediators
             updateOutputSignal.add(onUpdateSignal);
             switchRightSideButtonsSignal.add(onSwitchButtons);
             switchMorseCodePlaySignal.add(onSwitchMorseCodePlay);
+            codeCopiedInto.add(onCodeCopied);
 
             view.playBtnClickSignal.add(onPlayBtnClicked);
             view.flickerBtnClickSignal.add(onFlickerBtnClicked);
@@ -73,6 +77,13 @@ package com.imrahil.bbapps.morsegenerator.views.mediators
         private function onUpdateSignal(outputText:String):void
         {
             view.outputLabel.text = outputText;
+
+            view.copyLabel.text = "";
+        }
+
+        private function onCodeCopied():void
+        {
+            view.copyLabel.text = "OK";
         }
 
         private function onSwitchButtons(state:Boolean):void

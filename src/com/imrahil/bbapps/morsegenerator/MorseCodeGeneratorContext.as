@@ -37,6 +37,8 @@ package com.imrahil.bbapps.morsegenerator
 
             injector.mapSingleton(SwitchMorseCodePlaySignal);
 
+            injector.mapSingleton(CodeCopiedIntoClipboardSignal);
+
 
             // Add Model
             injector.mapSingletonOf(IMorseCodeModel, MorseCodeModel);
