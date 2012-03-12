@@ -23,8 +23,13 @@ package com.imrahil.bbapps.morsegenerator.constants
 		[Embed (source="/assets/images/facebookIconDisabled.png" )]
 		public static const FACEBOOK_ICON_DISABLED:Class;
 
+		[Embed (source="/assets/images/twitterIcon.png" )]
+		public static const TWITTER_ICON:Class;
+
+		[Embed (source="/assets/images/twitterIconDisabled.png" )]
+		public static const TWITTER_ICON_DISABLED:Class;
+
 		[Embed (source="/assets/images/morseTableWide.png" )]
 		public static const MORSE_TABLE:Class;
-		
 	}
 }

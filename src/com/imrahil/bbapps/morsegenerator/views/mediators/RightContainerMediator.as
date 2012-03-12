@@ -93,6 +93,7 @@ package com.imrahil.bbapps.morsegenerator.views.mediators
 
             view.clipboardBtn.enabled = state;
             view.facebookBtn.enabled = state;
+            view.twitterBtn.enabled = state;
 
             if (state)
             {
@@ -107,11 +108,18 @@ package com.imrahil.bbapps.morsegenerator.views.mediators
                     view.facebookIcon = new Resources.FACEBOOK_ICON();
                 }
                 view.facebookBtn.setIcon(view.facebookIcon);
+
+                if (!view.twitterIcon)
+                {
+                    view.twitterIcon = new Resources.TWITTER_ICON();
+                }
+                view.twitterBtn.setIcon(view.twitterIcon);
             }
             else
             {
                 view.clipboardBtn.setIcon(view.clipboardIconDisabled);
                 view.facebookBtn.setIcon(view.facebookIconDisabled);
+                view.twitterBtn.setIcon(view.twitterIconDisabled);
             }
         }
 

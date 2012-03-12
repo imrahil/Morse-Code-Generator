@@ -46,16 +46,19 @@ package com.imrahil.bbapps.morsegenerator.views
 
         public var clipboardBtn:IconButton;
         public var facebookBtn:IconButton;
+        public var twitterBtn:IconButton;
 
         public var clipboardIcon:Bitmap;
         public var clipboardIconDisabled:Bitmap;
         public var facebookIcon:Bitmap;
         public var facebookIconDisabled:Bitmap;
+        public var twitterIcon:Bitmap;
+        public var twitterIconDisabled:Bitmap;
 
         public var mySpectrumGraph:BitmapData;
         public var outputLabel:Label;
 
-        private var facebookDialog:AlertDialog;
+        private var postLinkDialog:AlertDialog;
 
 		public function RightContainer(textFormat:TextFormat)
 		{
@@ -119,7 +122,7 @@ package com.imrahil.bbapps.morsegenerator.views
             flickerBtn.addEventListener(MouseEvent.CLICK, onFlickerBtnClick);
 			buttonContainer.addChild(flickerBtn);
 
-            buttonContainer.addChild(new Spacer(79, SizeUnit.PIXELS));
+            buttonContainer.addChild(new Spacer(19, SizeUnit.PIXELS));
 
             copyLabel = new Label();
             copyLabel.text = "";
@@ -144,6 +147,16 @@ package com.imrahil.bbapps.morsegenerator.views
             facebookBtn.setIcon(facebookIconDisabled);
             facebookBtn.addEventListener(MouseEvent.CLICK, onFacebookBtnClick);
             buttonContainer.addChild(facebookBtn);
+
+            buttonContainer.addChild(new Spacer(10, SizeUnit.PIXELS));
+
+            twitterIconDisabled = new Resources.TWITTER_ICON_DISABLED();
+            twitterBtn = new IconButton();
+            twitterBtn.enabled = false;
+            twitterBtn.width = 50;
+            twitterBtn.setIcon(twitterIconDisabled);
+            twitterBtn.addEventListener(MouseEvent.CLICK, onTwitterBtnClick);
+            buttonContainer.addChild(twitterBtn);
 
 			this.addChild(titleLabel);
 			this.addChild(outputLabel);
@@ -187,14 +200,14 @@ package com.imrahil.bbapps.morsegenerator.views
 
         private function onFacebookBtnClick(event:MouseEvent):void
         {
-            facebookDialog = new AlertDialog();
-            facebookDialog.title = "Post message on your Facebook wall!";
-            facebookDialog.message = "Your message is in your clipboard. Click POST button to open Facebook and paste there your message in Morse code.";
-            facebookDialog.addButton("POST");
-            facebookDialog.addButton("CANCEL");
-            facebookDialog.dialogSize = DialogSize.SIZE_SMALL;
-            facebookDialog.addEventListener(Event.SELECT, facebookAlertButtonClickHandler);
-            facebookDialog.show(IowWindow.getAirWindow().group);
+            postLinkDialog = new AlertDialog();
+            postLinkDialog.title = "Post message on your Facebook wall!";
+            postLinkDialog.message = "Your message is in your clipboard. Click OK button to open Facebook webpage and paste it there.";
+            postLinkDialog.addButton("OK");
+            postLinkDialog.addButton("CANCEL");
+            postLinkDialog.dialogSize = DialogSize.SIZE_SMALL;
+            postLinkDialog.addEventListener(Event.SELECT, facebookAlertButtonClickHandler);
+            postLinkDialog.show(IowWindow.getAirWindow().group);
         }
 
         private function facebookAlertButtonClickHandler(event:Event):void
@@ -207,7 +220,29 @@ package com.imrahil.bbapps.morsegenerator.views
                 navigateToURL(new URLRequest(ApplicationConstants.FACEBOOK_URL));
             }
 
-            facebookDialog.cancel();
+            postLinkDialog.cancel();
+        }
+
+        private function onTwitterBtnClick(event:MouseEvent):void
+        {
+            postLinkDialog = new AlertDialog();
+            postLinkDialog.title = "Post your message on Twitter!";
+            postLinkDialog.message = "Click OK button to open Twitter webpage and post your message on your Twitter stream.";
+            postLinkDialog.addButton("OK");
+            postLinkDialog.addButton("CANCEL");
+            postLinkDialog.dialogSize = DialogSize.SIZE_SMALL;
+            postLinkDialog.addEventListener(Event.SELECT, twitterAlertButtonClickHandler);
+            postLinkDialog.show(IowWindow.getAirWindow().group);
+        }
+
+        private function twitterAlertButtonClickHandler(event:Event):void
+        {
+            if (event.target.selectedIndex == 0)
+            {
+                navigateToURL(new URLRequest(ApplicationConstants.TWITTER_URL +  encodeURI(outputLabel.text)));
+            }
+
+            postLinkDialog.cancel();
         }
 	}
 }
