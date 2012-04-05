@@ -4,6 +4,7 @@ Copyright (c) 2012 Jarek Szczepanski
 sound generation based on flex-morse project - http://code.google.com/p/flex-morse/
 
 Versions:
+1.6.3 - fixed broken training mode
 1.6.2 - added sound encoding to WAV and MP3 files
 1.6.1 - added "Post to Twitter" functionality
 1.6.0 - fixed "Post to Facebook" dialog window. Added label with OK message after successful copy into clipboard

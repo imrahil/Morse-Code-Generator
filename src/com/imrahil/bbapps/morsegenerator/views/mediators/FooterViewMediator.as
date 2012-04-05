@@ -59,14 +59,14 @@ package com.imrahil.bbapps.morsegenerator.views.mediators
         {
             logger.debug("onLongBeepBtnClick");
 
-            morseCodeService.playString("T");
+            morseCodeService.playString("-");
         }
 
         private function onShortBeepBtnClicked():void
         {
             logger.debug("onLongBeepBtnClick");
 
-            morseCodeService.playString("E");
+            morseCodeService.playString(".");
         }
     }
 }
