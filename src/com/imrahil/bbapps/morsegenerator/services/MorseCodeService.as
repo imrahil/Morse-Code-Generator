@@ -1,3 +1,10 @@
+/*
+ Copyright (c) 2012 Imrahil Corporation, All Rights Reserved
+ @author   Jarek Szczepanski
+ @contact  imrahil@imrahil.com
+ @project  Morse Code Generator
+ @internal
+ */
 package com.imrahil.bbapps.morsegenerator.services
 {
     import com.imrahil.bbapps.morsegenerator.utils.LogUtil;
@@ -11,10 +18,16 @@ package com.imrahil.bbapps.morsegenerator.services
 
     import mx.logging.ILogger;
 
+    import org.bytearray.micrecorder.encoder.IEncoder;
+
+    import org.bytearray.micrecorder.encoder.WaveEncoder;
     import org.osflash.signals.Signal;
 
     public class MorseCodeService extends EventDispatcher implements IMorseCodeService
     {
+        [Inject]
+        public var encoder:IEncoder;
+
         private static const SOUND_LENGTH:int = 2400;
         private static const SILENCE_LENGTH:int = 4800;
         private static const FLICKER_FACTOR:Number = 0.07;
@@ -107,13 +120,16 @@ package com.imrahil.bbapps.morsegenerator.services
             return _isPlaying;
         }
 
-        public function playString(string:String):void
+        public function get soundCompleteSignal():Signal
         {
-            logger.debug(": playString: " + string);
+            return _soundCompleteSignal;
+        }
 
-            var codeString:String = stringToCode(string);
-            soundBytes = codeStringToBytes(codeString);
+        public function playString(morseCode:String):void
+        {
+            logger.debug(": playString: " + morseCode);
 
+            soundBytes = codeStringToBytes(morseCode);
             soundBytes.position = 0;
 
             var codeSound:Sound = new Sound();
@@ -123,12 +139,6 @@ package com.imrahil.bbapps.morsegenerator.services
 
             // event listener to handle sound complete and change UI
             soundChannel.addEventListener(Event.SOUND_COMPLETE, soundCompleteHandler);
-        }
-
-        private function soundCompleteHandler(event:Event):void
-        {
-            _isPlaying = false;
-            _soundCompleteSignal.dispatch();
         }
 
         public function stop():void
@@ -219,6 +229,22 @@ package com.imrahil.bbapps.morsegenerator.services
             return output;
         }
 
+        public function saveAsWav(morseCode:String):ByteArray
+        {
+            logger.debug(": saveAsWav");
+
+            soundBytes = codeStringToBytes(morseCode);
+            soundBytes.position = 0;
+
+            return encoder.encode(soundBytes);
+        }
+
+
+        /*
+         *
+         *   PRIVATE METHODS
+         *
+         */
         private function codeStringToBytes(value:String):ByteArray
         {
             var returnBytes:ByteArray = new ByteArray();
@@ -254,12 +280,18 @@ package com.imrahil.bbapps.morsegenerator.services
             event.data.writeBytes(bytes, 0, bytes.length);
         }
 
+        private function soundCompleteHandler(event:Event):void
+        {
+            _isPlaying = false;
+            _soundCompleteSignal.dispatch();
+        }
+
         private static function sineWaveGenerator(length:Number):ByteArray
         {
             var returnBytes:ByteArray = new ByteArray();
             for (var i:int = 0; i < length * SOUND_LENGTH; i++)
             {
-                var value:Number = Math.sin(i / 6) * 0.5;
+                var value:Number = Math.sin(i / 6) * 0.4;
                 returnBytes.writeFloat(value);
                 returnBytes.writeFloat(value);
             }
@@ -274,11 +306,6 @@ package com.imrahil.bbapps.morsegenerator.services
                 returnBytes.writeFloat(0);
             }
             return returnBytes;
-        }
-
-        public function get soundCompleteSignal():Signal
-        {
-            return _soundCompleteSignal;
         }
     }
 }

@@ -8,4 +8,5 @@
    <splashscreen>morse-splash.png</splashscreen>
    <action>play_audio</action>
    <action>set_audio_volume</action>
+    <action>access_shared</action>
 </qnx>

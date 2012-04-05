@@ -1,13 +1,23 @@
+/*
+ Copyright (c) 2012 Imrahil Corporation, All Rights Reserved
+ @author   Jarek Szczepanski
+ @contact  imrahil@imrahil.com
+ @project  Morse Code Generator
+ @internal
+ */
 package com.imrahil.bbapps.morsegenerator.views.mediators
 {
     import com.imrahil.bbapps.morsegenerator.constants.Resources;
     import com.imrahil.bbapps.morsegenerator.services.IMorseCodeService;
     import com.imrahil.bbapps.morsegenerator.signals.ComputeFlickerSignal;
     import com.imrahil.bbapps.morsegenerator.signals.CopyClipboardSignal;
+    import com.imrahil.bbapps.morsegenerator.signals.SaveAsMp3Signal;
+    import com.imrahil.bbapps.morsegenerator.signals.SaveAsWavSignal;
     import com.imrahil.bbapps.morsegenerator.signals.signaltons.CodeCopiedIntoClipboardSignal;
     import com.imrahil.bbapps.morsegenerator.signals.signaltons.MorseCodePlaySignal;
-    import com.imrahil.bbapps.morsegenerator.signals.signaltons.SwitchRightSideButtonsSignal;
+    import com.imrahil.bbapps.morsegenerator.signals.signaltons.Mp3EncoderStatusSignal;
     import com.imrahil.bbapps.morsegenerator.signals.signaltons.SwitchMorseCodePlaySignal;
+    import com.imrahil.bbapps.morsegenerator.signals.signaltons.SwitchRightSideButtonsSignal;
     import com.imrahil.bbapps.morsegenerator.signals.signaltons.UpdateOutputSignal;
     import com.imrahil.bbapps.morsegenerator.utils.LogUtil;
     import com.imrahil.bbapps.morsegenerator.views.RightContainer;
@@ -18,9 +28,9 @@ package com.imrahil.bbapps.morsegenerator.views.mediators
 
     import mx.logging.ILogger;
 
-    import org.robotlegs.mvcs.Mediator;
+    import org.robotlegs.mvcs.SignalMediator;
 
-    public class RightContainerMediator extends Mediator
+    public class RightContainerMediator extends SignalMediator
     {
         [Inject]
         public var view:RightContainer;
@@ -49,6 +59,15 @@ package com.imrahil.bbapps.morsegenerator.views.mediators
         [Inject]
         public var codeCopiedInto:CodeCopiedIntoClipboardSignal;
 
+        [Inject]
+        public var saveAsWavSignal:SaveAsWavSignal;
+
+        [Inject]
+        public var saveAsMp3Signal:SaveAsMp3Signal;
+
+        [Inject]
+        public var mp3EncoderStatusSignal:Mp3EncoderStatusSignal;
+
         /** variables **/
         private var logger:ILogger;
 
@@ -64,14 +83,18 @@ package com.imrahil.bbapps.morsegenerator.views.mediators
         {
             logger.debug(": onRegister");
 
-            updateOutputSignal.add(onUpdateSignal);
-            switchRightSideButtonsSignal.add(onSwitchButtons);
-            switchMorseCodePlaySignal.add(onSwitchMorseCodePlay);
-            codeCopiedInto.add(onCodeCopied);
+            addToSignal(updateOutputSignal, onUpdateSignal);
+            addToSignal(switchRightSideButtonsSignal, onSwitchButtons);
+            addToSignal(switchMorseCodePlaySignal, onSwitchMorseCodePlay);
+            addToSignal(codeCopiedInto, onCodeCopied);
+            addToSignal(mp3EncoderStatusSignal, onEncoderStatus);
 
-            view.playBtnClickSignal.add(onPlayBtnClicked);
-            view.flickerBtnClickSignal.add(onFlickerBtnClicked);
-            view.clipboardBtnClickSignal.add(onClipboardBtnClicked);
+            addToSignal(view.playBtnClickSignal, onPlayBtnClicked);
+            addToSignal(view.flickerBtnClickSignal, onFlickerBtnClicked);
+            addToSignal(view.clipboardBtnClickSignal, onClipboardBtnClicked);
+
+            addToSignal(view.saveWavBtnClickSignal, onSaveWavBtnClicked);
+            addToSignal(view.saveMp3BtnClickSignal, onSaveMp3BtnClicked);
         }
 
         private function onUpdateSignal(outputText:String):void
@@ -86,10 +109,25 @@ package com.imrahil.bbapps.morsegenerator.views.mediators
             view.copyLabel.text = "OK";
         }
 
+        private function onEncoderStatus(percent:uint):void
+        {
+            if (percent < 100)
+            {
+                view.copyLabel.text = percent + "%";
+            }
+            else
+            {
+                view.copyLabel.text = "";
+            }
+        }
+
         private function onSwitchButtons(state:Boolean):void
         {
             view.playBtn.enabled = state;
             view.flickerBtn.enabled = state;
+
+            view.saveWavBtn.enabled = state;
+            view.saveMp3Btn.enabled = state;
 
             view.clipboardBtn.enabled = state;
             view.facebookBtn.enabled = state;
@@ -153,7 +191,7 @@ package com.imrahil.bbapps.morsegenerator.views.mediators
 
             view.mySpectrumGraph.fillRect(view.mySpectrumGraph.rect, 0x00000000);
 
-            for(var i:int=0; i < 256; i++)
+            for (var i:int = 0; i < 256; i++)
             {
                 view.mySpectrumGraph.setPixel32(i, 22 + spectrum.readFloat() * 30, 0xffffffff);
             }
@@ -183,6 +221,20 @@ package com.imrahil.bbapps.morsegenerator.views.mediators
             logger.debug(": onClipboardBtnClicked");
 
             copyClipboardSignal.dispatch();
+        }
+
+        private function onSaveWavBtnClicked():void
+        {
+            logger.debug(": onSaveWavBtnClicked");
+
+            saveAsWavSignal.dispatch();
+        }
+
+        private function onSaveMp3BtnClicked():void
+        {
+            logger.debug(": onSaveMp3BtnClicked");
+
+            saveAsMp3Signal.dispatch();
         }
     }
 }

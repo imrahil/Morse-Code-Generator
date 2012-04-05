@@ -1,3 +1,10 @@
+/*
+ Copyright (c) 2012 Imrahil Corporation, All Rights Reserved
+ @author   Jarek Szczepanski
+ @contact  imrahil@imrahil.com
+ @project  Morse Code Generator
+ @internal
+ */
 package com.imrahil.bbapps.morsegenerator
 {
     import com.imrahil.bbapps.morsegenerator.controller.*;
@@ -9,6 +16,9 @@ package com.imrahil.bbapps.morsegenerator
     import com.imrahil.bbapps.morsegenerator.views.mediators.*;
 
     import flash.display.DisplayObjectContainer;
+
+    import org.bytearray.micrecorder.encoder.IEncoder;
+    import org.bytearray.micrecorder.encoder.WaveEncoder;
 
     import org.robotlegs.mvcs.SignalContext;
 
@@ -29,6 +39,9 @@ package com.imrahil.bbapps.morsegenerator
             signalCommandMap.mapSignalClass(MorseCodePlaySignal, MorseCodePlayCommand);
             signalCommandMap.mapSignalClass(CopyClipboardSignal, CopyClipboardCommand);
 
+            signalCommandMap.mapSignalClass(SaveAsWavSignal, SaveAsWavCommand);
+            signalCommandMap.mapSignalClass(SaveAsMp3Signal, SaveAsMp3Command);
+
             injector.mapSingleton(StartFlickerSignal);
             injector.mapSingleton(UpdateOutputSignal);
 
@@ -39,12 +52,15 @@ package com.imrahil.bbapps.morsegenerator
 
             injector.mapSingleton(CodeCopiedIntoClipboardSignal);
 
+            injector.mapSingleton(Mp3EncoderStatusSignal);
+
 
             // Add Model
             injector.mapSingletonOf(IMorseCodeModel, MorseCodeModel);
 
             // Add Services
             injector.mapSingletonOf(IMorseCodeService, MorseCodeService);
+            injector.mapSingletonOf(IEncoder, WaveEncoder);
 
             // Add View + View Mediators
             mediatorMap.mapView(HeaderView, HeaderViewMediator);

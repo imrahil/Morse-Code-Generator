@@ -3,7 +3,7 @@
     <id>com.imrahil.bbapps.MorseCodeGenerator</id>
     <filename>MorseCodeGenerator</filename>
     <name>Morse Code Generator</name>
-    <versionNumber>1.6.1</versionNumber>
+    <versionNumber>1.7.0</versionNumber>
     <copyright>Copyright © 2012 Jarek Szczepanski</copyright>
 
     <initialWindow>
