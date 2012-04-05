@@ -1,3 +1,10 @@
+/*
+ Copyright (c) 2012 Imrahil Corporation, All Rights Reserved
+ @author   Jarek Szczepanski
+ @contact  imrahil@imrahil.com
+ @project  Morse Code Generator
+ @internal
+ */
 package com.imrahil.bbapps.morsegenerator.views.mediators
 {
     import com.imrahil.bbapps.morsegenerator.services.IMorseCodeService;
@@ -7,9 +14,9 @@ package com.imrahil.bbapps.morsegenerator.views.mediators
 
     import mx.logging.ILogger;
 
-    import org.robotlegs.mvcs.Mediator;
+    import org.robotlegs.mvcs.SignalMediator;
 
-    public class FooterViewMediator extends Mediator
+    public class FooterViewMediator extends SignalMediator
     {
         [Inject]
         public var view:FooterView;
@@ -36,10 +43,10 @@ package com.imrahil.bbapps.morsegenerator.views.mediators
         {
             logger.debug(": onRegister");
 
-            switchFooterButtonsSignal.add(onSwitchFooterButtons);
+            addToSignal(switchFooterButtonsSignal, onSwitchFooterButtons);
 
-            view.longBeepClickSignal.add(onLongBeepBtnClicked);
-            view.shortBeepClickSignal.add(onShortBeepBtnClicked);
+            addToSignal(view.longBeepClickSignal, onLongBeepBtnClicked);
+            addToSignal(view.shortBeepClickSignal, onShortBeepBtnClicked);
         }
 
         private function onSwitchFooterButtons(state:Boolean):void
@@ -50,9 +57,9 @@ package com.imrahil.bbapps.morsegenerator.views.mediators
 
         private function onLongBeepBtnClicked():void
         {
-			logger.debug("onLongBeepBtnClick");
+            logger.debug("onLongBeepBtnClick");
 
-			morseCodeService.playString("T");
+            morseCodeService.playString("T");
         }
 
         private function onShortBeepBtnClicked():void

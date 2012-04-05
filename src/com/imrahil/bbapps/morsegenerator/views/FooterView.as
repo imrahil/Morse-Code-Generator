@@ -1,3 +1,10 @@
+/*
+ Copyright (c) 2012 Imrahil Corporation, All Rights Reserved
+ @author   Jarek Szczepanski
+ @contact  imrahil@imrahil.com
+ @project  Morse Code Generator
+ @internal
+ */
 package com.imrahil.bbapps.morsegenerator.views
 {
     import com.imrahil.bbapps.morsegenerator.constants.Resources;
@@ -20,84 +27,84 @@ package com.imrahil.bbapps.morsegenerator.views
     import qnx.ui.text.Label;
 
     public class FooterView extends StyledContainer
-	{
+    {
         public var longBeepClickSignal:Signal = new Signal();
         public var shortBeepClickSignal:Signal = new Signal();
 
         public var longBeepBtn:LabelButton;
         public var shortBeepBtn:LabelButton;
 
-		public function FooterView(format:TextFormat)
-		{
-			super(format);
+        public function FooterView(format:TextFormat)
+        {
+            super(format);
 
             this.addEventListener(Event.ADDED_TO_STAGE, create)
-		}
-		
-		private function create(event:Event):void
-		{
+        }
+
+        private function create(event:Event):void
+        {
             this.removeEventListener(Event.ADDED_TO_STAGE, create);
 
-			this.size = 215;
-			this.sizeUnit = SizeUnit.PIXELS;
-			this.margins = Vector.<Number>([25, 0, 25, 0]);
-			this.flow = ContainerFlow.HORIZONTAL;
-			
-			var tableContainer:Container = new Container();
-			tableContainer.size = 700;
-			tableContainer.sizeUnit = SizeUnit.PIXELS;
-			tableContainer.flow = ContainerFlow.VERTICAL;
-			tableContainer.align = ContainerAlign.NEAR;
-			
-			var morseTableLbl:Label = new Label();
-			morseTableLbl.text = "International Morse Code:";
-			morseTableLbl.autoSize = TextFieldAutoSize.RIGHT;
-			morseTableLbl.format = textFormat;
-			
-			var morseTable:Bitmap = new Resources.MORSE_TABLE();
-			var morseTableImage:Image = new Image();
-			morseTableImage.setImage(morseTable);
-			
-			tableContainer.addChild(morseTableLbl);
-			tableContainer.addChild(new Spacer(10, SizeUnit.PIXELS));
-			tableContainer.addChild(morseTableImage);
-			
-			var trainContainer:Container = new Container();
-			trainContainer.flow = ContainerFlow.VERTICAL;
-			trainContainer.align = ContainerAlign.MID;
+            this.size = 215;
+            this.sizeUnit = SizeUnit.PIXELS;
+            this.margins = Vector.<Number>([25, 0, 25, 0]);
+            this.flow = ContainerFlow.HORIZONTAL;
 
-			var trainLbl:Label = new Label();
-			trainLbl.text = "Training Mode";
-			trainLbl.width = 140;
-			trainLbl.autoSize = TextFieldAutoSize.CENTER;
-			trainLbl.format = textFormat;
-			
-			var trainButtonsContainer:Container = new Container();
-			trainButtonsContainer.flow = ContainerFlow.HORIZONTAL;
-			trainButtonsContainer.margins = Vector.<Number>([10, 0, 0, 0]); 
-			
+            var tableContainer:Container = new Container();
+            tableContainer.size = 700;
+            tableContainer.sizeUnit = SizeUnit.PIXELS;
+            tableContainer.flow = ContainerFlow.VERTICAL;
+            tableContainer.align = ContainerAlign.NEAR;
+
+            var morseTableLbl:Label = new Label();
+            morseTableLbl.text = "International Morse Code:";
+            morseTableLbl.autoSize = TextFieldAutoSize.RIGHT;
+            morseTableLbl.format = textFormat;
+
+            var morseTable:Bitmap = new Resources.MORSE_TABLE();
+            var morseTableImage:Image = new Image();
+            morseTableImage.setImage(morseTable);
+
+            tableContainer.addChild(morseTableLbl);
+            tableContainer.addChild(new Spacer(10, SizeUnit.PIXELS));
+            tableContainer.addChild(morseTableImage);
+
+            var trainContainer:Container = new Container();
+            trainContainer.flow = ContainerFlow.VERTICAL;
+            trainContainer.align = ContainerAlign.MID;
+
+            var trainLbl:Label = new Label();
+            trainLbl.text = "Training Mode";
+            trainLbl.width = 140;
+            trainLbl.autoSize = TextFieldAutoSize.CENTER;
+            trainLbl.format = textFormat;
+
+            var trainButtonsContainer:Container = new Container();
+            trainButtonsContainer.flow = ContainerFlow.HORIZONTAL;
+            trainButtonsContainer.margins = Vector.<Number>([10, 0, 0, 0]);
+
             longBeepBtn = new LabelButton();
-			longBeepBtn.label = "Long Beep";
-			longBeepBtn.width = 120;
-			longBeepBtn.height = 120;
+            longBeepBtn.label = "Long Beep";
+            longBeepBtn.width = 120;
+            longBeepBtn.height = 120;
             longBeepBtn.addEventListener(MouseEvent.CLICK, onLongBeepClick);
-			trainButtonsContainer.addChild(longBeepBtn);
+            trainButtonsContainer.addChild(longBeepBtn);
 
-			trainButtonsContainer.addChild(new Spacer(10, SizeUnit.PIXELS));
-			
+            trainButtonsContainer.addChild(new Spacer(10, SizeUnit.PIXELS));
+
             shortBeepBtn = new LabelButton();
-			shortBeepBtn.label = "Short Beep";
-			shortBeepBtn.width = 120;
-			shortBeepBtn.height = 120;
+            shortBeepBtn.label = "Short Beep";
+            shortBeepBtn.width = 120;
+            shortBeepBtn.height = 120;
             shortBeepBtn.addEventListener(MouseEvent.CLICK, onShortBeepClick);
-			trainButtonsContainer.addChild(shortBeepBtn);
+            trainButtonsContainer.addChild(shortBeepBtn);
 
-			trainContainer.addChild(trainLbl);
-			trainContainer.addChild(trainButtonsContainer);
-			
-			this.addChild(tableContainer);
-			this.addChild(trainContainer);
-		}
+            trainContainer.addChild(trainLbl);
+            trainContainer.addChild(trainButtonsContainer);
+
+            this.addChild(tableContainer);
+            this.addChild(trainContainer);
+        }
 
         private function onLongBeepClick(event:MouseEvent):void
         {
@@ -108,5 +115,5 @@ package com.imrahil.bbapps.morsegenerator.views
         {
             shortBeepClickSignal.dispatch();
         }
-	}
+    }
 }

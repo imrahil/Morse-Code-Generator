@@ -1,3 +1,10 @@
+/*
+ Copyright (c) 2012 Imrahil Corporation, All Rights Reserved
+ @author   Jarek Szczepanski
+ @contact  imrahil@imrahil.com
+ @project  Morse Code Generator
+ @internal
+ */
 package com.imrahil.bbapps.morsegenerator.views.mediators
 {
     import com.imrahil.bbapps.morsegenerator.signals.SetSpeedSignal;
@@ -8,12 +15,12 @@ package com.imrahil.bbapps.morsegenerator.views.mediators
 
     import mx.logging.ILogger;
 
-    import org.robotlegs.mvcs.Mediator;
+    import org.robotlegs.mvcs.SignalMediator;
 
     import qnx.system.AudioManager;
     import qnx.system.AudioOutput;
 
-    public class LeftContainerMediator extends Mediator
+    public class LeftContainerMediator extends SignalMediator
     {
         [Inject]
         public var view:LeftContainer;
@@ -42,10 +49,10 @@ package com.imrahil.bbapps.morsegenerator.views.mediators
         {
             logger.debug(": onRegister");
 
-            view.inputTextChangeSignal.add(onInputTextChanged);
-            view.translateBtnClickSignal.add(onTranslateBtnClicked);
-            view.volumeSliderSignal.add(onVolumeSliderMoved);
-            view.speedSliderSignal.add(onSpeedSliderMoved);
+            addToSignal(view.inputTextChangeSignal, onInputTextChanged);
+            addToSignal(view.translateBtnClickSignal, onTranslateBtnClicked);
+            addToSignal(view.volumeSliderSignal, onVolumeSliderMoved);
+            addToSignal(view.speedSliderSignal, onSpeedSliderMoved);
         }
 
         private function onInputTextChanged(inputText:String):void

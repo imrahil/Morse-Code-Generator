@@ -1,3 +1,10 @@
+/*
+ Copyright (c) 2012 Imrahil Corporation, All Rights Reserved
+ @author   Jarek Szczepanski
+ @contact  imrahil@imrahil.com
+ @project  Morse Code Generator
+ @internal
+ */
 package com.imrahil.bbapps.morsegenerator.controller
 {
     import com.imrahil.bbapps.morsegenerator.model.IMorseCodeModel;
@@ -32,7 +39,7 @@ package com.imrahil.bbapps.morsegenerator.controller
             model.inputText = inputText;
 
             var output:String = "";
-            
+
             if (MorseUtil.isMorse(inputText))
             {
                 // input text is morse code

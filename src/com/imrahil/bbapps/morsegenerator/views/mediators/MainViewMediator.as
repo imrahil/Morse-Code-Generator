@@ -1,3 +1,10 @@
+/*
+ Copyright (c) 2012 Imrahil Corporation, All Rights Reserved
+ @author   Jarek Szczepanski
+ @contact  imrahil@imrahil.com
+ @project  Morse Code Generator
+ @internal
+ */
 package com.imrahil.bbapps.morsegenerator.views.mediators
 {
     import com.imrahil.bbapps.morsegenerator.signals.signaltons.StartFlickerSignal;
@@ -12,9 +19,9 @@ package com.imrahil.bbapps.morsegenerator.views.mediators
 
     import mx.logging.ILogger;
 
-    import org.robotlegs.mvcs.Mediator;
+    import org.robotlegs.mvcs.SignalMediator;
 
-    public class MainViewMediator extends Mediator
+    public class MainViewMediator extends SignalMediator
     {
         [Inject]
         public var view:MainView;
@@ -42,7 +49,7 @@ package com.imrahil.bbapps.morsegenerator.views.mediators
         {
             logger.debug(": onRegister");
 
-            startFlickerSignal.add(onStartFlickerSignal);
+            addToSignal(startFlickerSignal, onStartFlickerSignal);
         }
 
         public function onStartFlickerSignal(computedFlickerArray:Array):void

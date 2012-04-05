@@ -1,3 +1,10 @@
+/*
+ Copyright (c) 2012 Imrahil Corporation, All Rights Reserved
+ @author   Jarek Szczepanski
+ @contact  imrahil@imrahil.com
+ @project  Morse Code Generator
+ @internal
+ */
 package com.imrahil.bbapps.morsegenerator.views
 {
     import flash.events.Event;
@@ -9,7 +16,6 @@ package com.imrahil.bbapps.morsegenerator.views
 
     import qnx.system.AudioManager;
     import qnx.system.AudioOutput;
-
     import qnx.ui.buttons.CheckBox;
     import qnx.ui.buttons.LabelButton;
     import qnx.ui.core.Container;
@@ -43,10 +49,10 @@ package com.imrahil.bbapps.morsegenerator.views
             super(format);
 
             this.addEventListener(Event.ADDED_TO_STAGE, create)
-		}
+        }
 
-		private function create(event:Event):void
-		{
+        private function create(event:Event):void
+        {
             this.removeEventListener(Event.ADDED_TO_STAGE, create);
 
             this.margins = Vector.<Number>([10, 0, 10, 10]);
