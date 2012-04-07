@@ -55,12 +55,6 @@ package com.imrahil.bbapps.morsegenerator.views
             var appLogoImage:Image = new Image();
             appLogoImage.setImage(appLogo);
 
-//			var settingsIcon:Bitmap = new Resources.SETTINGS_ICON();
-//			var settingsBtn:IconButton = new IconButton();
-//			settingsBtn.width = 50;
-//			settingsBtn.setIcon(settingsIcon);
-//            settingsBtn.addEventListener(MouseEvent.CLICK, onSettingsClick);
-
             var aboutIcon:Bitmap = new Resources.ABOUT_ICON();
             var aboutBtn:IconButton = new IconButton();
             aboutBtn.width = 50;
@@ -69,7 +63,6 @@ package com.imrahil.bbapps.morsegenerator.views
 
             this.addChild(appLogoImage);
             this.addChild(new Spacer(315, SizeUnit.PIXELS));
-//            this.addChild(settingsBtn);
             this.addChild(aboutBtn);
 
             // HEADER LINE
@@ -80,25 +73,23 @@ package com.imrahil.bbapps.morsegenerator.views
 
         private function onAboutClick(event:MouseEvent):void
         {
-            aboutDialog = new AlertDialog();
-            aboutDialog.title = "Morse Code Generator - v." + versionNumber;
-            aboutDialog.messageHtml = "<p align='center'><b>Author:</b> Jarek Szczepański<br />" +
-                    "<b>Email:</b> support_bb@imrahil.com<br />" +
-                    "<b>Website:</b> http://flex.imrahil.com</p>";
-            aboutDialog.addButton("OK");
-            aboutDialog.dialogSize = DialogSize.SIZE_SMALL;
-            aboutDialog.addEventListener(Event.SELECT, aboutButtonClicked);
-            aboutDialog.show(IowWindow.getAirWindow().group);
+            CONFIG::device
+            {
+                aboutDialog = new AlertDialog();
+                aboutDialog.title = "Morse Code Generator - v." + versionNumber;
+                aboutDialog.messageHtml = "<p align='center'><b>Author:</b> Jarek Szczepański<br />" +
+                        "<b>Email:</b> support_bb@imrahil.com<br />" +
+                        "<b>Website:</b> http://flex.imrahil.com</p>";
+                aboutDialog.addButton("OK");
+                aboutDialog.dialogSize = DialogSize.SIZE_SMALL;
+                aboutDialog.addEventListener(Event.SELECT, aboutButtonClicked);
+                aboutDialog.show(IowWindow.getAirWindow().group);
+            }
         }
 
         private function aboutButtonClicked(event:Event):void
         {
             aboutDialog.cancel();
         }
-
-//        private function onSettingsClick(event:MouseEvent):void
-//        {
-//
-//        }
     }
 }

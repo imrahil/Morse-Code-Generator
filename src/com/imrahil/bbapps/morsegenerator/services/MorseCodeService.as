@@ -7,6 +7,8 @@
  */
 package com.imrahil.bbapps.morsegenerator.services
 {
+    import com.imrahil.bbapps.morsegenerator.constants.ApplicationConstants;
+    import com.imrahil.bbapps.morsegenerator.model.vo.FlickerVO;
     import com.imrahil.bbapps.morsegenerator.utils.LogUtil;
 
     import flash.events.Event;
@@ -27,10 +29,6 @@ package com.imrahil.bbapps.morsegenerator.services
     {
         [Inject]
         public var encoder:IEncoder;
-
-        private static const SOUND_LENGTH:int = 2400;
-        private static const SILENCE_LENGTH:int = 4800;
-        private static const FLICKER_FACTOR:Number = 0.07;
 
         private static var characters:Array = [];
         private static var morseCharacters:Array = [];
@@ -201,9 +199,7 @@ package com.imrahil.bbapps.morsegenerator.services
         {
             logger.debug(": codeStringToTimes: " + value);
 
-            var output:Array = [
-                {type:" ", time:_speed * SILENCE_LENGTH * FLICKER_FACTOR}
-            ];
+            var output:Array = [new FlickerVO(ApplicationConstants.FLICKER_BLACK, _speed * ApplicationConstants.SILENCE_LENGTH * ApplicationConstants.FLICKER_FACTOR)];
             var stringLength:int = value.length;
 
             for (var i:int = 0; i < stringLength; i++)
@@ -212,18 +208,18 @@ package com.imrahil.bbapps.morsegenerator.services
                 switch (morseChar)
                 {
                     case "." :
-                        output.push({type:"*", time:_speed * SOUND_LENGTH * FLICKER_FACTOR});
-                        output.push({type:" ", time:_speed * SILENCE_LENGTH * FLICKER_FACTOR});
+                        output.push(new FlickerVO(ApplicationConstants.FLICKER_WHITE, _speed * ApplicationConstants.SOUND_LENGTH * ApplicationConstants.FLICKER_FACTOR));
+                        output.push(new FlickerVO(ApplicationConstants.FLICKER_BLACK, _speed * ApplicationConstants.SILENCE_LENGTH * ApplicationConstants.FLICKER_FACTOR));
                         break;
                     case "-" :
-                        output.push({type:"*", time:3 * _speed * SOUND_LENGTH * FLICKER_FACTOR});
-                        output.push({type:" ", time:_speed * SILENCE_LENGTH * FLICKER_FACTOR});
+                        output.push(new FlickerVO(ApplicationConstants.FLICKER_WHITE, 3 * _speed * ApplicationConstants.SOUND_LENGTH * ApplicationConstants.FLICKER_FACTOR));
+                        output.push(new FlickerVO(ApplicationConstants.FLICKER_BLACK, _speed * ApplicationConstants.SILENCE_LENGTH * ApplicationConstants.FLICKER_FACTOR));
                         break;
                     case " ":
-                        output.push({type:" ", time:2 * _speed * SILENCE_LENGTH * FLICKER_FACTOR});
+                        output.push(new FlickerVO(ApplicationConstants.FLICKER_BLACK, 2 * _speed * ApplicationConstants.SILENCE_LENGTH * ApplicationConstants.FLICKER_FACTOR));
                         break;
                     default :
-                        output.push({type:" ", time:2 * _speed * SILENCE_LENGTH * FLICKER_FACTOR});
+                        output.push(new FlickerVO(ApplicationConstants.FLICKER_BLACK, 2 * _speed * ApplicationConstants.SILENCE_LENGTH * ApplicationConstants.FLICKER_FACTOR));
                 }
             }
             return output;
@@ -286,10 +282,15 @@ package com.imrahil.bbapps.morsegenerator.services
             _soundCompleteSignal.dispatch();
         }
 
+        /**
+        * Generates sine wave audio data of a specified length. A short Morse code character (".")
+        * has lenth == 1, generating a sine wave of 2000 samples. A long Morse code character ("-")
+        * has lenth == 3, generating a sine wave of 6000 samples.
+        */
         private static function sineWaveGenerator(length:Number):ByteArray
         {
             var returnBytes:ByteArray = new ByteArray();
-            for (var i:int = 0; i < length * SOUND_LENGTH; i++)
+            for (var i:int = 0; i < length * ApplicationConstants.SOUND_LENGTH; i++)
             {
                 var value:Number = Math.sin(i / 6) * 0.4;
                 returnBytes.writeFloat(value);
@@ -298,10 +299,13 @@ package com.imrahil.bbapps.morsegenerator.services
             return returnBytes;
         }
 
+        /**
+        * Generates silent audio data of a specified length.
+        */
         private static function silenceGenerator(length:Number):ByteArray
         {
             var returnBytes:ByteArray = new ByteArray();
-            for (var i:int = 0; i < length * SILENCE_LENGTH; i++)
+            for (var i:int = 0; i < length * ApplicationConstants.SILENCE_LENGTH; i++)
             {
                 returnBytes.writeFloat(0);
             }

@@ -7,6 +7,8 @@
  */
 package com.imrahil.bbapps.morsegenerator.views.mediators
 {
+    import com.imrahil.bbapps.morsegenerator.constants.ApplicationConstants;
+    import com.imrahil.bbapps.morsegenerator.model.vo.FlickerVO;
     import com.imrahil.bbapps.morsegenerator.signals.signaltons.StartFlickerSignal;
     import com.imrahil.bbapps.morsegenerator.utils.LogUtil;
     import com.imrahil.bbapps.morsegenerator.views.MainView;
@@ -59,8 +61,9 @@ package com.imrahil.bbapps.morsegenerator.views.mediators
             flickerPos = 0;
 
             flickerArray = computedFlickerArray;
+            var flickerVO:FlickerVO = flickerArray[flickerPos] as FlickerVO;
 
-            flickerTimer = new Timer(flickerArray[flickerPos].time, flickerArray.length - 1);
+            flickerTimer = new Timer(flickerVO.time, flickerArray.length - 1);
             flickerTimer.addEventListener(TimerEvent.TIMER, onFlickerTimer);
             flickerTimer.addEventListener(TimerEvent.TIMER_COMPLETE, onFlickerTimerComplete);
             flickerTimer.start();
@@ -69,7 +72,7 @@ package com.imrahil.bbapps.morsegenerator.views.mediators
             flickerSprite.addEventListener(MouseEvent.CLICK, onFlickClick);
             view.addChild(flickerSprite);
 
-            flick(flickerArray[flickerPos].type == "*");
+            flick(flickerVO.type == ApplicationConstants.FLICKER_WHITE);
 
             flickerPos++;
         }
@@ -90,11 +93,14 @@ package com.imrahil.bbapps.morsegenerator.views.mediators
         {
             logger.debug(": onFlickerTimer");
 
-            flick(flickerArray[flickerPos].type == "*");
+            var flickerVO:FlickerVO = flickerArray[flickerPos] as FlickerVO;
+
+            flick(flickerVO.type == ApplicationConstants.FLICKER_WHITE);
 
             var timer:Timer = event.currentTarget as Timer;
             timer.stop();
-            timer.delay = flickerArray[flickerPos].time;
+            timer.delay = flickerVO.time;
+
             flickerPos++;
             timer.start();
         }
