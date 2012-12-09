@@ -14,12 +14,16 @@ package com.imrahil.bbapps.morsegenerator.constants
 
         public static const SPEED_ARRAY:Array = [4, 3, 2.5, 2, 1.5, 1.3, 1, 0.9, 0.8, 0.7];
 
-        public static const SOUND_LENGTH:int = 2400;
-        public static const SILENCE_LENGTH:int = 4800;
-        public static const FLICKER_FACTOR:Number = 0.07;
+        public static const SOUND_LENGTH:int        = 2400;
+        public static const SILENCE_LENGTH:int      = 4800;
 
-        public static const FLICKER_WHITE:String = "*";
-        public static const FLICKER_BLACK:String = " ";
+        public static const FLICKER_FACTOR:Number   = 0.07;
 
+        public static const FLICKER_WHITE:String    = "*";
+        public static const FLICKER_BLACK:String    = " ";
+
+        public static const DIT:String              = ".";
+        public static const DAH:String              = "-";
+        public static const SPACE:String            = " ";
     }
 }

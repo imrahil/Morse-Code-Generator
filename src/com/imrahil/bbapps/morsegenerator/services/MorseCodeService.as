@@ -21,8 +21,6 @@ package com.imrahil.bbapps.morsegenerator.services
     import mx.logging.ILogger;
 
     import org.bytearray.micrecorder.encoder.IEncoder;
-
-    import org.bytearray.micrecorder.encoder.WaveEncoder;
     import org.osflash.signals.Signal;
 
     public class MorseCodeService extends EventDispatcher implements IMorseCodeService
@@ -160,9 +158,10 @@ package com.imrahil.bbapps.morsegenerator.services
                 var stringChar:String = value.charAt(i);
                 if (characters[stringChar] != undefined)
                 {
-                    returnString += characters[stringChar] + " ";
+                    returnString += characters[stringChar];
                 }
-                else
+
+                if (i + 1 < stringLength)
                 {
                     returnString += " ";
                 }
@@ -207,18 +206,18 @@ package com.imrahil.bbapps.morsegenerator.services
                 var morseChar:String = value.charAt(i);
                 switch (morseChar)
                 {
-                    case "." :
+                    case ApplicationConstants.DIT:
                         output.push(new FlickerVO(ApplicationConstants.FLICKER_WHITE, _speed * ApplicationConstants.SOUND_LENGTH * ApplicationConstants.FLICKER_FACTOR));
                         output.push(new FlickerVO(ApplicationConstants.FLICKER_BLACK, _speed * ApplicationConstants.SILENCE_LENGTH * ApplicationConstants.FLICKER_FACTOR));
                         break;
-                    case "-" :
+                    case ApplicationConstants.DAH:
                         output.push(new FlickerVO(ApplicationConstants.FLICKER_WHITE, 3 * _speed * ApplicationConstants.SOUND_LENGTH * ApplicationConstants.FLICKER_FACTOR));
                         output.push(new FlickerVO(ApplicationConstants.FLICKER_BLACK, _speed * ApplicationConstants.SILENCE_LENGTH * ApplicationConstants.FLICKER_FACTOR));
                         break;
-                    case " ":
+                    case ApplicationConstants.SPACE:
                         output.push(new FlickerVO(ApplicationConstants.FLICKER_BLACK, 2 * _speed * ApplicationConstants.SILENCE_LENGTH * ApplicationConstants.FLICKER_FACTOR));
                         break;
-                    default :
+                    default:
                         output.push(new FlickerVO(ApplicationConstants.FLICKER_BLACK, 2 * _speed * ApplicationConstants.SILENCE_LENGTH * ApplicationConstants.FLICKER_FACTOR));
                 }
             }
@@ -251,18 +250,18 @@ package com.imrahil.bbapps.morsegenerator.services
                 var morseChar:String = value.charAt(i);
                 switch (morseChar)
                 {
-                    case "." :
+                    case ApplicationConstants.DIT:
                         returnBytes.writeBytes(sineWaveGenerator(_speed))
                         returnBytes.writeBytes(silenceGenerator(_speed));
                         break;
-                    case "-" :
+                    case ApplicationConstants.DAH:
                         returnBytes.writeBytes(sineWaveGenerator(3 * _speed));
                         returnBytes.writeBytes(silenceGenerator(_speed));
                         break;
-                    case " ":
+                    case ApplicationConstants.SPACE:
                         returnBytes.writeBytes(silenceGenerator(2 * _speed));
                         break;
-                    default :
+                    default:
                         returnBytes.writeBytes(silenceGenerator(2 * _speed));
                 }
             }
@@ -278,6 +277,8 @@ package com.imrahil.bbapps.morsegenerator.services
 
         private function soundCompleteHandler(event:Event):void
         {
+            soundBytes.position = 0;
+
             _isPlaying = false;
             _soundCompleteSignal.dispatch();
         }

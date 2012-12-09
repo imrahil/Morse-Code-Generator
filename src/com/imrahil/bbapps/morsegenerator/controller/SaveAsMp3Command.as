@@ -23,9 +23,7 @@ package com.imrahil.bbapps.morsegenerator.controller
 
     import org.robotlegs.mvcs.SignalCommand;
 
-    import qnx.dialog.AlertDialog;
-    import qnx.dialog.DialogSize;
-    import qnx.display.IowWindow;
+    import qnx.fuse.ui.dialog.AlertDialog;
 
     public class SaveAsMp3Command extends SignalCommand
     {
@@ -92,8 +90,7 @@ package com.imrahil.bbapps.morsegenerator.controller
                 infoAlert.title = "File saved!";
                 infoAlert.message = "MP3 file has been successfully saved to your Documents folder.";
                 infoAlert.addButton("OK");
-                infoAlert.dialogSize = DialogSize.SIZE_SMALL;
-                infoAlert.show(IowWindow.getAirWindow().group);
+                infoAlert.show();
             }
         }
 
@@ -105,8 +102,7 @@ package com.imrahil.bbapps.morsegenerator.controller
                 infoAlert.title = "Error!";
                 infoAlert.message = "Uppss... Something went wrong! If it happens again contact me immediately.";
                 infoAlert.addButton("OK");
-                infoAlert.dialogSize = DialogSize.SIZE_SMALL;
-                infoAlert.show(IowWindow.getAirWindow().group);
+                infoAlert.show();
             }
         }
     }

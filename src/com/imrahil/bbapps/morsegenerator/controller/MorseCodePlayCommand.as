@@ -32,12 +32,6 @@ package com.imrahil.bbapps.morsegenerator.controller
 
         override public function execute():void
         {
-//			if (MorseUtil.isMorse(model.inputText))
-//			{
-//                switchRightSideButtonsSignal.dispatch(false);
-//				return;
-//			}
-
             if (MorseUtil.isMorse(model.outputText))
             {
                 if (morseCodeService.isPlaying)
@@ -53,7 +47,7 @@ package com.imrahil.bbapps.morsegenerator.controller
                     switchMorseCodePlaySignal.dispatch(true);
 
                     morseCodeService.playString(model.outputText);
-                    morseCodeService.soundCompleteSignal.add(onSoundComplete);
+                    morseCodeService.soundCompleteSignal.addOnce(onSoundComplete);
                 }
             }
         }

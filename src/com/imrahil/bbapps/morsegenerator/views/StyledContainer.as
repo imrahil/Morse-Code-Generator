@@ -7,9 +7,8 @@
  */
 package com.imrahil.bbapps.morsegenerator.views
 {
-    import flash.text.TextFormat;
-
-    import qnx.ui.core.Container;
+    import qnx.fuse.ui.core.Container;
+    import qnx.fuse.ui.text.TextFormat;
 
     public class StyledContainer extends Container
     {

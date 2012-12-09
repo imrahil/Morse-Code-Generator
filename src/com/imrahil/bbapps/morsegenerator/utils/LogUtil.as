@@ -14,10 +14,6 @@ package com.imrahil.bbapps.morsegenerator.utils
 
     public class LogUtil
     {
-        public function LogUtil()
-        {
-        }
-
         /**
          * Get a logger for
          */
