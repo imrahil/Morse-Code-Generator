@@ -63,12 +63,12 @@ package com.imrahil.bbapps.morsegenerator
             injector.mapSingletonOf(IEncoder, WaveEncoder);
 
             // Add View + View Mediators
-            mediatorMap.mapView(HeaderView, HeaderViewMediator);
-            mediatorMap.mapView(FooterView, FooterViewMediator);
-
-            mediatorMap.mapView(LeftContainer, LeftContainerMediator);
-            mediatorMap.mapView(RightContainer, RightContainerMediator);
-
+//            mediatorMap.mapView(HeaderView, HeaderViewMediator);
+//            mediatorMap.mapView(FooterView, FooterViewMediator);
+//
+//            mediatorMap.mapView(LeftContainer, LeftContainerMediator);
+//            mediatorMap.mapView(RightContainer, RightContainerMediator);
+//
             mediatorMap.mapView(MainView, MainViewMediator);
 
 

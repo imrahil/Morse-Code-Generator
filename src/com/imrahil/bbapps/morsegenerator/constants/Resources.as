@@ -12,11 +12,24 @@ package com.imrahil.bbapps.morsegenerator.constants
         [Embed(source="/assets/images/appLogo.png")]
         public static const LOGO_IMG:Class;
 
-        [Embed(source="/assets/images/settingsIcon.png")]
-        public static const SETTINGS_ICON:Class;
+        [Embed(source="/assets/images/menuicons/icon_encode.png")]
+        public static const ICON_ENCODE:Class;
 
-        [Embed(source="/assets/images/aboutIcon.png")]
-        public static const ABOUT_ICON:Class;
+        [Embed(source="/assets/images/menuicons/icon_share.png")]
+        public static const ICON_SHARE:Class;
+
+        [Embed(source="/assets/images/menuicons/icon_settings.png")]
+        public static const ICON_SETTINGS:Class;
+
+        [Embed(source="/assets/images/menuicons/icon_help.png")]
+        public static const ICON_HELP:Class;
+
+        [Embed(source="/assets/images/menuicons/icon_about.png")]
+        public static const ICON_ABOUT:Class;
+
+        [Embed(source="/assets/images/background.png")]
+        public static const INFO_BG:Class;
+
 
         [Embed(source="/assets/images/clipboardIcon.png")]
         public static const CLIPBOARD_ICON:Class;

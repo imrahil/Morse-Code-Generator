@@ -2,6 +2,7 @@ Morse Code Generator
 Copyright (c) 2012 Jarek Szczepanski
 
 sound generation based on flex-morse project - http://code.google.com/p/flex-morse/
+Icons - Subway Icons Set - http://subway.pixle.pl/
 
 Versions:
 1.7   - clean up for BB10 SDK

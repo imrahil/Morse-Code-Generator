@@ -10,27 +10,23 @@ package com.imrahil.bbapps.morsegenerator.views
     import flash.events.Event;
     import flash.events.MouseEvent;
     import flash.text.TextFieldAutoSize;
-    import flash.text.TextFormat;
 
     import org.osflash.signals.Signal;
 
+    import qnx.fuse.ui.buttons.CheckBox;
+    import qnx.fuse.ui.buttons.LabelButton;
+    import qnx.fuse.ui.core.Container;
+    import qnx.fuse.ui.events.SliderEvent;
+    import qnx.fuse.ui.skins.SkinStates;
+    import qnx.fuse.ui.slider.Slider;
+    import qnx.fuse.ui.slider.VolumeSlider;
+    import qnx.fuse.ui.text.Label;
+    import qnx.fuse.ui.text.TextFormat;
+    import qnx.fuse.ui.text.TextInput;
     import qnx.system.AudioManager;
     import qnx.system.AudioOutput;
-    import qnx.ui.buttons.CheckBox;
-    import qnx.ui.buttons.LabelButton;
-    import qnx.ui.core.Container;
-    import qnx.ui.core.ContainerAlign;
-    import qnx.ui.core.ContainerFlow;
-    import qnx.ui.core.SizeUnit;
-    import qnx.ui.core.Spacer;
-    import qnx.ui.events.SliderEvent;
-    import qnx.ui.skins.SkinStates;
-    import qnx.ui.slider.Slider;
-    import qnx.ui.slider.VolumeSlider;
-    import qnx.ui.text.Label;
-    import qnx.ui.text.TextInput;
 
-    public class LeftContainer extends StyledContainer
+    public class LeftContainer
     {
         public var speedSlider:Slider;
         public var volumeSlider:VolumeSlider;
@@ -47,53 +43,38 @@ package com.imrahil.bbapps.morsegenerator.views
         public function LeftContainer(format:TextFormat)
         {
             super(format);
-
-            this.addEventListener(Event.ADDED_TO_STAGE, create)
         }
 
         private function create(event:Event):void
         {
-            this.removeEventListener(Event.ADDED_TO_STAGE, create);
-
-            this.margins = Vector.<Number>([10, 0, 10, 10]);
-            this.size = 50;
-            this.sizeUnit = SizeUnit.PERCENT;
-            this.align = ContainerAlign.NEAR;
-
             var titleLabel:Label = new Label();
             titleLabel.text = "Input:";
             titleLabel.width = 120;
-            titleLabel.autoSize = TextFieldAutoSize.CENTER;
-            titleLabel.format = textFormat;
 
             inputText = new TextInput();
             inputText.width = 415;
             inputText.maxChars = 100;
             inputText.restrict = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890.,:?\'-/()"@= ';
+
+            CONFIG::debugMode
+            {
+                inputText.text = "TEST";
+            }
+
             inputText.addEventListener(Event.CHANGE, onInputTextChange);
 
             var previewContainer:Container = new Container();
-            previewContainer.size = 30;
-            previewContainer.sizeUnit = SizeUnit.PIXELS;
-            previewContainer.flow = ContainerFlow.HORIZONTAL;
-
-            var spacer:Spacer;
-            spacer = new Spacer(50);
-            previewContainer.addChild(spacer);
 
             var livePreviewChb:CheckBox = new CheckBox();
             livePreviewChb.width = 140;
             livePreviewChb.label = "Live preview";
-            livePreviewChb.setTextFormatForState(textFormat, SkinStates.SELECTED);
-            livePreviewChb.setTextFormatForState(textFormat, SkinStates.UP);
-            livePreviewChb.setTextFormatForState(textFormat, SkinStates.DOWN);
-            livePreviewChb.setTextFormatForState(textFormat, SkinStates.DOWN_SELECTED);
+//            livePreviewChb.setTextFormatForState(textFormat, SkinStates.SELECTED);
+//            livePreviewChb.setTextFormatForState(textFormat, SkinStates.UP);
+//            livePreviewChb.setTextFormatForState(textFormat, SkinStates.DOWN);
+//            livePreviewChb.setTextFormatForState(textFormat, SkinStates.DOWN_SELECTED);
             livePreviewChb.selected = true;
             livePreviewChb.addEventListener(MouseEvent.CLICK, onPreviewChange);
             previewContainer.addChild(livePreviewChb);
-
-            spacer = new Spacer(20);
-            previewContainer.addChild(spacer);
 
             translateBtn = new LabelButton();
             translateBtn.label = "Translate";
@@ -102,14 +83,9 @@ package com.imrahil.bbapps.morsegenerator.views
             translateBtn.addEventListener(MouseEvent.CLICK, onTranslateBtnClick);
             previewContainer.addChild(translateBtn);
 
-            spacer = new Spacer(50);
-            previewContainer.addChild(spacer);
-
             var volumeLabel:Label = new Label();
             volumeLabel.text = "Volume:";
             volumeLabel.width = 120;
-            volumeLabel.autoSize = TextFieldAutoSize.CENTER;
-            volumeLabel.format = textFormat;
 
             volumeSlider = new VolumeSlider();
             volumeSlider.width = 415;
@@ -131,8 +107,6 @@ package com.imrahil.bbapps.morsegenerator.views
             var speedLabel:Label = new Label();
             speedLabel.text = "Play speed:";
             speedLabel.width = 120;
-            speedLabel.autoSize = TextFieldAutoSize.CENTER;
-            speedLabel.format = textFormat;
 
             speedSlider = new Slider();
             speedSlider.width = 415;
@@ -140,17 +114,6 @@ package com.imrahil.bbapps.morsegenerator.views
             speedSlider.maximum = 9;
             speedSlider.value = 6;
             speedSlider.addEventListener(SliderEvent.MOVE, onSpeedSliderMove);
-
-            this.addChild(titleLabel);
-            this.addChild(inputText);
-            this.addChild(new Spacer(20, SizeUnit.PIXELS));
-            this.addChild(previewContainer);
-            this.addChild(new Spacer(15, SizeUnit.PIXELS));
-            this.addChild(volumeLabel);
-            this.addChild(volumeSlider);
-            this.addChild(new Spacer(35, SizeUnit.PIXELS));
-            this.addChild(speedLabel);
-            this.addChild(speedSlider);
         }
 
         private function onInputTextChange(event:Event):void

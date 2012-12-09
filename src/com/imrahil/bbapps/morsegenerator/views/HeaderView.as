@@ -13,19 +13,13 @@ package com.imrahil.bbapps.morsegenerator.views
     import flash.display.Bitmap;
     import flash.events.Event;
     import flash.events.MouseEvent;
-    import flash.text.TextFormat;
 
-    import qnx.dialog.AlertDialog;
-    import qnx.dialog.DialogSize;
-    import qnx.display.IowWindow;
-    import qnx.ui.buttons.IconButton;
-    import qnx.ui.core.ContainerFlow;
-    import qnx.ui.core.Containment;
-    import qnx.ui.core.SizeUnit;
-    import qnx.ui.core.Spacer;
-    import qnx.ui.display.Image;
+    import qnx.fuse.ui.buttons.IconButton;
+    import qnx.fuse.ui.dialog.AlertDialog;
+    import qnx.fuse.ui.display.Image;
+    import qnx.fuse.ui.text.TextFormat;
 
-    public class HeaderView extends StyledContainer
+    public class HeaderView
     {
         private var aboutDialog:AlertDialog;
         private var versionNumber:String;
@@ -33,42 +27,30 @@ package com.imrahil.bbapps.morsegenerator.views
         public function HeaderView(format:TextFormat)
         {
             super(format);
-
-            this.addEventListener(Event.ADDED_TO_STAGE, create)
         }
 
         private function create(event:Event):void
         {
-            this.removeEventListener(Event.ADDED_TO_STAGE, create);
-
             var app_xml:XML = NativeApplication.nativeApplication.applicationDescriptor;
             var ns:Namespace = app_xml.namespace();
             versionNumber = app_xml.ns::versionNumber;
 
-            this.margins = Vector.<Number>([15, 0, 10, 10]);
-            this.size = 70;
-            this.sizeUnit = SizeUnit.PIXELS;
-            this.containment = Containment.DOCK_TOP;
-            this.flow = ContainerFlow.HORIZONTAL;
+//            this.margins = Vector.<Number>([15, 0, 10, 10]);
+//            this.size = 70;
+//            this.sizeUnit = SizeUnit.PIXELS;
+//            this.containment = Containment.DOCK_TOP;
+//            this.flow = ContainerFlow.HORIZONTAL;
 
             var appLogo:Bitmap = new Resources.LOGO_IMG();
             var appLogoImage:Image = new Image();
             appLogoImage.setImage(appLogo);
 
-            var aboutIcon:Bitmap = new Resources.ABOUT_ICON();
+//            var aboutIcon:Bitmap = new Resources.ABOUT_ICON();
             var aboutBtn:IconButton = new IconButton();
             aboutBtn.width = 50;
-            aboutBtn.setIcon(aboutIcon);
+//            aboutBtn.setIcon(aboutIcon);
             aboutBtn.addEventListener(MouseEvent.CLICK, onAboutClick);
 
-            this.addChild(appLogoImage);
-            this.addChild(new Spacer(315, SizeUnit.PIXELS));
-            this.addChild(aboutBtn);
-
-            // HEADER LINE
-            this.graphics.beginFill(0x1C3041);
-            this.graphics.drawRect(0, 60, 1024, 5);
-            this.graphics.endFill();
         }
 
         private function onAboutClick(event:MouseEvent):void
@@ -77,13 +59,12 @@ package com.imrahil.bbapps.morsegenerator.views
             {
                 aboutDialog = new AlertDialog();
                 aboutDialog.title = "Morse Code Generator - v." + versionNumber;
-                aboutDialog.messageHtml = "<p align='center'><b>Author:</b> Jarek Szczepański<br />" +
-                        "<b>Email:</b> support_bb@imrahil.com<br />" +
-                        "<b>Website:</b> http://flex.imrahil.com</p>";
+                aboutDialog.message = "Author: Jarek Szczepański\n" +
+                                      "Email: support_bb@imrahil.com\n" +
+                                      "Website:\nhttp://imrahil.github.com/";
                 aboutDialog.addButton("OK");
-                aboutDialog.dialogSize = DialogSize.SIZE_SMALL;
                 aboutDialog.addEventListener(Event.SELECT, aboutButtonClicked);
-                aboutDialog.show(IowWindow.getAirWindow().group);
+                aboutDialog.show();
             }
         }
 
