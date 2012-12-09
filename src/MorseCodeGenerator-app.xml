@@ -3,7 +3,7 @@
     <id>com.imrahil.bbapps.MorseCodeGenerator</id>
     <filename>MorseCodeGenerator</filename>
     <name>Morse Code Generator</name>
-    <versionNumber>1.6.3</versionNumber>
+    <versionNumber>1.7</versionNumber>
     <copyright>Copyright © 2012 Jarek Szczepanski</copyright>
 
     <initialWindow>
@@ -12,4 +12,8 @@
         <fullScreen>false</fullScreen>
         <visible>true</visible>
     </initialWindow>
+
+    <extensions>
+        <extensionID>qnx.fuse.ui.skins.QNXSkins</extensionID>
+    </extensions>
 </application>
