@@ -8,6 +8,7 @@
 package com.imrahil.bbapps.morsegenerator.views
 {
     import com.imrahil.bbapps.morsegenerator.constants.Resources;
+    import com.imrahil.bbapps.morsegenerator.utils.TextFormatUtil;
 
     import flash.display.Graphics;
     import flash.display.Sprite;
@@ -22,8 +23,8 @@ package com.imrahil.bbapps.morsegenerator.views
     import qnx.fuse.ui.layouts.Align;
     import qnx.fuse.ui.layouts.gridLayout.GridData;
     import qnx.fuse.ui.layouts.gridLayout.GridLayout;
+    import qnx.fuse.ui.listClasses.ScrollDirection;
     import qnx.fuse.ui.text.Label;
-    import qnx.fuse.ui.text.TextFormat;
 
     public class HelpView extends TitlePage
     {
@@ -45,6 +46,8 @@ package com.imrahil.bbapps.morsegenerator.views
             super.onAdded();
 
             var container:Container = new Container();
+            container.scrollDirection = ScrollDirection.VERTICAL;
+
             var layout:GridLayout = new GridLayout();
             layout.paddingLeft = 30;
             layout.paddingRight = 30;
@@ -62,13 +65,7 @@ package com.imrahil.bbapps.morsegenerator.views
 
             var infoLabel:Label = new Label();
             infoLabel.text = "International Morse Code:";
-
-            var format:TextFormat = infoLabel.format;
-            format.size = 54;
-            format.color = 0xFAFAFA;
-            format.italic = true;
-            format.font = "Slate Pro Light";
-            infoLabel.format = format;
+            infoLabel.format = TextFormatUtil.setFormat(infoLabel.format);
 
             container.addChild(infoLabel);
 
@@ -85,16 +82,9 @@ package com.imrahil.bbapps.morsegenerator.views
 
             container.addChild(morseTableImage);
 
-
             infoLabel = new Label();
             infoLabel.text = "Training Mode:";
-
-            format = infoLabel.format;
-            format.size = 54;
-            format.color = 0xFAFAFA;
-            format.italic = true;
-            format.font = "Slate Pro Light";
-            infoLabel.format = format;
+            infoLabel.format = TextFormatUtil.setFormat(infoLabel.format);
 
             container.addChild(infoLabel);
 

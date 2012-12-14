@@ -13,7 +13,6 @@ package com.imrahil.bbapps.morsegenerator.controller
 
     import flash.events.Event;
     import flash.events.IOErrorEvent;
-
     import flash.net.FileReference;
     import flash.utils.ByteArray;
 

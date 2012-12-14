@@ -38,14 +38,17 @@ package com.imrahil.bbapps.morsegenerator
             signalCommandMap.mapSignalClass(MorseCodePlaySignal, MorseCodePlayCommand);
             signalCommandMap.mapSignalClass(CopyClipboardSignal, CopyClipboardCommand);
 
+            signalCommandMap.mapSignalClass(RequestPlaySpeedValueSignal, ProvidePlaySpeedCommand);
+            signalCommandMap.mapSignalClass(RequestInputOutputValueSignal, ProvideInputOutputValueCommand);
+
             signalCommandMap.mapSignalClass(SaveAsWavSignal, SaveAsWavCommand);
             signalCommandMap.mapSignalClass(SaveAsMp3Signal, SaveAsMp3Command);
 
             injector.mapSingleton(StartFlickerSignal);
             injector.mapSingleton(UpdateOutputSignal);
 
-            injector.mapSingleton(SwitchRightSideButtonsSignal);
-            injector.mapSingleton(SwitchFooterButtonsSignal);
+            injector.mapSingleton(ProvidePlaySpeedValueSignal);
+            injector.mapSingleton(ProvideInputOutputValueSignal);
 
             injector.mapSingleton(SwitchMorseCodePlaySignal);
 
@@ -63,12 +66,10 @@ package com.imrahil.bbapps.morsegenerator
 
             // Add View + View Mediators
             mediatorMap.mapView(MainView, MainViewMediator);
+            mediatorMap.mapView(EncodeView, EncodeViewMediator);
+            mediatorMap.mapView(ShareView, ShareViewMediator);
+            mediatorMap.mapView(SettingsView, SettingsViewMediator);
             mediatorMap.mapView(HelpView, HelpViewMediator);
-//
-//            mediatorMap.mapView(LeftContainer, LeftContainerMediator);
-//            mediatorMap.mapView(RightContainer, RightContainerMediator);
-//
-
 
             addRootView();
 

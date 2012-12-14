@@ -111,6 +111,13 @@ package com.imrahil.bbapps.morsegenerator.services
             _speed = newSpeed;
         }
 
+        public function get speed():Number
+        {
+            logger.debug(": get speed: " + _speed);
+
+            return _speed;
+        }
+
         public function get isPlaying():Boolean
         {
             return _isPlaying;

@@ -9,11 +9,11 @@ package com.imrahil.bbapps.morsegenerator.signals.signaltons
 {
     import org.osflash.signals.Signal;
 
-    public class SwitchFooterButtonsSignal extends Signal
+    public class ProvideInputOutputValueSignal extends Signal
     {
-        public function SwitchFooterButtonsSignal()
+        public function ProvideInputOutputValueSignal()
         {
-            super(Boolean);
+            super(String);
         }
     }
 }

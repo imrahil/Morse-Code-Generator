@@ -126,7 +126,7 @@ package com.imrahil.bbapps.morsegenerator.views.mediators
                 flickerSprite.graphics.beginFill(0x000000);
             }
 
-            flickerSprite.graphics.drawRect(0, 0, 1024, 600);
+            flickerSprite.graphics.drawRect(0, 0, view.stage.stageWidth, view.stage.stageHeight);
         }
     }
 }

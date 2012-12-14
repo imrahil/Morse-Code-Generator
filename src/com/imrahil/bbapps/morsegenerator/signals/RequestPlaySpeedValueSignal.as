@@ -5,15 +5,15 @@
  @project  Morse Code Generator
  @internal
  */
-package com.imrahil.bbapps.morsegenerator.signals.signaltons
+package com.imrahil.bbapps.morsegenerator.signals
 {
     import org.osflash.signals.Signal;
 
-    public class SwitchRightSideButtonsSignal extends Signal
+    public class RequestPlaySpeedValueSignal extends Signal
     {
-        public function SwitchRightSideButtonsSignal()
+        public function RequestPlaySpeedValueSignal()
         {
-            super(Boolean);
+            super();
         }
     }
 }

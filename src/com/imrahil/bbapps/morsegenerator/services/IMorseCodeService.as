@@ -14,6 +14,7 @@ package com.imrahil.bbapps.morsegenerator.services
     public interface IMorseCodeService
     {
         function set speed(speed:Number):void;
+        function get speed():Number;
 
         function get isPlaying():Boolean;
 

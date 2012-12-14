@@ -9,7 +9,6 @@ package com.imrahil.bbapps.morsegenerator.controller
 {
     import com.imrahil.bbapps.morsegenerator.model.IMorseCodeModel;
     import com.imrahil.bbapps.morsegenerator.services.IMorseCodeService;
-    import com.imrahil.bbapps.morsegenerator.signals.signaltons.SwitchFooterButtonsSignal;
     import com.imrahil.bbapps.morsegenerator.signals.signaltons.SwitchMorseCodePlaySignal;
     import com.imrahil.bbapps.morsegenerator.utils.MorseUtil;
 
@@ -25,9 +24,6 @@ package com.imrahil.bbapps.morsegenerator.controller
         public var morseCodeService:IMorseCodeService;
 
         [Inject]
-        public var switchFooterButtonsSignal:SwitchFooterButtonsSignal;
-
-        [Inject]
         public var switchMorseCodePlaySignal:SwitchMorseCodePlaySignal;
 
         override public function execute():void
@@ -36,14 +32,12 @@ package com.imrahil.bbapps.morsegenerator.controller
             {
                 if (morseCodeService.isPlaying)
                 {
-                    switchFooterButtonsSignal.dispatch(true);
                     switchMorseCodePlaySignal.dispatch(false);
 
                     morseCodeService.stop();
                 }
                 else
                 {
-                    switchFooterButtonsSignal.dispatch(false);
                     switchMorseCodePlaySignal.dispatch(true);
 
                     morseCodeService.playString(model.outputText);
@@ -55,7 +49,6 @@ package com.imrahil.bbapps.morsegenerator.controller
         private function onSoundComplete():void
         {
             switchMorseCodePlaySignal.dispatch(false);
-            switchFooterButtonsSignal.dispatch(true);
         }
     }
 }

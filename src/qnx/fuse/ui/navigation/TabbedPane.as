@@ -107,7 +107,8 @@ package qnx.fuse.ui.navigation
 
             if (__activeTabChanged)
             {
-                for (var i:int = 0; i < actionBar.totalItems; i++)
+                var actionBarItems:uint = actionBar.totalItems;
+                for (var i:int = 0; i < actionBarItems; i++)
                 {
                     var action:TabAction = actionBar.getActionAt(i) as TabAction;
                     if (action)
@@ -119,6 +120,7 @@ package qnx.fuse.ui.navigation
                         }
                     }
                 }
+
                 addTabbedPane();
                 __activeTabChanged = false;
             }

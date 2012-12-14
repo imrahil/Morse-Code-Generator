@@ -7,13 +7,14 @@
  */
 package com.imrahil.bbapps.morsegenerator.views
 {
+    import com.imrahil.bbapps.morsegenerator.utils.TextFormatUtil;
+
     import flash.desktop.NativeApplication;
     import flash.display.Graphics;
     import flash.display.Sprite;
     import flash.events.MouseEvent;
     import flash.net.URLRequest;
     import flash.net.navigateToURL;
-    import flash.net.sendToURL;
 
     import qnx.fuse.ui.buttons.LabelButton;
     import qnx.fuse.ui.core.Container;
@@ -22,7 +23,6 @@ package com.imrahil.bbapps.morsegenerator.views
     import qnx.fuse.ui.layouts.gridLayout.GridData;
     import qnx.fuse.ui.layouts.gridLayout.GridLayout;
     import qnx.fuse.ui.text.Label;
-    import qnx.fuse.ui.text.TextFormat;
 
     public class AboutView extends TitlePage
     {
@@ -62,13 +62,7 @@ package com.imrahil.bbapps.morsegenerator.views
                     "Email: support_bb@imrahil.com\n\n" +
                     "Website:\nhttp://imrahil.github.com/";
 
-            var format:TextFormat = infoLabel.format;
-            format.size = 54;
-            format.color = 0xFAFAFA;
-            format.italic = true;
-            format.font = "Slate Pro Light";
-
-            infoLabel.format = format;
+            infoLabel.format = TextFormatUtil.setFormat(infoLabel.format);
 
             var labelData:GridData = new GridData();
             labelData.setOptions(SizeOptions.RESIZE_BOTH);

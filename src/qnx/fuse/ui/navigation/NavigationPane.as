@@ -52,10 +52,6 @@ package qnx.fuse.ui.navigation
             }
         }
 
-        public function NavigationPane()
-        {
-        }
-
         override protected function init():void
         {
             super.init();
@@ -151,11 +147,10 @@ package qnx.fuse.ui.navigation
         {
             if (top && top.actions)
             {
-                return( top.actions );
+                return(top.actions);
             }
 
-            return( super.getActionsToDisplayOnBar() );
+            return super.getActionsToDisplayOnBar();
         }
-
     }
 }
