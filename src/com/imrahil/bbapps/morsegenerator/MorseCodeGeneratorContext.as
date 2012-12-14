@@ -19,7 +19,6 @@ package com.imrahil.bbapps.morsegenerator
 
     import org.bytearray.micrecorder.encoder.IEncoder;
     import org.bytearray.micrecorder.encoder.WaveEncoder;
-
     import org.robotlegs.mvcs.SignalContext;
 
     public class MorseCodeGeneratorContext extends SignalContext
@@ -63,13 +62,12 @@ package com.imrahil.bbapps.morsegenerator
             injector.mapSingletonOf(IEncoder, WaveEncoder);
 
             // Add View + View Mediators
-//            mediatorMap.mapView(HeaderView, HeaderViewMediator);
-//            mediatorMap.mapView(FooterView, FooterViewMediator);
+            mediatorMap.mapView(MainView, MainViewMediator);
+            mediatorMap.mapView(HelpView, HelpViewMediator);
 //
 //            mediatorMap.mapView(LeftContainer, LeftContainerMediator);
 //            mediatorMap.mapView(RightContainer, RightContainerMediator);
 //
-            mediatorMap.mapView(MainView, MainViewMediator);
 
 
             addRootView();

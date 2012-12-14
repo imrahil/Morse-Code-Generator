@@ -10,16 +10,16 @@ package com.imrahil.bbapps.morsegenerator.views.mediators
     import com.imrahil.bbapps.morsegenerator.services.IMorseCodeService;
     import com.imrahil.bbapps.morsegenerator.signals.signaltons.SwitchFooterButtonsSignal;
     import com.imrahil.bbapps.morsegenerator.utils.LogUtil;
-    import com.imrahil.bbapps.morsegenerator.views.FooterView;
+    import com.imrahil.bbapps.morsegenerator.views.HelpView;
 
     import mx.logging.ILogger;
 
     import org.robotlegs.mvcs.SignalMediator;
 
-    public class FooterViewMediator extends SignalMediator
+    public class HelpViewMediator extends SignalMediator
     {
         [Inject]
-        public var view:FooterView;
+        public var view:HelpView;
 
         [Inject]
         public var morseCodeService:IMorseCodeService;
@@ -31,7 +31,7 @@ package com.imrahil.bbapps.morsegenerator.views.mediators
         /** variables **/
         private var logger:ILogger;
 
-        public function FooterViewMediator()
+        public function HelpViewMediator()
         {
             super();
 

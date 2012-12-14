@@ -7,13 +7,18 @@
  */
 package com.imrahil.bbapps.morsegenerator.views
 {
-    import com.imrahil.bbapps.morsegenerator.constants.Resources;
-
     import flash.desktop.NativeApplication;
-    import flash.display.Bitmap;
+    import flash.display.Graphics;
+    import flash.display.Sprite;
+    import flash.events.MouseEvent;
+    import flash.net.URLRequest;
+    import flash.net.navigateToURL;
+    import flash.net.sendToURL;
 
+    import qnx.fuse.ui.buttons.LabelButton;
     import qnx.fuse.ui.core.Container;
     import qnx.fuse.ui.core.SizeOptions;
+    import qnx.fuse.ui.layouts.Align;
     import qnx.fuse.ui.layouts.gridLayout.GridData;
     import qnx.fuse.ui.layouts.gridLayout.GridLayout;
     import qnx.fuse.ui.text.Label;
@@ -37,20 +42,24 @@ package com.imrahil.bbapps.morsegenerator.views
 
             var container:Container = new Container();
             var layout:GridLayout = new GridLayout();
-            layout.numColumns = 1;
             layout.paddingLeft = 50;
             layout.paddingRight = 50;
             layout.paddingTop = 50;
             layout.paddingBottom = 30;
             container.layout = layout;
 
-            var bg:Bitmap = new Resources.INFO_BG();
-            container.background = bg;
+            var s:Sprite = new Sprite();
+            var g:Graphics = s.graphics;
+            g.beginFill(0x0c151c);
+            g.drawRect(0, 0, 10, 10);
+            g.endFill();
+
+            container.background = s;
 
             var infoLabel:Label = new Label();
             infoLabel.maxLines = 0;
             infoLabel.text = "Author: Jarek Szczepański\n" +
-                    "Email: support_bb@imrahil.com\n" +
+                    "Email: support_bb@imrahil.com\n\n" +
                     "Website:\nhttp://imrahil.github.com/";
 
             var format:TextFormat = infoLabel.format;
@@ -67,7 +76,24 @@ package com.imrahil.bbapps.morsegenerator.views
 
             container.addChild(infoLabel);
 
+            var visitBtn:LabelButton = new LabelButton();
+            visitBtn.label = "Visit website";
+            visitBtn.addEventListener(MouseEvent.CLICK, onVisitBtnClick);
+
+            var visitBtnData:GridData = new GridData();
+            visitBtnData.setOptions(SizeOptions.GROW_VERTICAL);
+            visitBtnData.hAlign = Align.CENTER;
+            visitBtnData.vAlign = Align.BEGIN;
+            visitBtn.layoutData = visitBtnData;
+
+            container.addChild(visitBtn);
+
             content = container;
+        }
+
+        private static function onVisitBtnClick(event:MouseEvent):void
+        {
+            navigateToURL(new URLRequest("http://imrahil.github.com"));
         }
     }
 }

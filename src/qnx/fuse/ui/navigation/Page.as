@@ -49,7 +49,7 @@ package qnx.fuse.ui.navigation
 
         public function get content():UIComponent
         {
-            return( __content );
+            return(__content);
         }
 
         public function set content(value:UIComponent):void
