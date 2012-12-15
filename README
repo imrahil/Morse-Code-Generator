@@ -5,6 +5,7 @@ sound generation based on flex-morse project - http://code.google.com/p/flex-mor
 Icons - Subway Icons Set - http://subway.pixle.pl/
 
 Versions:
+2.0   - fully rewriten for BB10
 1.7   - clean up for BB10 SDK
 1.6.3 - fixed broken training mode
 1.6.2 - added sound encoding to WAV and MP3 files
