@@ -15,5 +15,6 @@
 
     <extensions>
         <extensionID>qnx.fuse.ui.skins.QNXSkins</extensionID>
+        <extensionID>qnx.system.QNXDevice</extensionID>
     </extensions>
 </application>

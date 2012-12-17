@@ -23,11 +23,17 @@ package com.imrahil.bbapps.morsegenerator.views.mediators
     import flash.events.TimerEvent;
     import flash.net.URLRequest;
     import flash.net.navigateToURL;
+    import flash.utils.ByteArray;
     import flash.utils.Timer;
 
     import mx.logging.ILogger;
 
     import org.robotlegs.mvcs.SignalMediator;
+
+    import qnx.invoke.InvokeAction;
+    import qnx.invoke.InvokeManager;
+
+    import qnx.invoke.InvokeRequest;
 
     public class ShareViewMediator extends SignalMediator
     {
@@ -77,6 +83,7 @@ package com.imrahil.bbapps.morsegenerator.views.mediators
             addToSignal(mp3EncoderStatusSignal, onEncoderStatus);
 
             addToSignal(view.clipboardBtnClickSignal, onClipboardBtnClicked);
+            addToSignal(view.bbmBtnClickSignal, onBBMBtnClicked);
             addToSignal(view.facebookBtnClickSignal, onFacebookBtnClicked);
             addToSignal(view.twitterBtnClickSignal, onTwitterBtnClicked);
 
@@ -136,6 +143,22 @@ package com.imrahil.bbapps.morsegenerator.views.mediators
             logger.debug(": onClipboardBtnClicked");
 
             copyClipboardSignal.dispatch();
+        }
+
+        private function onBBMBtnClicked():void
+        {
+            logger.debug(": onBBMBtnClicked");
+
+            var byteData:ByteArray = new ByteArray();
+            byteData.writeUTFBytes(currentOutputValue);
+
+            var request:InvokeRequest = new InvokeRequest();
+            request.mimeType = "text/plain";
+            request.target = "sys.bbm.sharehandler";
+            request.action = InvokeAction.SHARE;
+            request.data = byteData;
+
+            InvokeManager.invokeManager.invoke(request);
         }
 
         private function onFacebookBtnClicked():void

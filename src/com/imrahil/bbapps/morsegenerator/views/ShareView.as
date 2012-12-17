@@ -31,6 +31,7 @@ package com.imrahil.bbapps.morsegenerator.views
     public class ShareView extends TitlePage
     {
         public var clipboardBtnClickSignal:Signal = new Signal();
+        public var bbmBtnClickSignal:Signal = new Signal();
         public var facebookBtnClickSignal:Signal = new Signal();
         public var twitterBtnClickSignal:Signal = new Signal();
 
@@ -38,9 +39,6 @@ package com.imrahil.bbapps.morsegenerator.views
         public var saveMp3BtnClickSignal:Signal = new Signal();
 
         public var viewAddedSignal:Signal = new Signal();
-
-        public var saveWavBtn:LabelButton;
-        public var saveMp3Btn:LabelButton;
 
         public var copyLabelClipboard:Label;
         public var encoderLabel:Label;
@@ -123,13 +121,28 @@ package com.imrahil.bbapps.morsegenerator.views
 
             // FACEBOOK/TWITTER LABEL
             infoLabel = new Label();
-            infoLabel.text = "Share to Facebook or Twitter";
+            infoLabel.text = "Share to: BBM, Facebook or Twitter";
             infoLabel.format = TextFormatUtil.setFormat(infoLabel.format);
             container.addChild(infoLabel);
 
             // FACEBOOK/TWITTER BUTTONS
             twoColumnContainer = new Container();
-            twoColumnContainer.layout = prepareColumnLayout();
+            twoColumnContainer.layout = prepareColumnLayout(3);
+
+            iconBtn = new IconButton();
+            if (enabled)
+            {
+                iconBtn.setIcon(new Resources.BBM_ICON());
+            }
+            else
+            {
+                iconBtn.setIcon(new Resources.BBM_ICON_DISABLED());
+                iconBtn.enabled = false;
+            }
+
+            iconBtn.addEventListener(MouseEvent.CLICK, onBBMBtnClick);
+            iconBtn.layoutData = prepareButtonGridData();
+            twoColumnContainer.addChild(iconBtn);
 
             iconBtn = new IconButton();
             if (enabled)
@@ -248,6 +261,11 @@ package com.imrahil.bbapps.morsegenerator.views
         private function onClipboardBtnClick(event:MouseEvent):void
         {
             clipboardBtnClickSignal.dispatch();
+        }
+
+        private function onBBMBtnClick(event:MouseEvent):void
+        {
+            bbmBtnClickSignal.dispatch();
         }
 
         private function onFacebookBtnClick(event:MouseEvent):void

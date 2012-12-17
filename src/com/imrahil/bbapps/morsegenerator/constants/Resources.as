@@ -31,6 +31,12 @@ package com.imrahil.bbapps.morsegenerator.constants
         [Embed(source="/assets/images/clipboardIconDisabled.png")]
         public static const CLIPBOARD_ICON_DISABLED:Class;
 
+        [Embed(source="/assets/images/bbmIcon.png")]
+        public static const BBM_ICON:Class;
+
+        [Embed(source="/assets/images/bbmIconDisabled.png")]
+        public static const BBM_ICON_DISABLED:Class;
+
         [Embed(source="/assets/images/facebookIcon.png")]
         public static const FACEBOOK_ICON:Class;
 
