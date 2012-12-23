@@ -209,10 +209,10 @@ package qnx.fuse.ui.navigation
         {
             if (actions)
             {
-                return( actions );
+                return(actions);
             }
 
-            return( super.getActionsToDisplayOnBar() );
+            return (super.getActionsToDisplayOnBar());
         }
 
 

@@ -40,21 +40,26 @@ package com.imrahil.bbapps.morsegenerator
 
             signalCommandMap.mapSignalClass(RequestPlaySpeedValueSignal, ProvidePlaySpeedCommand);
             signalCommandMap.mapSignalClass(RequestInputOutputValueSignal, ProvideInputOutputValueCommand);
+            injector.mapSingleton(UpdateOutputSignal);
 
             signalCommandMap.mapSignalClass(SaveAsWavSignal, SaveAsWavCommand);
             signalCommandMap.mapSignalClass(SaveAsMp3Signal, SaveAsMp3Command);
 
             injector.mapSingleton(StartFlickerSignal);
-            injector.mapSingleton(UpdateOutputSignal);
 
             injector.mapSingleton(ProvidePlaySpeedValueSignal);
             injector.mapSingleton(ProvideInputOutputValueSignal);
 
             injector.mapSingleton(SwitchMorseCodePlaySignal);
-
             injector.mapSingleton(CodeCopiedIntoClipboardSignal);
-
             injector.mapSingleton(Mp3EncoderStatusSignal);
+
+            // purchases
+            signalCommandMap.mapSignalClass(CheckExistingPurchaseSignal, CheckExistingPurchaseCommand);
+            signalCommandMap.mapSignalClass(SaveExistingPurchaseStatusSignal, SaveExistingPurchaseStatusCommand);
+
+            signalCommandMap.mapSignalClass(RequestPurchaseStatusSignal, ProvidePurchaseStatusCommand);
+            injector.mapSingleton(ProvidePurchaseStatusSignal);
 
 
             // Add Model
@@ -63,6 +68,7 @@ package com.imrahil.bbapps.morsegenerator
             // Add Services
             injector.mapSingletonOf(IMorseCodeService, MorseCodeService);
             injector.mapSingletonOf(IEncoder, WaveEncoder);
+            injector.mapSingletonOf(IPurchaseService, PurchaseService);
 
             // Add View + View Mediators
             mediatorMap.mapView(MainView, MainViewMediator);

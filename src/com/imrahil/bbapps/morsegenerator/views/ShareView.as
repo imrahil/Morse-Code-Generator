@@ -26,6 +26,7 @@ package com.imrahil.bbapps.morsegenerator.views
     import qnx.fuse.ui.layouts.gridLayout.GridData;
     import qnx.fuse.ui.layouts.gridLayout.GridLayout;
     import qnx.fuse.ui.listClasses.ScrollDirection;
+    import qnx.fuse.ui.progress.ActivityIndicator;
     import qnx.fuse.ui.text.Label;
 
     public class ShareView extends TitlePage
@@ -48,19 +49,52 @@ package com.imrahil.bbapps.morsegenerator.views
         public function ShareView()
         {
             super();
-
-            title = "Share message"
         }
 
         override protected function onAdded():void
         {
             super.onAdded();
 
+            addSpinner();
+
             viewAddedSignal.dispatch();
+        }
+
+        public function addSpinner():void
+        {
+            var activityContainer:Container = new Container();
+
+            var s:Sprite = new Sprite();
+            var g:Graphics = s.graphics;
+            g.beginFill(0x0c151c);
+            g.drawRect(0, 0, 10, 10);
+            g.endFill();
+            activityContainer.background = s;
+
+            var layout:GridLayout = new GridLayout();
+            layout.hAlign = Align.CENTER;
+            layout.vAlign = Align.CENTER;
+            activityContainer.layout = layout;
+            var containerData:GridData = new GridData();
+            containerData.hAlign = Align.CENTER;
+            activityContainer.layoutData = containerData;
+
+            var activityIndicator:ActivityIndicator = new ActivityIndicator();
+            var layoutData:GridData = new GridData();
+            layoutData.hAlign = Align.CENTER;
+            layoutData.vAlign = Align.CENTER;
+            activityIndicator.layoutData = layoutData;
+            activityIndicator.animate(true);
+
+            activityContainer.addChild(activityIndicator);
+
+            content = activityContainer;
         }
 
         public function addComponents(enabled:Boolean):void
         {
+            title = "Share message";
+
             var infoLabel:Label;
             var twoColumnContainer:Container;
             var iconBtn:IconButton;
@@ -225,13 +259,15 @@ package com.imrahil.bbapps.morsegenerator.views
             content = container;
         }
 
+        public function addDemo():void
+        {
+            title = "Enable share functions!";
+        }
+
         private static function prepareButtonGridData():GridData
         {
             var buttonLayoutData:GridData = new GridData();
             buttonLayoutData.preferredHeight = 150;
-//            buttonLayoutData.hAlign = Align.FILL;
-//            buttonLayoutData.vAlign = Align.FILL;
-//            buttonLayoutData.setOptions(SizeOptions.RESIZE_HORIZONTAL);
 
             return buttonLayoutData;
         }

@@ -10,10 +10,12 @@ package com.imrahil.bbapps.morsegenerator.views.mediators
     import com.imrahil.bbapps.morsegenerator.constants.ApplicationConstants;
     import com.imrahil.bbapps.morsegenerator.signals.CopyClipboardSignal;
     import com.imrahil.bbapps.morsegenerator.signals.RequestInputOutputValueSignal;
+    import com.imrahil.bbapps.morsegenerator.signals.RequestPurchaseStatusSignal;
     import com.imrahil.bbapps.morsegenerator.signals.SaveAsMp3Signal;
     import com.imrahil.bbapps.morsegenerator.signals.SaveAsWavSignal;
     import com.imrahil.bbapps.morsegenerator.signals.signaltons.CodeCopiedIntoClipboardSignal;
     import com.imrahil.bbapps.morsegenerator.signals.signaltons.Mp3EncoderStatusSignal;
+    import com.imrahil.bbapps.morsegenerator.signals.signaltons.ProvidePurchaseStatusSignal;
     import com.imrahil.bbapps.morsegenerator.signals.signaltons.UpdateOutputSignal;
     import com.imrahil.bbapps.morsegenerator.utils.LogUtil;
     import com.imrahil.bbapps.morsegenerator.views.ShareView;
@@ -41,10 +43,16 @@ package com.imrahil.bbapps.morsegenerator.views.mediators
         public var view:ShareView;
 
         [Inject]
-        public var requestInputOutputValue:RequestInputOutputValueSignal;
+        public var requestInputOutputValueSignal:RequestInputOutputValueSignal;
 
         [Inject]
         public var updateOutputSignal:UpdateOutputSignal;
+
+        [Inject]
+        public var requestPurchaseStatusSignal:RequestPurchaseStatusSignal;
+
+        [Inject]
+        public var providePurchaseStatusSignal:ProvidePurchaseStatusSignal;
 
         [Inject]
         public var copyClipboardSignal:CopyClipboardSignal;
@@ -65,6 +73,7 @@ package com.imrahil.bbapps.morsegenerator.views.mediators
         private var logger:ILogger;
 
         private var currentOutputValue:String;
+        private var purchaseStatus:int;
 
         public function ShareViewMediator()
         {
@@ -78,7 +87,9 @@ package com.imrahil.bbapps.morsegenerator.views.mediators
         {
             logger.debug(": onRegister");
 
-            addToSignal(updateOutputSignal, onOutputValueSignal);
+            addToSignal(updateOutputSignal, outputValueHandler);
+            addToSignal(providePurchaseStatusSignal, purchaseStatusHandler);
+
             addToSignal(codeCopiedInto, onCodeCopied);
             addToSignal(mp3EncoderStatusSignal, onEncoderStatus);
 
@@ -95,20 +106,46 @@ package com.imrahil.bbapps.morsegenerator.views.mediators
 
         private function onViewAdded():void
         {
-            requestInputOutputValue.dispatch();
+            logger.debug(": onViewAdded");
+
+            requestInputOutputValueSignal.dispatch();
+            requestPurchaseStatusSignal.dispatch();
         }
 
-        private function onOutputValueSignal(outputText:String):void
+        private function outputValueHandler(outputText:String):void
         {
-            currentOutputValue = outputText;
+            logger.debug(": outputValueHandler");
 
-            if (outputText != "")
+            currentOutputValue = outputText;
+        }
+
+        private function purchaseStatusHandler(status:uint):void
+        {
+            logger.debug(": purchaseStatusHandler");
+
+            purchaseStatus = status;
+
+            addComponents();
+        }
+
+        private function addComponents():void
+        {
+            logger.debug(": addComponents - purchaseStatus: " + purchaseStatus + ", currentOutputValue: " + currentOutputValue);
+
+            if (purchaseStatus == ApplicationConstants.PURCHASE_SUBSCRIPTION_EXIST)
             {
-               view.addComponents(true);
+                if (currentOutputValue != "")
+                {
+                   view.addComponents(true);
+                }
+                else
+                {
+                    view.addComponents(false);
+                }
             }
-            else
+            else if (purchaseStatus == ApplicationConstants.PURCHASE_SUBSCRIPTION_NO)
             {
-                view.addComponents(false);
+                view.addDemo();
             }
         }
 

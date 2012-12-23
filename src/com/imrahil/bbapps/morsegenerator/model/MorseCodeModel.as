@@ -7,6 +7,7 @@
  */
 package com.imrahil.bbapps.morsegenerator.model
 {
+    import com.imrahil.bbapps.morsegenerator.constants.ApplicationConstants;
     import com.imrahil.bbapps.morsegenerator.utils.LogUtil;
 
     import mx.logging.ILogger;
@@ -19,6 +20,7 @@ package com.imrahil.bbapps.morsegenerator.model
 
         private var _inputText:String = "";
         private var _outputText:String = "";
+        private var _purchaseStatus:int = ApplicationConstants.PURCHASE_SUBSCRIPTION_UNKNOWN;
 
         public function MorseCodeModel()
         {
@@ -46,6 +48,16 @@ package com.imrahil.bbapps.morsegenerator.model
         public function set outputText(value:String):void
         {
             _outputText = value;
+        }
+
+        public function get purchaseStatus():int
+        {
+            return _purchaseStatus;
+        }
+
+        public function set purchaseStatus(value:int):void
+        {
+            _purchaseStatus = value;
         }
     }
 }

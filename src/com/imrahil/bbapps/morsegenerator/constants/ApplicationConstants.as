@@ -13,6 +13,9 @@ package com.imrahil.bbapps.morsegenerator.constants
         public static const TWITTER_URL:String = "http://twitter.com/home?status=";
         public static const TWITTER_URL_COPY:String = " (encoded%20Morse%20code%20message)";
 
+        public static const PURCHASE_SO_NAME:String = "morseCodePurchaseSharedObject";
+        public static const PURCHASE_GOOD_ID:String = "morseEnableShare";
+
         public static const SPEED_ARRAY:Array = [4, 3, 2.5, 2, 1.5, 1.3, 1, 0.9, 0.8, 0.7];
 
         public static const SOUND_LENGTH:int        = 2400;
@@ -26,5 +29,9 @@ package com.imrahil.bbapps.morsegenerator.constants
         public static const DIT:String              = ".";
         public static const DAH:String              = "-";
         public static const SPACE:String            = " ";
+
+        public static const PURCHASE_SUBSCRIPTION_UNKNOWN:int   = -1;
+        public static const PURCHASE_SUBSCRIPTION_NO:int        = 0;
+        public static const PURCHASE_SUBSCRIPTION_EXIST:int     = 1;
     }
 }
