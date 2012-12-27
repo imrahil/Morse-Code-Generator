@@ -61,6 +61,8 @@ package com.imrahil.bbapps.morsegenerator
             signalCommandMap.mapSignalClass(RequestPurchaseStatusSignal, ProvidePurchaseStatusCommand);
             injector.mapSingleton(ProvidePurchaseStatusSignal);
 
+            signalCommandMap.mapSignalClass(PurchaseSignal, PurchaseCommand);
+            injector.mapSingleton(PurchaseErrorSignal);
 
             // Add Model
             injector.mapSingletonOf(IMorseCodeModel, MorseCodeModel);

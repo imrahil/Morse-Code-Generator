@@ -10,6 +10,7 @@ package com.imrahil.bbapps.morsegenerator.views.mediators
     import com.imrahil.bbapps.morsegenerator.constants.ApplicationConstants;
     import com.imrahil.bbapps.morsegenerator.model.vo.FlickerVO;
     import com.imrahil.bbapps.morsegenerator.signals.CheckExistingPurchaseSignal;
+    import com.imrahil.bbapps.morsegenerator.signals.signaltons.PurchaseErrorSignal;
     import com.imrahil.bbapps.morsegenerator.signals.signaltons.StartFlickerSignal;
     import com.imrahil.bbapps.morsegenerator.utils.LogUtil;
     import com.imrahil.bbapps.morsegenerator.views.MainView;
@@ -24,6 +25,8 @@ package com.imrahil.bbapps.morsegenerator.views.mediators
 
     import org.robotlegs.mvcs.SignalMediator;
 
+    import qnx.fuse.ui.dialog.AlertDialog;
+
     public class MainViewMediator extends SignalMediator
     {
         [Inject]
@@ -34,6 +37,9 @@ package com.imrahil.bbapps.morsegenerator.views.mediators
 
         [Inject]
         public var checkExistingPurchaseSignal:CheckExistingPurchaseSignal;
+
+        [Inject]
+        public var purchaseErrorSignal:PurchaseErrorSignal;
 
         /** variables **/
         private var logger:ILogger;
@@ -56,6 +62,7 @@ package com.imrahil.bbapps.morsegenerator.views.mediators
             logger.debug(": onRegister");
 
             addToSignal(startFlickerSignal, onStartFlickerSignal);
+            addToSignal(purchaseErrorSignal, onPurchaseErrorSignal);
 
             checkExistingPurchaseSignal.dispatch();
         }
@@ -133,6 +140,15 @@ package com.imrahil.bbapps.morsegenerator.views.mediators
             }
 
             flickerSprite.graphics.drawRect(0, 0, view.stage.stageWidth, view.stage.stageHeight);
+        }
+
+        private function onPurchaseErrorSignal(message:String):void
+        {
+            var errorDialog:AlertDialog = new AlertDialog();
+            errorDialog.title = "Something bad happend...";
+            errorDialog.message = message;
+            errorDialog.addButton("OK");
+            errorDialog.show();
         }
     }
 }

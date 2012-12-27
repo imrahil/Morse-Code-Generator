@@ -9,6 +9,7 @@ package com.imrahil.bbapps.morsegenerator.views.mediators
 {
     import com.imrahil.bbapps.morsegenerator.constants.ApplicationConstants;
     import com.imrahil.bbapps.morsegenerator.signals.CopyClipboardSignal;
+    import com.imrahil.bbapps.morsegenerator.signals.PurchaseSignal;
     import com.imrahil.bbapps.morsegenerator.signals.RequestInputOutputValueSignal;
     import com.imrahil.bbapps.morsegenerator.signals.RequestPurchaseStatusSignal;
     import com.imrahil.bbapps.morsegenerator.signals.SaveAsMp3Signal;
@@ -69,6 +70,9 @@ package com.imrahil.bbapps.morsegenerator.views.mediators
         [Inject]
         public var mp3EncoderStatusSignal:Mp3EncoderStatusSignal;
 
+        [Inject]
+        public var purchaseSignal:PurchaseSignal;
+
         /** variables **/
         private var logger:ILogger;
 
@@ -102,6 +106,7 @@ package com.imrahil.bbapps.morsegenerator.views.mediators
             addToSignal(view.saveMp3BtnClickSignal, onSaveMp3BtnClicked);
 
             addToSignal(view.viewAddedSignal, onViewAdded);
+            addToSignal(view.purchaseSignal, onPurchase);
         }
 
         private function onViewAdded():void
@@ -227,6 +232,13 @@ package com.imrahil.bbapps.morsegenerator.views.mediators
             logger.debug(": onSaveMp3BtnClicked");
 
             saveAsMp3Signal.dispatch();
+        }
+
+        private function onPurchase():void
+        {
+            logger.debug(": onPurchase");
+
+            purchaseSignal.dispatch();
         }
     }
 }

@@ -19,9 +19,11 @@ package com.imrahil.bbapps.morsegenerator.views
 
     import qnx.fuse.ui.buttons.IconButton;
     import qnx.fuse.ui.buttons.LabelButton;
+    import qnx.fuse.ui.core.Action;
     import qnx.fuse.ui.core.Container;
     import qnx.fuse.ui.core.SizeOptions;
     import qnx.fuse.ui.dialog.AlertDialog;
+    import qnx.fuse.ui.events.ActionEvent;
     import qnx.fuse.ui.layouts.Align;
     import qnx.fuse.ui.layouts.gridLayout.GridData;
     import qnx.fuse.ui.layouts.gridLayout.GridLayout;
@@ -40,6 +42,8 @@ package com.imrahil.bbapps.morsegenerator.views
         public var saveMp3BtnClickSignal:Signal = new Signal();
 
         public var viewAddedSignal:Signal = new Signal();
+
+        public var purchaseSignal:Signal = new Signal();
 
         public var copyLabelClipboard:Label;
         public var encoderLabel:Label;
@@ -95,6 +99,11 @@ package com.imrahil.bbapps.morsegenerator.views
         {
             title = "Share message";
 
+            if (titleBar.acceptAction)
+            {
+                titleBar.acceptAction = null;
+            }
+
             var infoLabel:Label;
             var twoColumnContainer:Container;
             var iconBtn:IconButton;
@@ -140,6 +149,7 @@ package com.imrahil.bbapps.morsegenerator.views
             if (enabled)
             {
                 iconBtn.setIcon(new Resources.CLIPBOARD_ICON());
+                iconBtn.addEventListener(MouseEvent.CLICK, onClipboardBtnClick);
             }
             else
             {
@@ -147,7 +157,6 @@ package com.imrahil.bbapps.morsegenerator.views
                 iconBtn.enabled = false;
             }
 
-            iconBtn.addEventListener(MouseEvent.CLICK, onClipboardBtnClick);
             iconBtn.layoutData = prepareButtonGridData();
             twoColumnContainer.addChild(iconBtn);
 
@@ -159,10 +168,11 @@ package com.imrahil.bbapps.morsegenerator.views
             infoLabel.format = TextFormatUtil.setFormat(infoLabel.format);
             container.addChild(infoLabel);
 
-            // FACEBOOK/TWITTER BUTTONS
+            // FACEBOOK/TWITTER BUTTON CONTAINER
             twoColumnContainer = new Container();
             twoColumnContainer.layout = prepareColumnLayout(3);
 
+            // BBM
             iconBtn = new IconButton();
             if (enabled)
             {
@@ -178,6 +188,7 @@ package com.imrahil.bbapps.morsegenerator.views
             iconBtn.layoutData = prepareButtonGridData();
             twoColumnContainer.addChild(iconBtn);
 
+            // FACEBOOK
             iconBtn = new IconButton();
             if (enabled)
             {
@@ -193,6 +204,7 @@ package com.imrahil.bbapps.morsegenerator.views
             iconBtn.layoutData = prepareButtonGridData();
             twoColumnContainer.addChild(iconBtn);
 
+            // TWITTER
             iconBtn = new IconButton();
             if (enabled)
             {
@@ -261,7 +273,17 @@ package com.imrahil.bbapps.morsegenerator.views
 
         public function addDemo():void
         {
-            title = "Enable share functions!";
+            addComponents(false);
+
+            title = "Cool share functions";
+
+            titleBar.acceptAction = new Action("Enable!");
+            titleBar.addEventListener(ActionEvent.ACTION_SELECTED, onEnableActionSelected);
+        }
+
+        private function onEnableActionSelected(event:ActionEvent):void
+        {
+            purchaseSignal.dispatch();
         }
 
         private static function prepareButtonGridData():GridData

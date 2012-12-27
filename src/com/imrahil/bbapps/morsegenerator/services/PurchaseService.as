@@ -10,6 +10,7 @@ package com.imrahil.bbapps.morsegenerator.services
     import com.imrahil.bbapps.morsegenerator.constants.ApplicationConstants;
     import com.imrahil.bbapps.morsegenerator.signals.SaveExistingPurchaseStatusSignal;
     import com.imrahil.bbapps.morsegenerator.signals.signaltons.ProvidePurchaseStatusSignal;
+    import com.imrahil.bbapps.morsegenerator.signals.signaltons.PurchaseErrorSignal;
     import com.imrahil.bbapps.morsegenerator.utils.LogUtil;
 
     import flash.events.TimerEvent;
@@ -28,6 +29,9 @@ package com.imrahil.bbapps.morsegenerator.services
         [Inject]
         public var saveExistingPurchaseStatusSignal:SaveExistingPurchaseStatusSignal;
 
+        [Inject]
+        public var purchaseErrorSignal:PurchaseErrorSignal;
+
         private var paymentSystem:PaymentSystem;
 
         private var logger:ILogger;
@@ -38,7 +42,7 @@ package com.imrahil.bbapps.morsegenerator.services
             logger.debug(": constructor");
 
             paymentSystem = new PaymentSystem();
-            paymentSystem.setConnectionMode(PaymentSystem.CONNECTION_MODE_LOCAL);
+            paymentSystem.setConnectionMode(PaymentSystem.CONNECTION_MODE_NETWORK);
         }
 
         public function checkExistingPurchase():void
@@ -80,6 +84,8 @@ package com.imrahil.bbapps.morsegenerator.services
 
             paymentSystem.addEventListener(PaymentSuccessEvent.PURCHASE_SUCCESS, purchaseSuccessHandler);
             paymentSystem.addEventListener(PaymentErrorEvent.PURCHASE_ERROR, purchaseErrorHandler);
+
+            paymentSystem.purchase(null, ApplicationConstants.PURCHASE_GOOD_ID, "Enable share functions");
         }
 
         // handlers
@@ -119,6 +125,8 @@ package com.imrahil.bbapps.morsegenerator.services
 
             paymentSystem.removeEventListener(PaymentSuccessEvent.CHECK_EXISTING_SUCCESS, checkExisitingSuccessHandler);
             paymentSystem.removeEventListener(PaymentErrorEvent.CHECK_EXISTING_ERROR, checkExisitingErrorHandler);
+
+            purchaseErrorSignal.dispatch("Request for existing purchase failed.\nTry again later.");
         }
 
         private function getPriceSuccessHandler(event:PaymentSuccessEvent):void
@@ -133,12 +141,51 @@ package com.imrahil.bbapps.morsegenerator.services
 
         private function purchaseSuccessHandler(event:PaymentSuccessEvent):void
         {
+            logger.debug(": purchaseSuccessHandler");
 
+            paymentSystem.removeEventListener(PaymentSuccessEvent.PURCHASE_SUCCESS, purchaseSuccessHandler);
+            paymentSystem.removeEventListener(PaymentErrorEvent.PURCHASE_ERROR, purchaseErrorHandler);
+
+            if (event.purchase)
+            {
+                var sessionSO:SharedObject = SharedObject.getLocal(ApplicationConstants.PURCHASE_SO_NAME);
+                sessionSO.data.purchased = event.purchase.purchaseID;
+                sessionSO.flush();
+
+                saveExistingPurchaseStatusSignal.dispatch(ApplicationConstants.PURCHASE_SUBSCRIPTION_EXIST);
+            }
         }
 
         private function purchaseErrorHandler(event:PaymentErrorEvent):void
         {
+            logger.debug(": purchaseErrorHandler");
 
+            paymentSystem.removeEventListener(PaymentSuccessEvent.PURCHASE_SUCCESS, purchaseSuccessHandler);
+            paymentSystem.removeEventListener(PaymentErrorEvent.PURCHASE_ERROR, purchaseErrorHandler);
+
+            var message:String = "";
+
+            switch (event.errorID)
+            {
+                case 1:
+                    message = "user canceled";
+                break;
+                case 2:
+                    message = "payment system is busy";
+                break;
+                case 3:
+                    message = "general payment error";
+                break;
+                case 4:
+                    message = "digital good not found";
+                break;
+                case 5:
+                    message = "digital good already purchased";
+                break;
+
+            }
+
+            purchaseErrorSignal.dispatch("Error: " + message + ".\nTry again later.");
         }
     }
 }
