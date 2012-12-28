@@ -9,6 +9,7 @@ package com.imrahil.bbapps.morsegenerator.services
 {
     import com.imrahil.bbapps.morsegenerator.constants.ApplicationConstants;
     import com.imrahil.bbapps.morsegenerator.signals.SaveExistingPurchaseStatusSignal;
+    import com.imrahil.bbapps.morsegenerator.signals.SaveExistingPurchasesSignal;
     import com.imrahil.bbapps.morsegenerator.signals.signaltons.ProvidePurchaseStatusSignal;
     import com.imrahil.bbapps.morsegenerator.signals.signaltons.PurchaseErrorSignal;
     import com.imrahil.bbapps.morsegenerator.utils.LogUtil;
@@ -28,6 +29,9 @@ package com.imrahil.bbapps.morsegenerator.services
     {
         [Inject]
         public var saveExistingPurchaseStatusSignal:SaveExistingPurchaseStatusSignal;
+
+        [Inject]
+        public var saveExistingPurchasesSignal:SaveExistingPurchasesSignal;
 
         [Inject]
         public var purchaseErrorSignal:PurchaseErrorSignal;
@@ -66,8 +70,18 @@ package com.imrahil.bbapps.morsegenerator.services
 
                 paymentSystem.addEventListener(PaymentSuccessEvent.CHECK_EXISTING_SUCCESS, checkExisitingSuccessHandler);
                 paymentSystem.addEventListener(PaymentErrorEvent.CHECK_EXISTING_ERROR, checkExisitingErrorHandler);
-                paymentSystem.checkExisting(null, ApplicationConstants.PURCHASE_GOOD_ID);
+                paymentSystem.checkExisting(ApplicationConstants.PURCHASE_GOOD_ID);
             }
+        }
+
+        public function getExistingPurchases():void
+        {
+            logger.debug(": getExistingPurchases call");
+
+            paymentSystem.addEventListener(PaymentSuccessEvent.GET_EXISTING_PURCHASES_SUCCESS, getExistingPurchasesSuccessHandler);
+            paymentSystem.addEventListener(PaymentErrorEvent.GET_EXISTING_PURCHASES_ERROR, getExistingPurchasesErrorHandler)
+
+            paymentSystem.getExistingPurchases();
         }
 
         public function getPrice():void
@@ -76,6 +90,8 @@ package com.imrahil.bbapps.morsegenerator.services
 
             paymentSystem.addEventListener(PaymentSuccessEvent.GET_PRICE_SUCCESS, getPriceSuccessHandler);
             paymentSystem.addEventListener(PaymentErrorEvent.GET_PRICE_ERROR, getPriceErrorHandler)
+
+            paymentSystem.getPrice(ApplicationConstants.PURCHASE_GOOD_ID);
         }
 
         public function purchase():void
@@ -126,17 +142,47 @@ package com.imrahil.bbapps.morsegenerator.services
             paymentSystem.removeEventListener(PaymentSuccessEvent.CHECK_EXISTING_SUCCESS, checkExisitingSuccessHandler);
             paymentSystem.removeEventListener(PaymentErrorEvent.CHECK_EXISTING_ERROR, checkExisitingErrorHandler);
 
+//            saveExistingPurchaseStatusSignal.dispatch(ApplicationConstants.PURCHASE_SUBSCRIPTION_NO);
             purchaseErrorSignal.dispatch("Request for existing purchase failed.\nTry again later.");
+        }
+
+        private function getExistingPurchasesSuccessHandler(event:PaymentSuccessEvent):void
+        {
+            logger.debug(": getExistingPurchasesSuccessHandler");
+
+            paymentSystem.removeEventListener(PaymentSuccessEvent.GET_EXISTING_PURCHASES_SUCCESS, getExistingPurchasesSuccessHandler);
+            paymentSystem.removeEventListener(PaymentErrorEvent.GET_EXISTING_PURCHASES_ERROR, getExistingPurchasesErrorHandler);
+
+            saveExistingPurchasesSignal.dispatch(event.existingPurchases);
+        }
+
+        private function getExistingPurchasesErrorHandler(event:PaymentErrorEvent):void
+        {
+            logger.debug(": getExistingPurchasesErrorHandler");
+
+            paymentSystem.removeEventListener(PaymentSuccessEvent.GET_EXISTING_PURCHASES_SUCCESS, getExistingPurchasesSuccessHandler);
+            paymentSystem.removeEventListener(PaymentErrorEvent.GET_EXISTING_PURCHASES_ERROR, getExistingPurchasesErrorHandler);
+
+            purchaseErrorSignal.dispatch("Error: \"getExistingPurchases\" method failed.\nTry again later.");
         }
 
         private function getPriceSuccessHandler(event:PaymentSuccessEvent):void
         {
+            logger.debug(": getPriceSuccessHandler");
+
+            paymentSystem.removeEventListener(PaymentSuccessEvent.GET_PRICE_SUCCESS, getPriceSuccessHandler);
+            paymentSystem.removeEventListener(PaymentErrorEvent.GET_PRICE_ERROR, getPriceErrorHandler);
 
         }
 
         private function getPriceErrorHandler(event:PaymentErrorEvent):void
         {
+            logger.debug(": getPriceErrorHandler");
 
+            paymentSystem.removeEventListener(PaymentSuccessEvent.GET_PRICE_SUCCESS, getPriceSuccessHandler);
+            paymentSystem.removeEventListener(PaymentErrorEvent.GET_PRICE_ERROR, getPriceErrorHandler);
+
+            purchaseErrorSignal.dispatch("Error: \"getPrice\" method failed.\nTry again later.");
         }
 
         private function purchaseSuccessHandler(event:PaymentSuccessEvent):void

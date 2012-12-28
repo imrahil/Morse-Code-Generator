@@ -54,13 +54,24 @@ package com.imrahil.bbapps.morsegenerator
             injector.mapSingleton(CodeCopiedIntoClipboardSignal);
             injector.mapSingleton(Mp3EncoderStatusSignal);
 
-            // purchases
+            // *************
+            //   purchases
+            // *************
+
+            // check existing purchase
             signalCommandMap.mapSignalClass(CheckExistingPurchaseSignal, CheckExistingPurchaseCommand);
             signalCommandMap.mapSignalClass(SaveExistingPurchaseStatusSignal, SaveExistingPurchaseStatusCommand);
-
             signalCommandMap.mapSignalClass(RequestPurchaseStatusSignal, ProvidePurchaseStatusCommand);
             injector.mapSingleton(ProvidePurchaseStatusSignal);
 
+            // get existing purchases
+            signalCommandMap.mapSignalClass(GetExistingPurchasesSignal, GetExistingPurchasesCommand);
+            signalCommandMap.mapSignalClass(SaveExistingPurchasesSignal, SaveExistingPurchasesCommand);
+
+            // get price
+            signalCommandMap.mapSignalClass(GetPriceSignal, GetPriceCommand);
+
+            // purchase
             signalCommandMap.mapSignalClass(PurchaseSignal, PurchaseCommand);
             injector.mapSingleton(PurchaseErrorSignal);
 

@@ -7,5 +7,5 @@
 
     <splashscreen>morse-splash.png</splashscreen>
     <action>access_shared</action>
-    <buildId>21</buildId>
+    <buildId>22</buildId>
 </qnx>

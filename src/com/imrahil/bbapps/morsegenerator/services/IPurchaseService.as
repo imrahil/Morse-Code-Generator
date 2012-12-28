@@ -10,6 +10,7 @@ package com.imrahil.bbapps.morsegenerator.services
     public interface IPurchaseService
     {
         function checkExistingPurchase():void;
+        function getExistingPurchases():void;
         function getPrice():void;
         function purchase():void;
     }

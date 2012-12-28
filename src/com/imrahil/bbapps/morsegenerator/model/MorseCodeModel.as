@@ -10,6 +10,8 @@ package com.imrahil.bbapps.morsegenerator.model
     import com.imrahil.bbapps.morsegenerator.constants.ApplicationConstants;
     import com.imrahil.bbapps.morsegenerator.utils.LogUtil;
 
+    import mx.collections.ArrayCollection;
+
     import mx.logging.ILogger;
 
     import org.robotlegs.mvcs.Actor;
@@ -21,6 +23,8 @@ package com.imrahil.bbapps.morsegenerator.model
         private var _inputText:String = "";
         private var _outputText:String = "";
         private var _purchaseStatus:int = ApplicationConstants.PURCHASE_SUBSCRIPTION_UNKNOWN;
+
+        private var _existingPurchases:Array = [];
 
         public function MorseCodeModel()
         {
@@ -58,6 +62,16 @@ package com.imrahil.bbapps.morsegenerator.model
         public function set purchaseStatus(value:int):void
         {
             _purchaseStatus = value;
+        }
+
+        public function get existingPurchases():Array
+        {
+            return _existingPurchases;
+        }
+
+        public function set existingPurchases(value:Array):void
+        {
+            _existingPurchases = value;
         }
     }
 }
