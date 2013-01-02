@@ -24,8 +24,6 @@ package com.imrahil.bbapps.morsegenerator.model
         private var _outputText:String = "";
         private var _purchaseStatus:int = ApplicationConstants.PURCHASE_SUBSCRIPTION_UNKNOWN;
 
-        private var _existingPurchases:Array = [];
-
         public function MorseCodeModel()
         {
             super();
@@ -62,16 +60,6 @@ package com.imrahil.bbapps.morsegenerator.model
         public function set purchaseStatus(value:int):void
         {
             _purchaseStatus = value;
-        }
-
-        public function get existingPurchases():Array
-        {
-            return _existingPurchases;
-        }
-
-        public function set existingPurchases(value:Array):void
-        {
-            _existingPurchases = value;
         }
     }
 }

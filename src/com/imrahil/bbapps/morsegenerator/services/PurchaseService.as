@@ -9,7 +9,6 @@ package com.imrahil.bbapps.morsegenerator.services
 {
     import com.imrahil.bbapps.morsegenerator.constants.ApplicationConstants;
     import com.imrahil.bbapps.morsegenerator.signals.SaveExistingPurchaseStatusSignal;
-    import com.imrahil.bbapps.morsegenerator.signals.SaveExistingPurchasesSignal;
     import com.imrahil.bbapps.morsegenerator.signals.signaltons.PurchaseErrorSignal;
     import com.imrahil.bbapps.morsegenerator.utils.LogUtil;
 
@@ -20,14 +19,12 @@ package com.imrahil.bbapps.morsegenerator.services
     import net.rim.blackberry.events.PaymentErrorEvent;
     import net.rim.blackberry.events.PaymentSuccessEvent;
     import net.rim.blackberry.payment.PaymentSystem;
+    import net.rim.blackberry.payment.Purchase;
 
     public class PurchaseService implements IPurchaseService
     {
         [Inject]
         public var saveExistingPurchaseStatusSignal:SaveExistingPurchaseStatusSignal;
-
-        [Inject]
-        public var saveExistingPurchasesSignal:SaveExistingPurchasesSignal;
 
         [Inject]
         public var purchaseErrorSignal:PurchaseErrorSignal;
@@ -54,10 +51,6 @@ package com.imrahil.bbapps.morsegenerator.services
             if (sessionSO.data.purchased != undefined)
             {
                 logger.debug(": SO exists");
-
-                // uncomment to clear local shared object
-//                sessionSO.clear();
-
                 saveExistingPurchaseStatusSignal.dispatch(ApplicationConstants.PURCHASE_SUBSCRIPTION_EXIST);
             }
             else
@@ -78,10 +71,21 @@ package com.imrahil.bbapps.morsegenerator.services
         {
             logger.debug(": getExistingPurchases call");
 
-            paymentSystem.addEventListener(PaymentSuccessEvent.GET_EXISTING_PURCHASES_SUCCESS, getExistingPurchasesSuccessHandler);
-            paymentSystem.addEventListener(PaymentErrorEvent.GET_EXISTING_PURCHASES_ERROR, getExistingPurchasesErrorHandler)
+            var sessionSO:SharedObject = SharedObject.getLocal(ApplicationConstants.PURCHASE_SO_NAME);
 
-            paymentSystem.getExistingPurchases();
+            if (sessionSO.data.purchased != undefined)
+            {
+                logger.debug(": SO exists");
+                saveExistingPurchaseStatusSignal.dispatch(ApplicationConstants.PURCHASE_SUBSCRIPTION_EXIST);
+            }
+            else
+            {
+                logger.debug(": check online");
+                paymentSystem.addEventListener(PaymentSuccessEvent.GET_EXISTING_PURCHASES_SUCCESS, getExistingPurchasesSuccessHandler);
+                paymentSystem.addEventListener(PaymentErrorEvent.GET_EXISTING_PURCHASES_ERROR, getExistingPurchasesErrorHandler)
+
+                paymentSystem.getExistingPurchases();
+            }
         }
 
         public function getPrice():void
@@ -104,7 +108,9 @@ package com.imrahil.bbapps.morsegenerator.services
             paymentSystem.purchase(null, ApplicationConstants.PURCHASE_GOOD_ID, "Enable share functions");
         }
 
-        // handlers
+        // **************
+        //    handlers
+        // **************
         private function checkExisitingSuccessHandler(event:PaymentSuccessEvent):void
         {
             logger.debug(": checkExisitingSuccessHandler");
@@ -114,16 +120,8 @@ package com.imrahil.bbapps.morsegenerator.services
 
             if (event.subscriptionExists)
             {
-                var sessionSO:SharedObject = SharedObject.getLocal(ApplicationConstants.PURCHASE_SO_NAME);
-                sessionSO.data.purchased = event.purchase.purchaseID;
-                sessionSO.flush();
+                saveGoodIdToSharedObject(event.purchase.purchaseID);
             }
-
-//            var timer:Timer = new Timer(3000, 1);
-//            timer.addEventListener(TimerEvent.TIMER_COMPLETE, function(event:TimerEvent):void{
-//                saveExistingPurchaseStatusSignal.dispatch(ApplicationConstants.PURCHASE_STATUS_YES);
-//            });
-//            timer.start();
 
             if (event.subscriptionExists)
             {
@@ -153,7 +151,28 @@ package com.imrahil.bbapps.morsegenerator.services
             paymentSystem.removeEventListener(PaymentSuccessEvent.GET_EXISTING_PURCHASES_SUCCESS, getExistingPurchasesSuccessHandler);
             paymentSystem.removeEventListener(PaymentErrorEvent.GET_EXISTING_PURCHASES_ERROR, getExistingPurchasesErrorHandler);
 
-            saveExistingPurchasesSignal.dispatch(event.existingPurchases);
+            var purchases:Array = event.existingPurchases;
+
+//            var p:Purchase = new Purchase("date", ApplicationConstants.PURCHASE_GOOD_ID, ApplicationConstants.PURCHASE_GOOD_ID, "license", "meta", "purchaseId");
+//            purchases.push(p);
+
+            if (purchases.length == 0)
+            {
+                saveExistingPurchaseStatusSignal.dispatch(ApplicationConstants.PURCHASE_SUBSCRIPTION_NO);
+            }
+            else
+            {
+                for each (var purchase:Purchase in purchases)
+                {
+                    if (purchase.digitalGoodSKU == ApplicationConstants.PURCHASE_GOOD_ID)
+                    {
+                        saveGoodIdToSharedObject(purchase.digitalGoodSKU);
+                        saveExistingPurchaseStatusSignal.dispatch(ApplicationConstants.PURCHASE_SUBSCRIPTION_EXIST);
+
+                        break;
+                    }
+                }
+            }
         }
 
         private function getExistingPurchasesErrorHandler(event:PaymentErrorEvent):void
@@ -163,7 +182,8 @@ package com.imrahil.bbapps.morsegenerator.services
             paymentSystem.removeEventListener(PaymentSuccessEvent.GET_EXISTING_PURCHASES_SUCCESS, getExistingPurchasesSuccessHandler);
             paymentSystem.removeEventListener(PaymentErrorEvent.GET_EXISTING_PURCHASES_ERROR, getExistingPurchasesErrorHandler);
 
-            purchaseErrorSignal.dispatch("Error: \"getExistingPurchases\" method failed.\nTry again later.");
+//            purchaseErrorSignal.dispatch("Error: \"getExistingPurchases\" method failed.\nTry again later.");
+            saveExistingPurchaseStatusSignal.dispatch(ApplicationConstants.PURCHASE_SUBSCRIPTION_NO);
         }
 
         private function getPriceSuccessHandler(event:PaymentSuccessEvent):void
@@ -172,7 +192,6 @@ package com.imrahil.bbapps.morsegenerator.services
 
             paymentSystem.removeEventListener(PaymentSuccessEvent.GET_PRICE_SUCCESS, getPriceSuccessHandler);
             paymentSystem.removeEventListener(PaymentErrorEvent.GET_PRICE_ERROR, getPriceErrorHandler);
-
         }
 
         private function getPriceErrorHandler(event:PaymentErrorEvent):void
@@ -194,9 +213,7 @@ package com.imrahil.bbapps.morsegenerator.services
 
             if (event.purchase)
             {
-                var sessionSO:SharedObject = SharedObject.getLocal(ApplicationConstants.PURCHASE_SO_NAME);
-                sessionSO.data.purchased = event.purchase.purchaseID;
-                sessionSO.flush();
+                saveGoodIdToSharedObject(event.purchase.purchaseID);
 
                 saveExistingPurchaseStatusSignal.dispatch(ApplicationConstants.PURCHASE_SUBSCRIPTION_EXIST);
             }
@@ -215,29 +232,33 @@ package com.imrahil.bbapps.morsegenerator.services
             {
                 case 1:
                     message = "user canceled";
-                break;
+                    break;
                 case 2:
                     message = "payment system is busy";
-                break;
+                    break;
                 case 3:
                     message = "general payment error";
-                break;
+                    break;
                 case 4:
                     message = "digital good not found";
-                break;
+                    break;
                 case 5:
-                    var sessionSO:SharedObject = SharedObject.getLocal(ApplicationConstants.PURCHASE_SO_NAME);
-                    sessionSO.data.purchased = "Already purchased";
-                    sessionSO.flush();
-
+                    saveGoodIdToSharedObject("Already purchased");
                     saveExistingPurchaseStatusSignal.dispatch(ApplicationConstants.PURCHASE_SUBSCRIPTION_EXIST);
-
-                    return;
-                break;
-
+                    break;
             }
 
-            purchaseErrorSignal.dispatch("Error: " + message + ".\nTry again later.");
+            if (message != "")
+            {
+                purchaseErrorSignal.dispatch("Error: " + message + ".\nTry again later.");
+            }
+        }
+
+        private function saveGoodIdToSharedObject(goodId:String):void
+        {
+            var sessionSO:SharedObject = SharedObject.getLocal(ApplicationConstants.PURCHASE_SO_NAME);
+            sessionSO.data.purchased = goodId;
+            sessionSO.flush();
         }
     }
 }

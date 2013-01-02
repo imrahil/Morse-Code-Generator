@@ -17,8 +17,5 @@ package com.imrahil.bbapps.morsegenerator.model
 
         function get purchaseStatus():int;
         function set purchaseStatus(value:int):void;
-
-        function get existingPurchases():Array;
-        function set existingPurchases(value:Array):void;
     }
 }

@@ -9,7 +9,6 @@ package com.imrahil.bbapps.morsegenerator.views.mediators
 {
     import com.imrahil.bbapps.morsegenerator.constants.ApplicationConstants;
     import com.imrahil.bbapps.morsegenerator.model.vo.FlickerVO;
-    import com.imrahil.bbapps.morsegenerator.signals.CheckExistingPurchaseSignal;
     import com.imrahil.bbapps.morsegenerator.signals.GetExistingPurchasesSignal;
     import com.imrahil.bbapps.morsegenerator.signals.signaltons.PurchaseErrorSignal;
     import com.imrahil.bbapps.morsegenerator.signals.signaltons.StartFlickerSignal;
@@ -35,9 +34,6 @@ package com.imrahil.bbapps.morsegenerator.views.mediators
 
         [Inject]
         public var startFlickerSignal:StartFlickerSignal;
-
-        [Inject]
-        public var checkExistingPurchaseSignal:CheckExistingPurchaseSignal;
 
         [Inject]
         public var getExistingPurchasesSignal:GetExistingPurchasesSignal;
@@ -68,7 +64,7 @@ package com.imrahil.bbapps.morsegenerator.views.mediators
             addToSignal(startFlickerSignal, onStartFlickerSignal);
             addToSignal(purchaseErrorSignal, onPurchaseErrorSignal);
 
-            checkExistingPurchaseSignal.dispatch();
+            getExistingPurchasesSignal.dispatch();
         }
 
         public function onStartFlickerSignal(computedFlickerArray:Array):void

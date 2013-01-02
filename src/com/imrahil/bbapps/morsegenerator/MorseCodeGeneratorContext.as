@@ -66,7 +66,6 @@ package com.imrahil.bbapps.morsegenerator
 
             // get existing purchases
             signalCommandMap.mapSignalClass(GetExistingPurchasesSignal, GetExistingPurchasesCommand);
-            signalCommandMap.mapSignalClass(SaveExistingPurchasesSignal, SaveExistingPurchasesCommand);
 
             // get price
             signalCommandMap.mapSignalClass(GetPriceSignal, GetPriceCommand);
