@@ -10,14 +10,10 @@ package com.imrahil.bbapps.morsegenerator.services
     import com.imrahil.bbapps.morsegenerator.constants.ApplicationConstants;
     import com.imrahil.bbapps.morsegenerator.signals.SaveExistingPurchaseStatusSignal;
     import com.imrahil.bbapps.morsegenerator.signals.SaveExistingPurchasesSignal;
-    import com.imrahil.bbapps.morsegenerator.signals.signaltons.ProvidePurchaseStatusSignal;
     import com.imrahil.bbapps.morsegenerator.signals.signaltons.PurchaseErrorSignal;
     import com.imrahil.bbapps.morsegenerator.utils.LogUtil;
 
-    import flash.events.TimerEvent;
-
     import flash.net.SharedObject;
-    import flash.utils.Timer;
 
     import mx.logging.ILogger;
 
@@ -66,12 +62,16 @@ package com.imrahil.bbapps.morsegenerator.services
             }
             else
             {
-                logger.debug(": check online");
-
-                paymentSystem.addEventListener(PaymentSuccessEvent.CHECK_EXISTING_SUCCESS, checkExisitingSuccessHandler);
-                paymentSystem.addEventListener(PaymentErrorEvent.CHECK_EXISTING_ERROR, checkExisitingErrorHandler);
-                paymentSystem.checkExisting(ApplicationConstants.PURCHASE_GOOD_ID);
+                saveExistingPurchaseStatusSignal.dispatch(ApplicationConstants.PURCHASE_SUBSCRIPTION_NO);
             }
+//            else
+//            {
+//                logger.debug(": check online");
+//
+//                paymentSystem.addEventListener(PaymentSuccessEvent.CHECK_EXISTING_SUCCESS, checkExisitingSuccessHandler);
+//                paymentSystem.addEventListener(PaymentErrorEvent.CHECK_EXISTING_ERROR, checkExisitingErrorHandler);
+//                paymentSystem.checkExisting(ApplicationConstants.PURCHASE_GOOD_ID);
+//            }
         }
 
         public function getExistingPurchases():void
@@ -226,7 +226,13 @@ package com.imrahil.bbapps.morsegenerator.services
                     message = "digital good not found";
                 break;
                 case 5:
-                    message = "digital good already purchased";
+                    var sessionSO:SharedObject = SharedObject.getLocal(ApplicationConstants.PURCHASE_SO_NAME);
+                    sessionSO.data.purchased = "Already purchased";
+                    sessionSO.flush();
+
+                    saveExistingPurchaseStatusSignal.dispatch(ApplicationConstants.PURCHASE_SUBSCRIPTION_EXIST);
+
+                    return;
                 break;
 
             }
