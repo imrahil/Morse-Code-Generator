@@ -5,7 +5,10 @@
         <image>morse-icon.png</image>
     </icon>
 
-    <splashscreen>morse-splash.png</splashscreen>
+    <splashScreens>
+        <image>morse-splash-768x1280.png</image>
+        <image>morse-splash-720x720.png</image>
+    </splashScreens>
     <action>access_shared</action>
     <buildId>26</buildId>
 </qnx>

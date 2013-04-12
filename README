@@ -5,6 +5,7 @@ sound generation based on flex-morse project - http://code.google.com/p/flex-mor
 Icons - Subway Icons Set - http://subway.pixle.pl/
 
 Versions:
+2.3   - added splash screens for different screen sizes
 2.2   - added in-app purchases (for share functions: Facebook, Twitter, BBM, Save as)
 2.1   - added BBM integration
 2.0   - fully rewriten for BB10
