@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2012 Imrahil Corporation, All Rights Reserved
+ Copyright (c) 2013 Imrahil Corporation, All Rights Reserved
  @author   Jarek Szczepanski
  @contact  imrahil@imrahil.com
  @project  Morse Code Generator
@@ -38,8 +38,11 @@ package com.imrahil.bbapps.morsegenerator.services
             logger = LogUtil.getLogger(this);
             logger.debug(": constructor");
 
-            paymentSystem = new PaymentSystem();
-            paymentSystem.setConnectionMode(PaymentSystem.CONNECTION_MODE_NETWORK);
+            CONFIG::device
+            {
+                paymentSystem = new PaymentSystem();
+                paymentSystem.setConnectionMode(PaymentSystem.CONNECTION_MODE_NETWORK);
+            }
         }
 
         public function checkExistingPurchase():void
@@ -81,10 +84,13 @@ package com.imrahil.bbapps.morsegenerator.services
             else
             {
                 logger.debug(": check online");
-                paymentSystem.addEventListener(PaymentSuccessEvent.GET_EXISTING_PURCHASES_SUCCESS, getExistingPurchasesSuccessHandler);
-                paymentSystem.addEventListener(PaymentErrorEvent.GET_EXISTING_PURCHASES_ERROR, getExistingPurchasesErrorHandler)
+                CONFIG::device
+                {
+                    paymentSystem.addEventListener(PaymentSuccessEvent.GET_EXISTING_PURCHASES_SUCCESS, getExistingPurchasesSuccessHandler);
+                    paymentSystem.addEventListener(PaymentErrorEvent.GET_EXISTING_PURCHASES_ERROR, getExistingPurchasesErrorHandler)
 
-                paymentSystem.getExistingPurchases();
+                    paymentSystem.getExistingPurchases();
+                }
             }
         }
 
@@ -92,20 +98,26 @@ package com.imrahil.bbapps.morsegenerator.services
         {
             logger.debug(": getPrice call");
 
-            paymentSystem.addEventListener(PaymentSuccessEvent.GET_PRICE_SUCCESS, getPriceSuccessHandler);
-            paymentSystem.addEventListener(PaymentErrorEvent.GET_PRICE_ERROR, getPriceErrorHandler)
+            CONFIG::device
+            {
+                paymentSystem.addEventListener(PaymentSuccessEvent.GET_PRICE_SUCCESS, getPriceSuccessHandler);
+                paymentSystem.addEventListener(PaymentErrorEvent.GET_PRICE_ERROR, getPriceErrorHandler)
 
-            paymentSystem.getPrice(ApplicationConstants.PURCHASE_GOOD_ID);
+                paymentSystem.getPrice(ApplicationConstants.PURCHASE_GOOD_ID);
+            }
         }
 
         public function purchase():void
         {
             logger.debug(": purchase call");
 
-            paymentSystem.addEventListener(PaymentSuccessEvent.PURCHASE_SUCCESS, purchaseSuccessHandler);
-            paymentSystem.addEventListener(PaymentErrorEvent.PURCHASE_ERROR, purchaseErrorHandler);
+            CONFIG::device
+            {
+                paymentSystem.addEventListener(PaymentSuccessEvent.PURCHASE_SUCCESS, purchaseSuccessHandler);
+                paymentSystem.addEventListener(PaymentErrorEvent.PURCHASE_ERROR, purchaseErrorHandler);
 
-            paymentSystem.purchase(null, ApplicationConstants.PURCHASE_GOOD_ID, "Enable share functions");
+                paymentSystem.purchase(null, ApplicationConstants.PURCHASE_GOOD_ID, "Enable share functions");
+            }
         }
 
         // **************
@@ -115,8 +127,11 @@ package com.imrahil.bbapps.morsegenerator.services
         {
             logger.debug(": checkExisitingSuccessHandler");
 
-            paymentSystem.removeEventListener(PaymentSuccessEvent.CHECK_EXISTING_SUCCESS, checkExisitingSuccessHandler);
-            paymentSystem.removeEventListener(PaymentErrorEvent.CHECK_EXISTING_ERROR, checkExisitingErrorHandler);
+            CONFIG::device
+            {
+                paymentSystem.removeEventListener(PaymentSuccessEvent.CHECK_EXISTING_SUCCESS, checkExisitingSuccessHandler);
+                paymentSystem.removeEventListener(PaymentErrorEvent.CHECK_EXISTING_ERROR, checkExisitingErrorHandler);
+            }
 
             if (event.subscriptionExists)
             {
@@ -137,8 +152,11 @@ package com.imrahil.bbapps.morsegenerator.services
         {
             logger.debug(": checkExisitingErrorHandler");
 
-            paymentSystem.removeEventListener(PaymentSuccessEvent.CHECK_EXISTING_SUCCESS, checkExisitingSuccessHandler);
-            paymentSystem.removeEventListener(PaymentErrorEvent.CHECK_EXISTING_ERROR, checkExisitingErrorHandler);
+            CONFIG::device
+            {
+                paymentSystem.removeEventListener(PaymentSuccessEvent.CHECK_EXISTING_SUCCESS, checkExisitingSuccessHandler);
+                paymentSystem.removeEventListener(PaymentErrorEvent.CHECK_EXISTING_ERROR, checkExisitingErrorHandler);
+            }
 
 //            saveExistingPurchaseStatusSignal.dispatch(ApplicationConstants.PURCHASE_SUBSCRIPTION_NO);
             purchaseErrorSignal.dispatch("Request for existing purchase failed.\nTry again later.");
@@ -148,8 +166,11 @@ package com.imrahil.bbapps.morsegenerator.services
         {
             logger.debug(": getExistingPurchasesSuccessHandler");
 
-            paymentSystem.removeEventListener(PaymentSuccessEvent.GET_EXISTING_PURCHASES_SUCCESS, getExistingPurchasesSuccessHandler);
-            paymentSystem.removeEventListener(PaymentErrorEvent.GET_EXISTING_PURCHASES_ERROR, getExistingPurchasesErrorHandler);
+            CONFIG::device
+            {
+                paymentSystem.removeEventListener(PaymentSuccessEvent.GET_EXISTING_PURCHASES_SUCCESS, getExistingPurchasesSuccessHandler);
+                paymentSystem.removeEventListener(PaymentErrorEvent.GET_EXISTING_PURCHASES_ERROR, getExistingPurchasesErrorHandler);
+            }
 
             var purchases:Array = event.existingPurchases;
 
@@ -179,8 +200,11 @@ package com.imrahil.bbapps.morsegenerator.services
         {
             logger.debug(": getExistingPurchasesErrorHandler");
 
-            paymentSystem.removeEventListener(PaymentSuccessEvent.GET_EXISTING_PURCHASES_SUCCESS, getExistingPurchasesSuccessHandler);
-            paymentSystem.removeEventListener(PaymentErrorEvent.GET_EXISTING_PURCHASES_ERROR, getExistingPurchasesErrorHandler);
+            CONFIG::device
+            {
+                paymentSystem.removeEventListener(PaymentSuccessEvent.GET_EXISTING_PURCHASES_SUCCESS, getExistingPurchasesSuccessHandler);
+                paymentSystem.removeEventListener(PaymentErrorEvent.GET_EXISTING_PURCHASES_ERROR, getExistingPurchasesErrorHandler);
+            }
 
 //            purchaseErrorSignal.dispatch("Error: \"getExistingPurchases\" method failed.\nTry again later.");
             saveExistingPurchaseStatusSignal.dispatch(ApplicationConstants.PURCHASE_SUBSCRIPTION_NO);
@@ -190,16 +214,22 @@ package com.imrahil.bbapps.morsegenerator.services
         {
             logger.debug(": getPriceSuccessHandler");
 
-            paymentSystem.removeEventListener(PaymentSuccessEvent.GET_PRICE_SUCCESS, getPriceSuccessHandler);
-            paymentSystem.removeEventListener(PaymentErrorEvent.GET_PRICE_ERROR, getPriceErrorHandler);
+            CONFIG::device
+            {
+                paymentSystem.removeEventListener(PaymentSuccessEvent.GET_PRICE_SUCCESS, getPriceSuccessHandler);
+                paymentSystem.removeEventListener(PaymentErrorEvent.GET_PRICE_ERROR, getPriceErrorHandler);
+            }
         }
 
         private function getPriceErrorHandler(event:PaymentErrorEvent):void
         {
             logger.debug(": getPriceErrorHandler");
 
-            paymentSystem.removeEventListener(PaymentSuccessEvent.GET_PRICE_SUCCESS, getPriceSuccessHandler);
-            paymentSystem.removeEventListener(PaymentErrorEvent.GET_PRICE_ERROR, getPriceErrorHandler);
+            CONFIG::device
+            {
+                paymentSystem.removeEventListener(PaymentSuccessEvent.GET_PRICE_SUCCESS, getPriceSuccessHandler);
+                paymentSystem.removeEventListener(PaymentErrorEvent.GET_PRICE_ERROR, getPriceErrorHandler);
+            }
 
             purchaseErrorSignal.dispatch("Error: \"getPrice\" method failed.\nTry again later.");
         }
@@ -208,8 +238,11 @@ package com.imrahil.bbapps.morsegenerator.services
         {
             logger.debug(": purchaseSuccessHandler");
 
-            paymentSystem.removeEventListener(PaymentSuccessEvent.PURCHASE_SUCCESS, purchaseSuccessHandler);
-            paymentSystem.removeEventListener(PaymentErrorEvent.PURCHASE_ERROR, purchaseErrorHandler);
+            CONFIG::device
+            {
+                paymentSystem.removeEventListener(PaymentSuccessEvent.PURCHASE_SUCCESS, purchaseSuccessHandler);
+                paymentSystem.removeEventListener(PaymentErrorEvent.PURCHASE_ERROR, purchaseErrorHandler);
+            }
 
             if (event.purchase)
             {
@@ -223,8 +256,11 @@ package com.imrahil.bbapps.morsegenerator.services
         {
             logger.debug(": purchaseErrorHandler");
 
-            paymentSystem.removeEventListener(PaymentSuccessEvent.PURCHASE_SUCCESS, purchaseSuccessHandler);
-            paymentSystem.removeEventListener(PaymentErrorEvent.PURCHASE_ERROR, purchaseErrorHandler);
+            CONFIG::device
+            {
+                paymentSystem.removeEventListener(PaymentSuccessEvent.PURCHASE_SUCCESS, purchaseSuccessHandler);
+                paymentSystem.removeEventListener(PaymentErrorEvent.PURCHASE_ERROR, purchaseErrorHandler);
+            }
 
             var message:String = "";
 
