@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2012 Imrahil Corporation, All Rights Reserved
+ Copyright (c) 2013 Imrahil Corporation, All Rights Reserved
  @author   Jarek Szczepanski
  @contact  imrahil@imrahil.com
  @project  Morse Code Generator
@@ -10,8 +10,6 @@ package com.imrahil.bbapps.morsegenerator.views
     import com.imrahil.bbapps.morsegenerator.utils.TextFormatUtil;
 
     import flash.desktop.NativeApplication;
-    import flash.display.Graphics;
-    import flash.display.Sprite;
     import flash.events.MouseEvent;
     import flash.net.URLRequest;
     import flash.net.navigateToURL;
@@ -41,20 +39,13 @@ package com.imrahil.bbapps.morsegenerator.views
             super.onAdded();
 
             var container:Container = new Container();
+
             var layout:GridLayout = new GridLayout();
-            layout.paddingLeft = 50;
-            layout.paddingRight = 50;
-            layout.paddingTop = 50;
+            layout.paddingLeft = 30;
+            layout.paddingRight = 30;
+            layout.paddingTop = 30;
             layout.paddingBottom = 30;
             container.layout = layout;
-
-            var s:Sprite = new Sprite();
-            var g:Graphics = s.graphics;
-            g.beginFill(0x0c151c);
-            g.drawRect(0, 0, 10, 10);
-            g.endFill();
-
-            container.background = s;
 
             var infoLabel:Label = new Label();
             infoLabel.maxLines = 0;
@@ -76,6 +67,7 @@ package com.imrahil.bbapps.morsegenerator.views
 
             var visitBtnData:GridData = new GridData();
             visitBtnData.setOptions(SizeOptions.GROW_VERTICAL);
+            visitBtnData.preferredWidth = 300;
             visitBtnData.hAlign = Align.CENTER;
             visitBtnData.vAlign = Align.BEGIN;
             visitBtn.layoutData = visitBtnData;

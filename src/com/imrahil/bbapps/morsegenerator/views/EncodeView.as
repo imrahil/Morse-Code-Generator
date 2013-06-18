@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2012 Imrahil Corporation, All Rights Reserved
+ Copyright (c) 2013 Imrahil Corporation, All Rights Reserved
  @author   Jarek Szczepanski
  @contact  imrahil@imrahil.com
  @project  Morse Code Generator
@@ -11,8 +11,6 @@ package com.imrahil.bbapps.morsegenerator.views
 
     import flash.display.Bitmap;
     import flash.display.BitmapData;
-    import flash.display.Graphics;
-    import flash.display.Sprite;
     import flash.events.Event;
     import flash.events.MouseEvent;
 
@@ -54,7 +52,6 @@ package com.imrahil.bbapps.morsegenerator.views
 
         override protected function onAdded():void
         {
-            var g:Graphics;
             var infoLabel:Label;
 
             super.onAdded();
@@ -69,32 +66,23 @@ package com.imrahil.bbapps.morsegenerator.views
             layout.paddingBottom = 30;
             container.layout = layout;
 
-            var s:Sprite = new Sprite();
-            g = s.graphics;
-            g.beginFill(0x0c151c);
-            g.drawRect(0, 0, 10, 10);
-            g.endFill();
-
-            container.background = s;
-
             infoLabel = new Label();
             infoLabel.text = "Input";
             infoLabel.format = TextFormatUtil.setFormat(infoLabel.format);
             container.addChild(infoLabel);
 
             inputText = new TextInput();
-            inputText.width = 415;
             inputText.maxChars = 100;
             inputText.spellCheck = false;
             inputText.autoCorrect = false;
             inputText.restrict = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890.,:?\'-/()"@= ';
 
-            var sliderLayoutData:GridData = new GridData();
-            sliderLayoutData.marginTop = 15;
-            sliderLayoutData.marginBottom = 40;
-            sliderLayoutData.hAlign = Align.FILL;
-            sliderLayoutData.vAlign = Align.END;
-            inputText.layoutData = sliderLayoutData;
+            var inputTextGridData:GridData = new GridData();
+            inputTextGridData.marginTop = 15;
+            inputTextGridData.marginBottom = 40;
+            inputTextGridData.hAlign = Align.FILL;
+            inputTextGridData.vAlign = Align.END;
+            inputText.layoutData = inputTextGridData;
 
             CONFIG::debugMode
             {
@@ -109,29 +97,13 @@ package com.imrahil.bbapps.morsegenerator.views
             infoLabel.format = TextFormatUtil.setFormat(infoLabel.format);
             container.addChild(infoLabel);
 
-            var outputContainer:Container = new Container();
-            layout = new GridLayout();
-            layout.paddingLeft = 10;
-            layout.paddingRight = 10;
-            layout.paddingTop = 10;
-            layout.paddingBottom = 10;
-            outputContainer.layout = layout;
-
-            var containerData:GridData = new GridData();
-            containerData.marginTop = 15;
-            containerData.marginBottom = 40;
-            containerData.hAlign = Align.FILL;
-            containerData.vAlign = Align.BEGIN;
-            containerData.preferredHeight = 150;
-            containerData.setOptions(SizeOptions.NONE);
-            outputContainer.layoutData = containerData;
-
             outputLabel = new Label();
-            outputLabel.maxLines = 0;
+            outputLabel.maxLines = 2;
             var outputLayoutData:GridData = new GridData();
+            inputTextGridData.marginTop = 15;
+            inputTextGridData.marginBottom = 40;
             outputLayoutData.hAlign = Align.FILL;
             outputLayoutData.vAlign = Align.FILL;
-            outputLayoutData.setOptions(SizeOptions.RESIZE_BOTH);
             outputLabel.layoutData = outputLayoutData;
 
             var morseTextFormat:TextFormat = outputLabel.format;
@@ -141,16 +113,7 @@ package com.imrahil.bbapps.morsegenerator.views
             morseTextFormat.bold = true;
             outputLabel.format = morseTextFormat;
 
-            s = new Sprite();
-            g = s.graphics;
-            g.lineStyle(1, 0x666666);
-            g.moveTo(0, 0);
-            g.drawRect(0, 0, 500, 500);
-            outputContainer.background = s;
-
-            outputContainer.addChild(outputLabel);
-
-            container.addChild(outputContainer);
+            container.addChild(outputLabel);
 
             var playFlickerContainer:Container = new Container();
             layout = new GridLayout();
@@ -215,6 +178,5 @@ package com.imrahil.bbapps.morsegenerator.views
         {
             flickerBtnClickSignal.dispatch();
         }
-
     }
 }

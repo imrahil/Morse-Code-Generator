@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2012 Research In Motion Limited.
+ * Copyright (c) 2013 Research In Motion Limited.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,14 +15,6 @@
  */
 package com.imrahil.bbapps.morsegenerator.views
 {
-    import flash.display.Graphics;
-    import flash.display.Sprite;
-
-    import qnx.fuse.ui.core.Container;
-    import qnx.fuse.ui.core.SizeOptions;
-    import qnx.fuse.ui.layouts.Align;
-    import qnx.fuse.ui.layouts.gridLayout.GridData;
-    import qnx.fuse.ui.layouts.gridLayout.GridLayout;
     import qnx.fuse.ui.navigation.Page;
     import qnx.fuse.ui.titlebar.TitleBar;
 
@@ -31,13 +23,13 @@ package com.imrahil.bbapps.morsegenerator.views
      */
     public class TitlePage extends Page
     {
-        private var __title:String;
+        private var _title:String;
 
         public function set title(value:String):void
         {
-            if (__title != value)
+            if (_title != value)
             {
-                __title = value;
+                _title = value;
                 if (titleBar != null)
                 {
                     titleBar.title = value;
@@ -47,48 +39,18 @@ package com.imrahil.bbapps.morsegenerator.views
 
         public function get title():String
         {
-            return(__title);
-        }
-
-        public function TitlePage()
-        {
-            super();
-        }
-
-        override protected function init():void
-        {
-            super.init();
+            return _title;
         }
 
         override protected function onAdded():void
         {
             super.onAdded();
-            var container:Container = new Container();
-
-            var s:Sprite = new Sprite();
-            var g:Graphics = s.graphics;
-            g.beginFill(0xf8f8f8);
-            g.drawRect(0, 0, 10, 10);
-            g.endFill();
-
-            container.background = s;
-
-            var layout:GridLayout = new GridLayout(1);
-            container.layout = layout;
-
-            var containerData:GridData = new GridData();
-            containerData.hAlign = Align.BEGIN;
-            containerData.vAlign = Align.BEGIN;
-            containerData.setOptions(SizeOptions.RESIZE_BOTH);
-            container.layoutData = containerData;
 
             titleBar = new TitleBar();
 
-            content = container;
-
-            if (__title != null)
+            if (_title != null)
             {
-                titleBar.title = __title;
+                titleBar.title = _title;
             }
         }
     }

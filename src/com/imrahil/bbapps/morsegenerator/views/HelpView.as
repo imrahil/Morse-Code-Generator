@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2012 Imrahil Corporation, All Rights Reserved
+ Copyright (c) 2013 Imrahil Corporation, All Rights Reserved
  @author   Jarek Szczepanski
  @contact  imrahil@imrahil.com
  @project  Morse Code Generator
@@ -10,8 +10,6 @@ package com.imrahil.bbapps.morsegenerator.views
     import com.imrahil.bbapps.morsegenerator.constants.Resources;
     import com.imrahil.bbapps.morsegenerator.utils.TextFormatUtil;
 
-    import flash.display.Graphics;
-    import flash.display.Sprite;
     import flash.events.MouseEvent;
 
     import org.osflash.signals.Signal;
@@ -52,16 +50,8 @@ package com.imrahil.bbapps.morsegenerator.views
             layout.paddingLeft = 30;
             layout.paddingRight = 30;
             layout.paddingTop = 30;
-            layout.paddingBottom = 30;
+            layout.paddingBottom = 60;
             container.layout = layout;
-
-            var s:Sprite = new Sprite();
-            var g:Graphics = s.graphics;
-            g.beginFill(0x0c151c);
-            g.drawRect(0, 0, 10, 10);
-            g.endFill();
-
-            container.background = s;
 
             var infoLabel:Label = new Label();
             infoLabel.text = "International Morse Code:";

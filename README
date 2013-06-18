@@ -1,10 +1,11 @@
 Morse Code Generator
-Copyright (c) 2012 Jarek Szczepanski
+Copyright (c) 2013 Jarek Szczepanski
 
 sound generation based on flex-morse project - http://code.google.com/p/flex-morse/
 Icons - Subway Icons Set - http://subway.pixle.pl/
 
 Versions:
+3.0   - optimized for Q10 and BB 10.1/10.2
 2.3   - added splash screens for different screen sizes
 2.2   - added in-app purchases (for share functions: Facebook, Twitter, BBM, Save as)
 2.1   - added BBM integration

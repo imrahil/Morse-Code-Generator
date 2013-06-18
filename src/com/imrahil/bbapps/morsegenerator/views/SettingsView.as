@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2012 Imrahil Corporation, All Rights Reserved
+ Copyright (c) 2013 Imrahil Corporation, All Rights Reserved
  @author   Jarek Szczepanski
  @contact  imrahil@imrahil.com
  @project  Morse Code Generator
@@ -8,9 +8,6 @@
 package com.imrahil.bbapps.morsegenerator.views
 {
     import com.imrahil.bbapps.morsegenerator.utils.TextFormatUtil;
-
-    import flash.display.Graphics;
-    import flash.display.Sprite;
 
     import org.osflash.signals.Signal;
 
@@ -54,14 +51,6 @@ package com.imrahil.bbapps.morsegenerator.views
             layout.paddingTop = 50;
             layout.paddingBottom = 50;
             container.layout = layout;
-
-            var s:Sprite = new Sprite();
-            var g:Graphics = s.graphics;
-            g.beginFill(0x0c151c);
-            g.drawRect(0, 0, 10, 10);
-            g.endFill();
-
-            container.background = s;
 
             var containerData:GridData = new GridData();
             containerData.hAlign = Align.BEGIN;

@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2012 Imrahil Corporation, All Rights Reserved
+ Copyright (c) 2013 Imrahil Corporation, All Rights Reserved
  @author   Jarek Szczepanski
  @contact  imrahil@imrahil.com
  @project  Morse Code Generator
@@ -15,7 +15,7 @@ package
     import mx.logging.LogEventLevel;
     import mx.logging.targets.TraceTarget;
 
-    [SWF(height="1280", width="768", backgroundColor="#0D1722", frameRate="30")]
+//    [SWF(height="720", width="720", backgroundColor="#0D1722", frameRate="30")]
     public class MorseCodeGenerator extends Sprite
     {
         protected var _context:MorseCodeGeneratorContext;
