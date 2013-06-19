@@ -4,7 +4,7 @@
     <filename>MorseCodeGenerator</filename>
     <name>Morse Code Generator</name>
     <versionNumber>3.0</versionNumber>
-    <copyright>Copyright © 2012 Jarek Szczepanski</copyright>
+    <copyright>Copyright © 2013 Jarek Szczepanski</copyright>
 
     <initialWindow>
         <content>MorseCodeGenerator.swf</content>
