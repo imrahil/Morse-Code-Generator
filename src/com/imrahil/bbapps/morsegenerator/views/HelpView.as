@@ -15,7 +15,6 @@ package com.imrahil.bbapps.morsegenerator.views
     import org.osflash.signals.Signal;
 
     import qnx.fuse.ui.actionbar.ActionPlacement;
-
     import qnx.fuse.ui.buttons.LabelButton;
     import qnx.fuse.ui.core.Action;
     import qnx.fuse.ui.core.ActionBase;
@@ -25,7 +24,6 @@ package com.imrahil.bbapps.morsegenerator.views
     import qnx.fuse.ui.layouts.Align;
     import qnx.fuse.ui.layouts.gridLayout.GridData;
     import qnx.fuse.ui.layouts.gridLayout.GridLayout;
-    import qnx.fuse.ui.listClasses.ScrollDirection;
     import qnx.fuse.ui.navigation.NavigationPaneProperties;
     import qnx.fuse.ui.text.Label;
 
@@ -64,9 +62,6 @@ package com.imrahil.bbapps.morsegenerator.views
         override protected function onAdded():void
         {
             super.onAdded();
-
-            var container:Container = new Container();
-            container.scrollDirection = ScrollDirection.VERTICAL;
 
             var layout:GridLayout = new GridLayout();
             layout.paddingLeft = 30;

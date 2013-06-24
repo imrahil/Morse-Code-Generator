@@ -15,6 +15,11 @@
  */
 package com.imrahil.bbapps.morsegenerator.views
 {
+    import flash.display.Graphics;
+    import flash.display.Sprite;
+
+    import qnx.fuse.ui.core.Container;
+    import qnx.fuse.ui.listClasses.ScrollDirection;
     import qnx.fuse.ui.navigation.Page;
     import qnx.fuse.ui.titlebar.TitleBar;
 
@@ -24,6 +29,8 @@ package com.imrahil.bbapps.morsegenerator.views
     public class TitlePage extends Page
     {
         private var _title:String;
+
+        protected var container:Container;
 
         public function set title(value:String):void
         {
@@ -45,6 +52,17 @@ package com.imrahil.bbapps.morsegenerator.views
         override protected function onAdded():void
         {
             super.onAdded();
+
+            container = new Container();
+            container.scrollDirection = ScrollDirection.VERTICAL;
+
+            var s:Sprite = new Sprite();
+            var g:Graphics = s.graphics;
+            g.beginFill(0x0c151c);
+            g.drawRect(0, 0, 10, 10);
+            g.endFill();
+
+            container.background = s;
 
             titleBar = new TitleBar();
 

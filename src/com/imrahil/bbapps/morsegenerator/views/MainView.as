@@ -12,21 +12,17 @@ package com.imrahil.bbapps.morsegenerator.views
     import com.imrahil.bbapps.morsegenerator.constants.Resources;
 
     import flash.display.Graphics;
-
     import flash.display.Sprite;
     import flash.events.MouseEvent;
 
     import qnx.events.QNXApplicationEvent;
-
     import qnx.fuse.ui.Application;
     import qnx.fuse.ui.applicationMenu.ApplicationMenu;
     import qnx.fuse.ui.core.Action;
     import qnx.fuse.ui.events.ActionEvent;
     import qnx.fuse.ui.navigation.NavigationPane;
-
     import qnx.fuse.ui.navigation.Tab;
     import qnx.fuse.ui.navigation.TabbedPane;
-    import qnx.fuse.ui.theme.ThemeGlobals;
     import qnx.system.QNXApplication;
 
     public class MainView extends Application
@@ -39,8 +35,6 @@ package com.imrahil.bbapps.morsegenerator.views
         override protected function onAdded():void
         {
             super.onAdded();
-
-            ThemeGlobals.currentTheme = ThemeGlobals.BLACK;
 
             tabbedPane = new TabbedPane();
 

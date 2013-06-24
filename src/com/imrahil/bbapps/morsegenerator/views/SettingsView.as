@@ -12,8 +12,6 @@ package com.imrahil.bbapps.morsegenerator.views
     import org.osflash.signals.Signal;
 
     import qnx.fuse.ui.core.Action;
-
-    import qnx.fuse.ui.core.Container;
     import qnx.fuse.ui.core.SizeOptions;
     import qnx.fuse.ui.events.SliderEvent;
     import qnx.fuse.ui.layouts.Align;
@@ -56,7 +54,6 @@ package com.imrahil.bbapps.morsegenerator.views
         {
             super.onAdded();
 
-            var container:Container = new Container();
             var layout:GridLayout = new GridLayout();
             layout.paddingLeft = 50;
             layout.paddingRight = 50;

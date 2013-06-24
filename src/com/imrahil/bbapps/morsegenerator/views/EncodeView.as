@@ -23,7 +23,6 @@ package com.imrahil.bbapps.morsegenerator.views
     import qnx.fuse.ui.layouts.Align;
     import qnx.fuse.ui.layouts.gridLayout.GridData;
     import qnx.fuse.ui.layouts.gridLayout.GridLayout;
-    import qnx.fuse.ui.listClasses.ScrollDirection;
     import qnx.fuse.ui.text.Label;
     import qnx.fuse.ui.text.TextFormat;
     import qnx.fuse.ui.text.TextInput;
@@ -52,12 +51,9 @@ package com.imrahil.bbapps.morsegenerator.views
 
         override protected function onAdded():void
         {
-            var infoLabel:Label;
-
             super.onAdded();
 
-            var container:Container = new Container();
-            container.scrollDirection = ScrollDirection.VERTICAL;
+            var infoLabel:Label;
 
             var layout:GridLayout = new GridLayout();
             layout.paddingLeft = 30;
