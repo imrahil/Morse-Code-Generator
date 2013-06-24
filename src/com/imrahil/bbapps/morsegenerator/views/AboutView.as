@@ -20,6 +20,7 @@ package com.imrahil.bbapps.morsegenerator.views
     import qnx.fuse.ui.layouts.Align;
     import qnx.fuse.ui.layouts.gridLayout.GridData;
     import qnx.fuse.ui.layouts.gridLayout.GridLayout;
+    import qnx.fuse.ui.listClasses.ScrollDirection;
     import qnx.fuse.ui.text.Label;
 
     public class AboutView extends TitlePage
@@ -39,6 +40,7 @@ package com.imrahil.bbapps.morsegenerator.views
             super.onAdded();
 
             var container:Container = new Container();
+            container.scrollDirection = ScrollDirection.VERTICAL;
 
             var layout:GridLayout = new GridLayout();
             layout.paddingLeft = 30;
@@ -52,14 +54,9 @@ package com.imrahil.bbapps.morsegenerator.views
             infoLabel.text = "Author: Jarek Szczepański\n" +
                     "Email: support_bb@imrahil.com\n\n" +
                     "Website:\nhttp://imrahil.github.com/";
-
             infoLabel.format = TextFormatUtil.setFormat(infoLabel.format);
-
-            var labelData:GridData = new GridData();
-            labelData.setOptions(SizeOptions.RESIZE_BOTH);
-            infoLabel.layoutData = labelData;
-
             container.addChild(infoLabel);
+
 
             var visitBtn:LabelButton = new LabelButton();
             visitBtn.label = "Visit website";
@@ -68,11 +65,20 @@ package com.imrahil.bbapps.morsegenerator.views
             var visitBtnData:GridData = new GridData();
             visitBtnData.setOptions(SizeOptions.GROW_VERTICAL);
             visitBtnData.preferredWidth = 300;
+            visitBtnData.marginTop = 40;
+            visitBtnData.marginBottom = 40;
             visitBtnData.hAlign = Align.CENTER;
             visitBtnData.vAlign = Align.BEGIN;
             visitBtn.layoutData = visitBtnData;
 
             container.addChild(visitBtn);
+
+
+            var wikiInfo:Label = new Label();
+            wikiInfo.maxLines = 0;
+            wikiInfo.text = "Chart of the Morse code letters and\nnumerals - (c) Wikipedia";
+            wikiInfo.format = TextFormatUtil.setFormat(wikiInfo.format, 40);
+            container.addChild(wikiInfo);
 
             content = container;
         }

@@ -16,9 +16,9 @@ package com.imrahil.bbapps.morsegenerator.utils
             super();
         }
 
-        public static function setFormat(format:TextFormat):TextFormat
+        public static function setFormat(format:TextFormat, size:int = 54):TextFormat
         {
-            format.size = 54;
+            format.size = size;
             format.color = 0xFAFAFA;
             format.italic = true;
             format.font = "Slate Pro Light";

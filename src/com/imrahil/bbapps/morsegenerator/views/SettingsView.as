@@ -11,12 +11,15 @@ package com.imrahil.bbapps.morsegenerator.views
 
     import org.osflash.signals.Signal;
 
+    import qnx.fuse.ui.core.Action;
+
     import qnx.fuse.ui.core.Container;
     import qnx.fuse.ui.core.SizeOptions;
     import qnx.fuse.ui.events.SliderEvent;
     import qnx.fuse.ui.layouts.Align;
     import qnx.fuse.ui.layouts.gridLayout.GridData;
     import qnx.fuse.ui.layouts.gridLayout.GridLayout;
+    import qnx.fuse.ui.navigation.NavigationPaneProperties;
     import qnx.fuse.ui.slider.Slider;
     import qnx.fuse.ui.slider.VolumeSlider;
     import qnx.fuse.ui.text.Label;
@@ -38,6 +41,15 @@ package com.imrahil.bbapps.morsegenerator.views
             super();
 
             title = "Settings";
+        }
+
+        override protected function init():void
+        {
+            super.init();
+
+            var prop:NavigationPaneProperties = new NavigationPaneProperties();
+            prop.backButton = new Action("Back");
+            paneProperties = prop;
         }
 
         override protected function onAdded():void

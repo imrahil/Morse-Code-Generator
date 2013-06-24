@@ -49,7 +49,7 @@ package com.imrahil.bbapps.morsegenerator.constants
         [Embed(source="/assets/images/twitterIconDisabled.png")]
         public static const TWITTER_ICON_DISABLED:Class;
 
-        [Embed(source="/assets/images/morseTableWide.png")]
+        [Embed(source="/assets/images/morseTable.png")]
         public static const MORSE_TABLE:Class;
     }
 }

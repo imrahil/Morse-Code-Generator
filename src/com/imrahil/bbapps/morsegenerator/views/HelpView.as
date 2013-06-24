@@ -14,7 +14,11 @@ package com.imrahil.bbapps.morsegenerator.views
 
     import org.osflash.signals.Signal;
 
+    import qnx.fuse.ui.actionbar.ActionPlacement;
+
     import qnx.fuse.ui.buttons.LabelButton;
+    import qnx.fuse.ui.core.Action;
+    import qnx.fuse.ui.core.ActionBase;
     import qnx.fuse.ui.core.Container;
     import qnx.fuse.ui.core.SizeOptions;
     import qnx.fuse.ui.display.Image;
@@ -22,10 +26,13 @@ package com.imrahil.bbapps.morsegenerator.views
     import qnx.fuse.ui.layouts.gridLayout.GridData;
     import qnx.fuse.ui.layouts.gridLayout.GridLayout;
     import qnx.fuse.ui.listClasses.ScrollDirection;
+    import qnx.fuse.ui.navigation.NavigationPaneProperties;
     import qnx.fuse.ui.text.Label;
 
     public class HelpView extends TitlePage
     {
+        private var aboutAction:Action;
+
         public var longBeepClickSignal:Signal = new Signal();
         public var shortBeepClickSignal:Signal = new Signal();
 
@@ -37,6 +44,21 @@ package com.imrahil.bbapps.morsegenerator.views
             super();
 
             title = "Help";
+        }
+
+        override protected function init():void
+        {
+            super.init();
+
+            var prop:NavigationPaneProperties = new NavigationPaneProperties();
+            prop.backButton = new Action("Back");
+            paneProperties = prop;
+
+            aboutAction = new Action("About", new Resources.ICON_ABOUT());
+            aboutAction.actionBarPlacement = ActionPlacement.ON_BAR;
+
+            actions = new Vector.<ActionBase>();
+            actions.push(aboutAction);
         }
 
         override protected function onAdded():void
@@ -67,7 +89,7 @@ package com.imrahil.bbapps.morsegenerator.views
             morseTableData.setOptions(SizeOptions.NONE);
             morseTableData.hAlign = Align.BEGIN;
             morseTableData.marginTop = 20;
-            morseTableData.marginBottom = 80;
+            morseTableData.marginBottom = 20;
             morseTableImage.layoutData = morseTableData;
 
             container.addChild(morseTableImage);
@@ -119,6 +141,19 @@ package com.imrahil.bbapps.morsegenerator.views
         private function onShortBeepClick(event:MouseEvent):void
         {
             shortBeepClickSignal.dispatch();
+        }
+
+        override public function onActionSelected(action:ActionBase):void
+        {
+            if (action == aboutAction)
+            {
+                var aboutPage:AboutView = new AboutView();
+                pushPage(aboutPage);
+            }
+            else
+            {
+                super.onActionSelected(action);
+            }
         }
     }
 }
