@@ -15,14 +15,13 @@ package
     import mx.logging.LogEventLevel;
     import mx.logging.targets.TraceTarget;
 
-//    [SWF(height="720", width="720", backgroundColor="#0D1722", frameRate="30")]
     public class MorseCodeGenerator extends Sprite
     {
         protected var _context:MorseCodeGeneratorContext;
 
         public function MorseCodeGenerator()
         {
-//            CONFIG::debugMode
+            CONFIG::debugMode
             {
                 var logTarget:TraceTarget = new TraceTarget();
                 logTarget.level = LogEventLevel.ALL;
