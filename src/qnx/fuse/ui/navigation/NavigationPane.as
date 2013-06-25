@@ -90,6 +90,8 @@ package qnx.fuse.ui.navigation
 		override protected function init():void
 		{
 			super.init();
+			removeBackground();
+			opaqueBackground = null;
 		}
 		
 		/**

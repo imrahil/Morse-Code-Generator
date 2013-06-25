@@ -98,14 +98,25 @@ package qnx.fuse.ui.navigation
 		/** @private **/
 		override protected function init():void
 		{
-//			__background = new Bitmap( BGBitmapData );
-//			addChildAt( __background, 0 );
-//			opaqueBackground = ( ThemeGlobals.currentTheme == ThemeGlobals.WHITE ) ? 0xFFFFFF : 0x121212;
+			__background = new Bitmap( BGBitmapData );
+			addChildAt( __background, 0 );
+			opaqueBackground = ( ThemeGlobals.currentTheme == ThemeGlobals.WHITE ) ? 0xFFFFFF : 0x121212;
 
 			super.init();
 			
 			addEventListener(NavigationEvent.TRANSITION_IN_COMPLETE, transitionInComplete );
 			addEventListener(NavigationEvent.TRANSITION_OUT_COMPLETE, transitionOutComplete );
+		}
+		
+		/**
+		 * @private
+		 */
+		protected function removeBackground():void
+		{
+			if( __background && contains( __background ) )
+			{
+				removeChild( __background );
+			}
 		}
 		
 		/** @private **/
@@ -216,12 +227,11 @@ package qnx.fuse.ui.navigation
 		{
 			super.updateDisplayList( unscaledWidth, unscaledHeight );
 			
-//			if( __background )
-//			{
-//				__background.width = unscaledWidth;
-//				__background.height = unscaledHeight;
-//			}
-			
+			if( __background )
+			{
+				__background.width = unscaledWidth;
+				__background.height = unscaledHeight;
+			}
 			
 			if( actionBar )
 			{
@@ -243,9 +253,10 @@ package qnx.fuse.ui.navigation
 			if( contentCover )
 			{
 				contentCover.width = width;
-				contentCover.height = ( actionBar ) ? actionBar.y : height;
+				contentCover.height = getContentHeight();
 			}
 		}
+		
 		
 		/**
 		 * Pops the top most pane if the parent is a <code>NavigationPane</code>.

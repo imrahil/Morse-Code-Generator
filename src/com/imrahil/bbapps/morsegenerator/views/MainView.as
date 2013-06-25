@@ -23,6 +23,7 @@ package com.imrahil.bbapps.morsegenerator.views
     import qnx.fuse.ui.navigation.NavigationPane;
     import qnx.fuse.ui.navigation.Tab;
     import qnx.fuse.ui.navigation.TabbedPane;
+    import qnx.fuse.ui.theme.ThemeGlobals;
     import qnx.system.QNXApplication;
 
     public class MainView extends Application
@@ -35,6 +36,8 @@ package com.imrahil.bbapps.morsegenerator.views
         override protected function onAdded():void
         {
             super.onAdded();
+
+            ThemeGlobals.currentTheme = ThemeGlobals.BLACK;
 
             tabbedPane = new TabbedPane();
 

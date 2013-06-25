@@ -56,14 +56,6 @@ package com.imrahil.bbapps.morsegenerator.views
             container = new Container();
             container.scrollDirection = ScrollDirection.VERTICAL;
 
-            var s:Sprite = new Sprite();
-            var g:Graphics = s.graphics;
-            g.beginFill(0x0c151c);
-            g.drawRect(0, 0, 10, 10);
-            g.endFill();
-
-            container.background = s;
-
             titleBar = new TitleBar();
 
             if (_title != null)
