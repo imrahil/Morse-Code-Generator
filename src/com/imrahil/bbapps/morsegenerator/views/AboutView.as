@@ -61,13 +61,27 @@ package com.imrahil.bbapps.morsegenerator.views
             visitBtnData.setOptions(SizeOptions.GROW_VERTICAL);
             visitBtnData.preferredWidth = 300;
             visitBtnData.marginTop = 40;
-            visitBtnData.marginBottom = 40;
+            visitBtnData.marginBottom = 20;
             visitBtnData.hAlign = Align.CENTER;
             visitBtnData.vAlign = Align.BEGIN;
             visitBtn.layoutData = visitBtnData;
 
             container.addChild(visitBtn);
 
+            var privacyBtn:LabelButton = new LabelButton();
+            privacyBtn.label = "Privacy policy";
+            privacyBtn.addEventListener(MouseEvent.CLICK, onPrivacyBtnClick);
+
+            var privacyBtnData:GridData = new GridData();
+            privacyBtnData.setOptions(SizeOptions.GROW_VERTICAL);
+            privacyBtnData.preferredWidth = 300;
+            privacyBtnData.marginTop = 20;
+            privacyBtnData.marginBottom = 40;
+            privacyBtnData.hAlign = Align.CENTER;
+            privacyBtnData.vAlign = Align.BEGIN;
+            privacyBtn.layoutData = privacyBtnData;
+
+            container.addChild(privacyBtn);
 
             var wikiInfo:Label = new Label();
             wikiInfo.maxLines = 0;
@@ -81,6 +95,11 @@ package com.imrahil.bbapps.morsegenerator.views
         private static function onVisitBtnClick(event:MouseEvent):void
         {
             navigateToURL(new URLRequest("http://imrahil.github.com"));
+        }
+
+        private static function onPrivacyBtnClick(event:MouseEvent):void
+        {
+            navigateToURL(new URLRequest("http://imrahil.github.io/privacy.html"));
         }
     }
 }
